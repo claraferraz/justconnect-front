@@ -13,7 +13,7 @@ export function ForgotPassword() {
     setError(null);
     try {
       const user = await forgot({ email });
-      console.log('Usuário autenticado:', user);
+      console.log('E-mail enviado:', user);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
