@@ -16,7 +16,7 @@ export function Register() {
      setError(null);
      try {
        const user = await signUp({ username, password, email, confirmPassword });
-       console.log('Usuário autenticado:', user);
+       console.log('Usuário Cadastrado:', user);
      } catch (error: unknown) {
        if (error instanceof Error) {
          setError(error.message);
