@@ -10,7 +10,6 @@ export function RoutesApp(){
             <Route path='/register' element={<Register/>}/>
             <Route path='/forgot-password' element={<ForgotPassword/>}/>
             
-
         </Routes>
    );
 }
