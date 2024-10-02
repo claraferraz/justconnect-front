@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { Button, Input, FormControl, FormLabel, Box, Text,  } from '@chakra-ui/react';
+import { Button, Input, FormControl, FormLabel, Box, Text, Link,  } from '@chakra-ui/react';
 import { signIn } from '../../../service/Auth';
 
 export function Login() {
@@ -61,7 +61,7 @@ export function Login() {
               {error}
             </Text>
           )}
-        
+          <Box><Link href='/forgot-password' >Esqueci a senha</Link></Box>
           <Button
             type="submit"
             colorScheme="brand"
@@ -71,6 +71,7 @@ export function Login() {
           >
             Login
           </Button>
+          <Box>Não possuir um conta ainda ? <Link href="/register" color="blue.500">Cadastrar-se</Link></Box>
         </form>
       </Box>
     </Box>
