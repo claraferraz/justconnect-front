@@ -104,7 +104,7 @@ export function RegisterPage() {
           </Button>
           <Box>
             Já possui uma conta?{" "}
-            <Link href="/" color="blue.500">
+            <Link href="/login" color="blue.500">
               Login
             </Link>
           </Box>
