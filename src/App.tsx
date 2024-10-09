@@ -1,8 +1,8 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import {RoutesApp} from "./routes/index";
+import { MainRoutes } from "./routes/MainRoutes";
 import { ChakraProvider } from "@chakra-ui/react";
 import { useState } from "react";
-import initialTheme from './theme/theme'; 
+import initialTheme from "./theme/theme";
 
 function App() {
   const [currentTheme] = useState(initialTheme);
@@ -10,10 +10,10 @@ function App() {
   return (
     <Router>
       <ChakraProvider theme={currentTheme}>
-        <RoutesApp />      
+        <MainRoutes />
       </ChakraProvider>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
