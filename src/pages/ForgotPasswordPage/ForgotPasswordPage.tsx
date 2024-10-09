@@ -1,9 +1,17 @@
-import { useState, FormEvent } from 'react';
-import { Button, Input, FormControl, FormLabel, Box, Text, Link } from '@chakra-ui/react';
-import { forgot} from '../../../service/Auth';
+import { useState, FormEvent } from "react";
+import {
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+  Box,
+  Text,
+  Link,
+} from "@chakra-ui/react";
+import { forgot } from "../../service/Auth";
 
-export function ForgotPassword() {
-  const [email, setEmail] = useState<string>('');
+export function ForgotPasswordPage() {
+  const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -13,12 +21,12 @@ export function ForgotPassword() {
     setError(null);
     try {
       const user = await forgot({ email });
-      console.log('E-mail enviado:', user);
+      console.log("E-mail enviado:", user);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError('Ocorreu um erro inesperado!');
+        setError("Ocorreu um erro inesperado!");
       }
     } finally {
       setLoading(false);
@@ -50,7 +58,7 @@ export function ForgotPassword() {
               {error}
             </Text>
           )}
-        
+
           <Button
             type="submit"
             colorScheme="brand"
@@ -61,7 +69,10 @@ export function ForgotPassword() {
             Recuperar Senha
           </Button>
           <Box mt="4">
-            Não possui uma conta ainda? <Link href="/register" color="blue.500">Cadastrar-se</Link>
+            Não possui uma conta ainda?{" "}
+            <Link href="/register" color="blue.500">
+              Cadastrar-se
+            </Link>
           </Box>
         </form>
       </Box>
