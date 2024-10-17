@@ -1,32 +1,40 @@
-import { useState, FormEvent } from 'react';
-import { Button, Input, FormControl, FormLabel, Box, Text, Link,  } from '@chakra-ui/react';
-import { signUp } from '../../../service/Auth';
+import { useState, FormEvent } from "react";
+import {
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+  Box,
+  Text,
+  Link,
+} from "@chakra-ui/react";
+import { signUp } from "../../service/Auth";
 
-export function Register() {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [email, setEmail] = useState<string>('')
+export function RegisterPage() {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-   const handleSubmit = async (e: FormEvent) => {
-     e.preventDefault();
-     setLoading(true);
-     setError(null);
-     try {
-       const user = await signUp({ username, password, email, confirmPassword });
-       console.log('Usuário Cadastrado:', user);
-     } catch (error: unknown) {
-       if (error instanceof Error) {
-         setError(error.message);
-       } else {
-         setError('Ocorreu um erro inesperado!');
-       }
-     } finally {
-       setLoading(false);
-     }
-   };
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    try {
+      const user = await signUp({ username, password, email, confirmPassword });
+      console.log("Usuário Cadastrado:", user);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Ocorreu um erro inesperado!");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box
@@ -37,7 +45,7 @@ export function Register() {
     >
       <Box width="300px">
         <form onSubmit={handleSubmit}>
-        <FormControl mb="4">
+          <FormControl mb="4">
             <FormLabel htmlFor="email">Email</FormLabel>
             <Input
               id="email"
@@ -84,7 +92,7 @@ export function Register() {
               {error}
             </Text>
           )}
-        
+
           <Button
             type="submit"
             colorScheme="brand"
@@ -94,7 +102,12 @@ export function Register() {
           >
             Registrar
           </Button>
-          <Box>Já possui uma conta? <Link href='/' color='blue.500'>Login</Link></Box>
+          <Box>
+            Já possui uma conta?{" "}
+            <Link href="/login" color="blue.500">
+              Login
+            </Link>
+          </Box>
         </form>
       </Box>
     </Box>

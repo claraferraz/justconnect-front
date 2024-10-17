@@ -1,30 +1,38 @@
-import { useState, FormEvent } from 'react';
-import { Button, Input, FormControl, FormLabel, Box, Text, Link,  } from '@chakra-ui/react';
-import { signIn } from '../../../service/Auth';
+import { useState, FormEvent } from "react";
+import {
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+  Box,
+  Text,
+  Link,
+} from "@chakra-ui/react";
+import { signIn } from "../../service/Auth";
 
-export function Login() {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+export function LoginPage() {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-   const handleSubmit = async (e: FormEvent) => {
-     e.preventDefault();
-     setLoading(true);
-     setError(null);
-     try {
-       const user = await signIn({ username, password });
-       console.log('Usuário autenticado:', user);
-     } catch (error: unknown) {
-       if (error instanceof Error) {
-         setError(error.message);
-       } else {
-         setError('Ocorreu um erro inesperado!');
-       }
-     } finally {
-       setLoading(false);
-     }
-   };
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    try {
+      const user = await signIn({ username, password });
+      console.log("Usuário autenticado:", user);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Ocorreu um erro inesperado!");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box
@@ -61,7 +69,9 @@ export function Login() {
               {error}
             </Text>
           )}
-          <Box><Link href='/forgot-password' >Esqueci a senha</Link></Box>
+          <Box>
+            <Link href="/forgot-password">Esqueci a senha</Link>
+          </Box>
           <Button
             type="submit"
             colorScheme="brand"
@@ -71,7 +81,12 @@ export function Login() {
           >
             Login
           </Button>
-          <Box>Não possuir um conta ainda ? <Link href="/register" color="blue.500">Cadastrar-se</Link></Box>
+          <Box>
+            Não possuir um conta ainda ?{" "}
+            <Link href="/register" color="blue.500">
+              Cadastrar-se
+            </Link>
+          </Box>
         </form>
       </Box>
     </Box>
