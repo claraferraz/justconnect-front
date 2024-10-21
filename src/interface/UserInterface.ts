@@ -1,5 +1,6 @@
 export interface UserSignIn{
-    username:string;
+    email?:string;
+    username?:string;
     password:string;
 }
 export interface UserSingUp{
