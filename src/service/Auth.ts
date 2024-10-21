@@ -4,12 +4,12 @@ import { apiAuth } from "./api";
 const baseURL = '/user';
 
 const signUp = async (data: UserSingUp) => {
-    const response = await apiAuth.post(`${baseURL}/signup`, data);
+    const response = await apiAuth.post(`${baseURL}/users`, data);
     return response;
 };
 
 const signIn = async (data: UserSignIn) => {
-    const response = await apiAuth.post(`${baseURL}/signin`, data);
+    const response = await apiAuth.post(`${baseURL}/auth`, data);
     return response;
 };
 

@@ -8,11 +8,14 @@ import { PostPage } from "../pages/PostPage/PostPage";
 import { CreatePostPage } from "../pages/CreatePostPage/CreatePostPage";
 import { TagsPage } from "../pages/TagsPage/TagsPage";
 import { ReportedPostsPage } from "../pages/ReportedPostsPage/ReportedPostsPage";
+import Sidebar from "../components/Sidebar/Sidebar";
 
 export function Home() {
   return (
     <>
-      <HomePage />
+      <Sidebar>
+        <HomePage />
+      </Sidebar>
     </>
   );
 }
@@ -26,6 +29,7 @@ export function Login() {
 export function Register() {
   return (
     <>
+
       <RegisterPage />
     </>
   );
@@ -40,42 +44,54 @@ export function ForgotPassword() {
 export function Users() {
   return (
     <>
-      <UsersPage />
+      <Sidebar>
+        <UsersPage />
+      </Sidebar>
     </>
   );
 }
 export function Profile() {
   return (
     <>
+    <Sidebar>
       <ProfilePage />
+    </Sidebar>
     </>
   );
 }
 export function Post() {
   return (
     <>
+    <Sidebar>
       <PostPage />
+    </Sidebar>
     </>
   );
 }
 export function CreatePost() {
   return (
     <>
-      <CreatePostPage />
+      <Sidebar>
+        <CreatePostPage />
+      </Sidebar>
     </>
   );
 }
 export function Tags() {
   return (
     <>
-      <TagsPage />
+      <Sidebar>
+        <TagsPage />
+      </Sidebar>
     </>
   );
 }
 export function ReportedPosts() {
   return (
     <>
-      <ReportedPostsPage />
+      <Sidebar>
+        <ReportedPostsPage />
+      </Sidebar>
     </>
   );
 }
