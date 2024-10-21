@@ -1,8 +1,10 @@
 export interface UserSignIn{
-    username:string;
+    email?:string;
+    username?:string;
     password:string;
 }
 export interface UserSingUp{
+    name:string;
     username:string;
     email:string;
     password:string;
