@@ -4,6 +4,7 @@ export interface UserSignIn{
     password:string;
 }
 export interface UserSingUp{
+    name:string;
     username:string;
     email:string;
     password:string;
