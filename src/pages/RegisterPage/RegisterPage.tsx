@@ -1,4 +1,5 @@
 import { useState, FormEvent } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Input,
@@ -20,7 +21,7 @@ export function RegisterPage() {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const navigate = useNavigate();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -30,8 +31,16 @@ export function RegisterPage() {
       return;
     }
     try {
-      const user = await signUp({ name, username, password, email, confirmPassword });
+      const user = await signUp({ 
+        name, 
+        username, 
+        password, 
+        email, 
+        // confirmPassword 
+      });
       console.log("Usuário Cadastrado:", user);
+      navigate('/login');
+      // navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);

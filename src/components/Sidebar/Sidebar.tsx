@@ -61,13 +61,14 @@ const SidebarContent = ({ isOpen, onClose, ...rest }: SidebarContentProps) => {
     <Box
       transition="transform 0.3s ease"
       transform={isOpen ? 'translateX(0)' : 'translateX(-100%)'}
-      bg={useColorModeValue('white', 'gray.900')}
+      bg="#281A45"
+      color="#fff"
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: '100&', md: '60' }} 
+      w={{ base: '100%', md: '60' }}
       pos="fixed"
       h="full"
-      zIndex={2} 
+      zIndex={2}
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
@@ -76,14 +77,18 @@ const SidebarContent = ({ isOpen, onClose, ...rest }: SidebarContentProps) => {
         </Text>
         <CloseButton onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} path={link.path}>
-          {link.name}
-        </NavItem>
-      ))}
+      {/* Envolve os links em um Flex para centralizar verticalmente */}
+      <Flex direction="column" justifyContent="center" h="70%" fontSize="18px"> {/* 80px para compensar a altura do header */}
+        {LinkItems.map((link) => (
+          <NavItem key={link.name} icon={link.icon} path={link.path}>
+            {link.name}
+          </NavItem>
+        ))}
+      </Flex>
     </Box>
   );
-}
+};
+
 
 interface NavItemProps {
   icon: React.ElementType;
@@ -134,7 +139,7 @@ const MobileNav = ({ onOpen,  ...rest }: MobileNavProps) => {
       px={4}
       height="20"
       alignItems="center"
-      bg="#391A45"
+      bg="#281A45"
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
       justifyContent="space-between"
@@ -178,9 +183,11 @@ const MobileNav = ({ onOpen,  ...rest }: MobileNavProps) => {
           marginRight="4"
         />
         {/* Botão de entrar */}
-        <Button color="#fff" bg="#805AD5" _hover={{bg: "#9B71E6"}}>
-          <Link href="/login">Entrar</Link>
-        </Button>
+        <Link href="/login">
+          <Button color="#fff" bg="#805AD5" _hover={{bg: "#9B71E6"}}>
+          Entrar
+          </Button>
+        </Link>
       </Flex>
     </Flex>
   );
