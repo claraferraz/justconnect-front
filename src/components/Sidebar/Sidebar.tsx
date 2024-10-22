@@ -16,24 +16,38 @@ import {
   Button,
   Link,
 } from '@chakra-ui/react';
-import { FiHome, FiUser, FiUsers, FiFileText, FiEdit, FiTag, FiMenu, FiSearch, FiBell } from 'react-icons/fi';
+import {
+  FiHome,
+  FiUser,
+  FiUsers,
+  FiFileText,
+  FiEdit,
+  FiTag,
+  FiMenu,
+  FiSearch,
+  FiBell,
+} from 'react-icons/fi';
 import { MdOutlinePowerSettingsNew, MdOutlineSmsFailed } from 'react-icons/md';
 import { Link as RouterLink } from 'react-router-dom';
 
 interface LinkItemProps {
   name: string;
   icon: React.ElementType;
-  path: string; 
+  path: string;
 }
 
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Página Inicial', icon: FiHome, path: '/' },
-  { name: 'Perfil', icon: FiUser, path: '/profile' },
+  { name: 'Perfil', icon: FiUser, path: '/my-profile' },
   { name: 'Criar posts', icon: FiEdit, path: '/create-post' },
   { name: 'Usuários', icon: FiUsers, path: '/users' },
   { name: 'Posts', icon: FiFileText, path: '/post/:id' },
   { name: 'Tags', icon: FiTag, path: '/tags/:id' },
-  { name: 'Posts Denunciados', icon: MdOutlineSmsFailed, path: '/reported-posts' },
+  {
+    name: 'Posts Denunciados',
+    icon: MdOutlineSmsFailed,
+    path: '/reported-posts',
+  },
 ];
 
 interface SidebarProps {
@@ -47,7 +61,10 @@ export default function SimpleSidebar({ children }: SidebarProps) {
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent isOpen={isOpen} onClose={onClose} />
       <MobileNav onOpen={onOpen} isOpen={isOpen} />
-      <Box p="4" position="relative" zIndex={1}>{children}</Box> {/* Ajustado zIndex */}
+      <Box p="4" position="relative" zIndex={1}>
+        {children}
+      </Box>{' '}
+      {/* Ajustado zIndex */}
     </Box>
   );
 }
@@ -66,31 +83,39 @@ const SidebarContent = ({ isOpen, onClose, ...rest }: SidebarContentProps) => {
       color="#fff"
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: '100', md: '60' }} 
+      w={{ base: '100', md: '60' }}
       pos="fixed"
       h="full"
-      zIndex={2} 
+      zIndex={2}
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between" mr={3}>
+      <Flex
+        h="20"
+        alignItems="center"
+        mx="8"
+        justifyContent="space-between"
+        mr={3}
+      >
         <Text ml={8} fontSize="40px" fontFamily="monospace" fontWeight="bold">
           Logo
         </Text>
         <CloseButton size="lg" onClick={onClose} />
       </Flex>
-      <Flex direction="column" justifyContent="center" h="70%" fontSize="18px"> {/* 80px para compensar a altura do header */}
+      <Flex direction="column" justifyContent="center" h="70%" fontSize="18px">
+        {' '}
+        {/* 80px para compensar a altura do header */}
         {LinkItems.map((link) => (
           <NavItem key={link.name} icon={link.icon} path={link.path}>
             {link.name}
           </NavItem>
         ))}
-        <NavItem icon={MdOutlinePowerSettingsNew} path="/logout" mt={10} >
-          <Text >Sair</Text>
+        <NavItem icon={MdOutlinePowerSettingsNew} path="/logout" mt={10}>
+          <Text>Sair</Text>
         </NavItem>
       </Flex>
     </Box>
   );
-}
+};
 
 interface NavItemProps {
   icon: React.ElementType;
@@ -100,7 +125,12 @@ interface NavItemProps {
 
 const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
   return (
-    <ChakraLink as={RouterLink} to={path} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <ChakraLink
+      as={RouterLink}
+      to={path}
+      style={{ textDecoration: 'none' }}
+      _focus={{ boxShadow: 'none' }}
+    >
       <Flex
         align="center"
         p="4"
@@ -112,7 +142,7 @@ const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
           bg: '#805AD5',
           color: 'white',
         }}
-         whiteSpace="nowrap"
+        whiteSpace="nowrap"
         {...rest}
       >
         {icon && (
@@ -129,14 +159,14 @@ const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
       </Flex>
     </ChakraLink>
   );
-}
+};
 
 interface MobileNavProps {
   onOpen: () => void;
   isOpen: boolean;
 }
 
-const MobileNav = ({ onOpen,  ...rest }: MobileNavProps) => {
+const MobileNav = ({ onOpen, ...rest }: MobileNavProps) => {
   return (
     <Flex
       px={4}
@@ -162,13 +192,22 @@ const MobileNav = ({ onOpen,  ...rest }: MobileNavProps) => {
           mr={4}
         />
         {/* Logo */}
-        <Text fontSize={{ base: 'xl', md: '2xl' }} fontFamily="monospace" fontWeight="bold" color="#fff">
+        <Text
+          fontSize={{ base: 'xl', md: '2xl' }}
+          fontFamily="monospace"
+          fontWeight="bold"
+          color="#fff"
+        >
           Logo
         </Text>
       </Flex>
       {/* Campo de pesquisa centralizado */}
       <Flex flex="1" justifyContent="center" mx={4}>
-        <InputGroup bg="#fff" borderRadius={6} width={{ base: '100%', md: '350px' }}>
+        <InputGroup
+          bg="#fff"
+          borderRadius={6}
+          width={{ base: '100%', md: '350px' }}
+        >
           <InputLeftElement children={<FiSearch color="gray.300" />} />
           <Input placeholder="Pesquisar..." />
         </InputGroup>
@@ -182,13 +221,13 @@ const MobileNav = ({ onOpen,  ...rest }: MobileNavProps) => {
           border="none"
           aria-label="notifications"
           icon={<FiBell color="#fff" size={24} />}
-          _hover={{color: '#fff', bg: "#805AD5" }}
+          _hover={{ color: '#fff', bg: '#805AD5' }}
           marginRight="4"
         />
         {/* Botão de entrar */}
         <Link href="/login">
-          <Button color="#fff" bg="#805AD5" _hover={{bg: "#9B71E6"}}>
-          Entrar
+          <Button color="#fff" bg="#805AD5" _hover={{ bg: '#9B71E6' }}>
+            Entrar
           </Button>
         </Link>
       </Flex>
