@@ -6,9 +6,9 @@ import { UUID } from 'crypto';
 export function UserCard({ name, username, posts, id }: User) {
   const navigate = useNavigate();
 
-  function handleOpenProfile(id: UUID): void {
+  function handleOpenProfile(id: UUID | undefined): void {
     try {
-      navigate(`/profile/:${id}`);
+      navigate(`/profile/${id}`);
     } catch {
       throw new Error('Perfil de usuário não encontrado.');
     }
