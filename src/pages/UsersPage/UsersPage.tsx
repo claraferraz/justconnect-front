@@ -7,11 +7,11 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { UserCard } from '../../components/UserCard/UserCard';
-import { UserCardInfos } from '../../interface/UserInterface';
+import { User } from '../../interface/UserInterface';
 import { FiSearch } from 'react-icons/fi';
 
 export function UsersPage() {
-  const users: UserCardInfos[] = [
+  const users: User[] = [
     {
       name: 'Clara Ferraz',
       username: 'claraferraz',
@@ -65,7 +65,7 @@ export function UsersPage() {
         gap="15px"
         overflow="hidden"
       >
-        {users.map((u: UserCardInfos) => (
+        {users.map((u: User) => (
           <UserCard
             name={u.name}
             username={u.username}
