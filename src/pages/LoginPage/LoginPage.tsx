@@ -147,7 +147,7 @@ export function LoginPage() {
             </Button>
 
             <Box mb="2" mt={8}>
-              Ainda não possui uma conta?{" "}
+              Não possui uma conta?{" "}
               <Link href="/register" color="#2F00FF">
                 Registrar-se
               </Link>

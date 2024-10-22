@@ -1,7 +1,6 @@
 import { UserForgot, UserSignIn, UserSingUp } from "../interface/UserInterface";
 import { apiAuth } from "./api";
 
-// const baseURL = '/user';
 
 const signUp = async (data: UserSingUp) => {
     const response = await apiAuth.post(`/users`, data);
