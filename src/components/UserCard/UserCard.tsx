@@ -1,9 +1,9 @@
 import { Box, Avatar, Heading, Flex } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { UserCardInfos } from '../../interface/UserInterface';
+import { User } from '../../interface/UserInterface';
 import { UUID } from 'crypto';
 
-export function UserCard({ name, username, posts, id }: UserCardInfos) {
+export function UserCard({ name, username, posts, id }: User) {
   const navigate = useNavigate();
 
   function handleOpenProfile(id: UUID): void {

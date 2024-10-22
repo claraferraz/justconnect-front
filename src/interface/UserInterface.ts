@@ -15,9 +15,14 @@ export interface UserSingUp {
 export interface UserForgot {
   email: string;
 }
-export interface UserCardInfos {
+export interface User {
+  id: UUID;
   name: string;
   username: string;
-  posts: number;
-  id: UUID;
+  posts?: number;
+  email?: string;
+  bio?: string;
+  insta?: string;
+  linkedin?: string;
+  github?: string;
 }
