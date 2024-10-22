@@ -16,7 +16,7 @@ export interface UserForgot {
   email: string;
 }
 export interface User {
-  id: UUID;
+  id?: UUID;
   name: string;
   username: string;
   posts?: number;
