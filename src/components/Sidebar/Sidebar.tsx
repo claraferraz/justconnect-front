@@ -16,7 +16,8 @@ import {
   Button,
   Link,
 } from '@chakra-ui/react';
-import { FiHome, FiUser, FiUsers, FiFileText, FiEdit, FiTag, FiAlertTriangle, FiMenu, FiSearch, FiBell } from 'react-icons/fi';
+import { FiHome, FiUser, FiUsers, FiFileText, FiEdit, FiTag, FiMenu, FiSearch, FiBell } from 'react-icons/fi';
+import { MdOutlinePowerSettingsNew, MdOutlineSmsFailed } from 'react-icons/md';
 import { Link as RouterLink } from 'react-router-dom';
 
 interface LinkItemProps {
@@ -26,13 +27,13 @@ interface LinkItemProps {
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome, path: '/' },
-  { name: 'Profile', icon: FiUser, path: '/profile' },
-  { name: 'Users', icon: FiUsers, path: '/users' },
-  { name: 'Post', icon: FiFileText, path: '/post/:id' },
-  { name: 'Create Post', icon: FiEdit, path: '/create-post' },
+  { name: 'Página Inicial', icon: FiHome, path: '/' },
+  { name: 'Perfil', icon: FiUser, path: '/profile' },
+  { name: 'Criar posts', icon: FiEdit, path: '/create-post' },
+  { name: 'Usuários', icon: FiUsers, path: '/users' },
+  { name: 'Posts', icon: FiFileText, path: '/post/:id' },
   { name: 'Tags', icon: FiTag, path: '/tags/:id' },
-  { name: 'Reported Posts', icon: FiAlertTriangle, path: '/reported-posts' },
+  { name: 'Posts Denunciados', icon: MdOutlineSmsFailed, path: '/reported-posts' },
 ];
 
 interface SidebarProps {
@@ -61,26 +62,32 @@ const SidebarContent = ({ isOpen, onClose, ...rest }: SidebarContentProps) => {
     <Box
       transition="transform 0.3s ease"
       transform={isOpen ? 'translateX(0)' : 'translateX(-100%)'}
-      bg={useColorModeValue('white', 'gray.900')}
+      bg="#281A45"
+      color="#fff"
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: '100&', md: '60' }} 
+      w={{ base: '100', md: '60' }} 
       pos="fixed"
       h="full"
       zIndex={2} 
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize={{ base: 'xl', md: '2xl' }} fontFamily="monospace" fontWeight="bold">
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between" mr={3}>
+        <Text ml={8} fontSize="40px" fontFamily="monospace" fontWeight="bold">
           Logo
         </Text>
-        <CloseButton onClick={onClose} />
+        <CloseButton size="lg" onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} path={link.path}>
-          {link.name}
+      <Flex direction="column" justifyContent="center" h="70%" fontSize="18px"> {/* 80px para compensar a altura do header */}
+        {LinkItems.map((link) => (
+          <NavItem key={link.name} icon={link.icon} path={link.path}>
+            {link.name}
+          </NavItem>
+        ))}
+        <NavItem icon={MdOutlinePowerSettingsNew} path="/logout" mt={10} >
+          <Text >Sair</Text>
         </NavItem>
-      ))}
+      </Flex>
     </Box>
   );
 }
@@ -102,15 +109,16 @@ const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: 'cyan.400',
+          bg: '#805AD5',
           color: 'white',
         }}
+         whiteSpace="nowrap"
         {...rest}
       >
         {icon && (
           <Icon
             mr="4"
-            fontSize="16"
+            fontSize="25px"
             _groupHover={{
               color: 'white',
             }}
@@ -134,7 +142,7 @@ const MobileNav = ({ onOpen,  ...rest }: MobileNavProps) => {
       px={4}
       height="20"
       alignItems="center"
-      bg="#391A45"
+      bg="#281A45"
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
       justifyContent="space-between"
@@ -178,9 +186,11 @@ const MobileNav = ({ onOpen,  ...rest }: MobileNavProps) => {
           marginRight="4"
         />
         {/* Botão de entrar */}
-        <Button color="#fff" bg="#805AD5" _hover={{bg: "#9B71E6"}}>
-          <Link href="/login">Entrar</Link>
-        </Button>
+        <Link href="/login">
+          <Button color="#fff" bg="#805AD5" _hover={{bg: "#9B71E6"}}>
+          Entrar
+          </Button>
+        </Link>
       </Flex>
     </Flex>
   );
