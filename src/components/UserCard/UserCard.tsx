@@ -20,7 +20,7 @@ export function UserCard({ name, username, posts, id }: UserCardInfos) {
       padding="20px"
       gap="30px"
       align="center"
-      maxW="290px"
+      width="290px"
       borderWidth="1px"
       borderRadius="lg"
       cursor="pointer"
