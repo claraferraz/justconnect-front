@@ -121,6 +121,7 @@ interface NavItemProps {
   icon: React.ElementType;
   children: ReactNode;
   path: string;
+  mt?: number;
 }
 
 const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
