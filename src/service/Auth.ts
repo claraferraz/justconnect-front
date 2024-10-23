@@ -3,12 +3,12 @@ import { apiAuth } from "./api";
 
 
 const signUp = async (data: UserSingUp) => {
-    const response = await apiAuth.post(`/users`, data);
+    const response = await apiAuth.post(`/public/users/register`, data);
     return response;
 };
 
 const signIn = async (data: UserSignIn) => {
-    const response = await apiAuth.post(`/auth`, data);
+    const response = await apiAuth.post(`public/auth`, data);
     return response;
 };
 
