@@ -14,9 +14,9 @@ import {
   InputLeftElement,
   Button,
   Link,
-  useBreakpointValue, // Importação adicionada
+  useBreakpointValue,
 } from '@chakra-ui/react';
-import { FiHome, FiUser, FiUsers, FiFileText, FiEdit, FiTag, FiMenu, FiSearch, FiBell } from 'react-icons/fi';
+import { FiHome, FiUser, FiUsers, FiFileText, FiEdit, FiTag, FiMenu, FiSearch} from 'react-icons/fi';
 import { MdOutlinePowerSettingsNew, MdOutlineSmsFailed } from 'react-icons/md';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -43,16 +43,19 @@ interface SidebarProps {
 export default function SimpleSidebar({ children }: SidebarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchVisible, setSearchVisible] = useState(false);
-
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   const toggleSearch = () => setSearchVisible(!searchVisible);
   
-  const showSearchInput = useBreakpointValue({ base: false, md: true }); // Mostrar input em telas maiores
+  const showSearchInput = useBreakpointValue({ base: false, md: true }) ?? false;
+
 
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')} position="relative">
       <SidebarContent isOpen={isOpen} onClose={onClose} />
-      <MobileNav onOpen={onOpen} toggleSearch={toggleSearch} showSearchInput={showSearchInput} /> {/* Passar o valor */}
-      <Box p="4" position="relative" zIndex={1}>{children}</Box> 
+      <MobileNav onOpen={onOpen} toggleSearch={toggleSearch} showSearchInput={showSearchInput} />
+      <Box p="4" position="relative" zIndex={1} ml={isDesktop ? '250px' : '0'}>
+        {children}
+      </Box> 
 
       {searchVisible && (
         <>
@@ -64,11 +67,10 @@ export default function SimpleSidebar({ children }: SidebarProps) {
                 borderRadius={6}
                 focusBorderColor="#fff"  
                 placeholder="Buscar"  
-                _placeholder={{ color: "#A0AEC0" }} // Define a cor do placeholder
+                _placeholder={{ color: "#A0AEC0" }}
               />
             </InputGroup>
           </Box>
-          {/* Overlay para o input de pesquisa */}
           <Box
             position="fixed"
             top="0"
@@ -83,7 +85,6 @@ export default function SimpleSidebar({ children }: SidebarProps) {
         </>
       )}
 
-      {/* Overlay da sidebar */}
       {isOpen && (
         <Box
           position="fixed"
@@ -107,37 +108,61 @@ interface SidebarContentProps {
 }
 
 const SidebarContent = ({ isOpen, onClose, ...rest }: SidebarContentProps) => {
+  const isDesktop = useBreakpointValue({ base: false, md: true }); // Determinar se é desktop
+
+  // Se isOpen for false e não é desktop, não renderiza o Box da sidebar
+  if (!isOpen && !isDesktop) return null;
+
   return (
     <Box
-      transition="transform 0.3s ease"
-      transform={isOpen ? 'translateX(0)' : 'translateX(-100%)'}
       bg="#281A45"
       color="#fff"
-      w={{ base: '100', md: '60' }} 
-      pos="fixed"
+      w={'250px'}
+      position="fixed"
+      top="0"
+      left="0"
+      zIndex={isDesktop ? 0 : 2}
       h="full"
-      zIndex={2} 
+      transition="transform 3s ease" 
+      transform={isDesktop ? 'none' : isOpen ? 'translateX(0)' : 'translateX(-100%)'}
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between" mr={3}>
-        <Text ml={8} fontSize="40px" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
-        <CloseButton size="lg" onClick={onClose} />
-      </Flex>
-      <Flex direction="column" justifyContent="center" h="70%" fontSize="18px">
-        {LinkItems.map((link) => (
-          <NavItem key={link.name} icon={link.icon} path={link.path}>
-            {link.name}
+      {/* Conteúdo da sidebar permanece o mesmo */}
+      {isDesktop ? (
+        <Flex direction="column" justifyContent="flex-start" mt={28} h="100%" fontSize="18px">
+          {LinkItems.map((link) => (
+            <NavItem key={link.name} icon={link.icon} path={link.path}>
+              {link.name}
+            </NavItem>
+          ))}
+          <NavItem icon={MdOutlinePowerSettingsNew} path="/logout" mt={10}>
+            <Text>Sair</Text>
           </NavItem>
-        ))}
-        <NavItem icon={MdOutlinePowerSettingsNew} path="/logout" mt={10}>
-          <Text >Sair</Text>
-        </NavItem>
-      </Flex>
+        </Flex>
+      ) : (
+        <>
+          <Flex display={isDesktop ? 'none' : 'flex'} h="20" alignItems="center" mx="8" justifyContent="space-between" mr={3}>
+            <Text ml={8} fontSize="40px" fontFamily="monospace" fontWeight="bold">
+              Logo
+            </Text>
+            <CloseButton size="lg" onClick={onClose} />
+          </Flex>
+          <Flex direction="column" justifyContent="center" h="70%" fontSize="18px" >
+            {LinkItems.map((link) => (
+              <NavItem key={link.name} icon={link.icon} path={link.path}>
+                {link.name}
+              </NavItem>
+            ))}
+            <NavItem icon={MdOutlinePowerSettingsNew} path="/logout" mt={10}>
+              <Text>Sair</Text>
+            </NavItem>
+          </Flex>
+        </>
+      )}
     </Box>
   );
-}
+};
+
 
 interface NavItemProps {
   icon: React.ElementType;
@@ -183,10 +208,11 @@ const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
 interface MobileNavProps {
   onOpen: () => void;
   toggleSearch: () => void;
-  showSearchInput: boolean; // Adicionar a propriedade
+  showSearchInput: boolean;
 }
 
 const MobileNav = ({ onOpen, toggleSearch, showSearchInput }: MobileNavProps) => {
+  const isDesktop = useBreakpointValue({ base: false, md: true }); // Determinar se é desktop
   return (
     <Flex
       px={4}
@@ -200,6 +226,7 @@ const MobileNav = ({ onOpen, toggleSearch, showSearchInput }: MobileNavProps) =>
     >
       <Flex alignItems="center">
         <IconButton
+          visibility={isDesktop? 'hidden' : 'visible'}
           variant="outline"
           border="none"
           onClick={onOpen}
@@ -209,15 +236,16 @@ const MobileNav = ({ onOpen, toggleSearch, showSearchInput }: MobileNavProps) =>
           icon={<FiMenu size={24} color="#fff" />}
           mr={4}
         />
-        <Text fontSize={{ base: 'xl', md: '2xl' }} fontFamily="monospace" fontWeight="bold" color="#fff">
+        <Text fontSize={{ base: 'xl', md: '2xl' }} fontFamily="monospace" zIndex={isDesktop? 2: 0} fontWeight="bold" color="#fff">
           Logo
         </Text>
       </Flex>
       <Flex alignItems="center">
-        {showSearchInput ? ( // Renderizar o campo de busca ou ícone
+        {showSearchInput ? (
           <InputGroup mr={4}>
             <InputLeftElement children={<FiSearch color="#000" />} />
             <Input 
+              w="500px"
               bg="white" 
               borderRadius={6}
               focusBorderColor="#fff"  
