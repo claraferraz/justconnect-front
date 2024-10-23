@@ -266,7 +266,7 @@ const MobileNav = ({ onOpen, toggleSearch, showSearchInput }: MobileNavProps) =>
           />
         )}
         <Link href="/login">
-          <Button w='85px' h='34px' borderRadius="6px"  color="#000" bg="#fff" _hover={{ bg: "#9B71E6" }}>
+          <Button w='85px' h='34px' borderRadius="6px"  color="#000" bg="#fff" _hover={{ bg: "#9B71E6" , color: "#fff"}}>
             Login
           </Button>
         </Link>
