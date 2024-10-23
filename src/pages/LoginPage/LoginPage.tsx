@@ -45,7 +45,7 @@ export function LoginPage() {
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: "top",
       });
       
       navigate('/');
