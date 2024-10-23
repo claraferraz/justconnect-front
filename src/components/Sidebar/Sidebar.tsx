@@ -1,5 +1,4 @@
-// Sidebar.tsx
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import {
   Box,
   CloseButton,
@@ -15,6 +14,7 @@ import {
   InputLeftElement,
   Button,
   Link,
+  useBreakpointValue, // Importação adicionada
 } from '@chakra-ui/react';
 import { FiHome, FiUser, FiUsers, FiFileText, FiEdit, FiTag, FiMenu, FiSearch, FiBell } from 'react-icons/fi';
 import { MdOutlinePowerSettingsNew, MdOutlineSmsFailed } from 'react-icons/md';
@@ -42,12 +42,61 @@ interface SidebarProps {
 
 export default function SimpleSidebar({ children }: SidebarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [searchVisible, setSearchVisible] = useState(false);
+
+  const toggleSearch = () => setSearchVisible(!searchVisible);
+  
+  const showSearchInput = useBreakpointValue({ base: false, md: true }); // Mostrar input em telas maiores
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')} position="relative">
       <SidebarContent isOpen={isOpen} onClose={onClose} />
-      <MobileNav onOpen={onOpen} isOpen={isOpen} />
-      <Box p="4" position="relative" zIndex={1}>{children}</Box> {/* Ajustado zIndex */}
+      <MobileNav onOpen={onOpen} toggleSearch={toggleSearch} showSearchInput={showSearchInput} /> {/* Passar o valor */}
+      <Box p="4" position="relative" zIndex={1}>{children}</Box> 
+
+      {searchVisible && (
+        <>
+          <Box mt={2} px={4} zIndex={2} position="relative" top={-16}>
+            <InputGroup>
+              <InputLeftElement children={<FiSearch color="#000" />} />
+              <Input 
+                bg="white" 
+                borderRadius={6}
+                focusBorderColor="#fff"  
+                placeholder="Buscar"  
+                _placeholder={{ color: "#A0AEC0" }} // Define a cor do placeholder
+              />
+            </InputGroup>
+          </Box>
+          {/* Overlay para o input de pesquisa */}
+          <Box
+            position="fixed"
+            top="0"
+            left="0"
+            width="100%"
+            height="100%"
+            bg="black"
+            opacity="0.5"
+            zIndex={1}
+            onClick={toggleSearch}
+          />
+        </>
+      )}
+
+      {/* Overlay da sidebar */}
+      {isOpen && (
+        <Box
+          position="fixed"
+          top="0"
+          left="0"
+          width="100%"
+          height="100%"
+          bg="black"
+          opacity="0.5"
+          zIndex={1}
+          onClick={onClose}
+        />
+      )}
     </Box>
   );
 }
@@ -64,8 +113,6 @@ const SidebarContent = ({ isOpen, onClose, ...rest }: SidebarContentProps) => {
       transform={isOpen ? 'translateX(0)' : 'translateX(-100%)'}
       bg="#281A45"
       color="#fff"
-      borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
       w={{ base: '100', md: '60' }} 
       pos="fixed"
       h="full"
@@ -78,13 +125,13 @@ const SidebarContent = ({ isOpen, onClose, ...rest }: SidebarContentProps) => {
         </Text>
         <CloseButton size="lg" onClick={onClose} />
       </Flex>
-      <Flex direction="column" justifyContent="center" h="70%" fontSize="18px"> {/* 80px para compensar a altura do header */}
+      <Flex direction="column" justifyContent="center" h="70%" fontSize="18px">
         {LinkItems.map((link) => (
           <NavItem key={link.name} icon={link.icon} path={link.path}>
             {link.name}
           </NavItem>
         ))}
-        <NavItem icon={MdOutlinePowerSettingsNew} path="/logout" mt={10} >
+        <NavItem icon={MdOutlinePowerSettingsNew} path="/logout" mt={10}>
           <Text >Sair</Text>
         </NavItem>
       </Flex>
@@ -96,6 +143,7 @@ interface NavItemProps {
   icon: React.ElementType;
   children: ReactNode;
   path: string;
+  mt?: number;
 }
 
 const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
@@ -105,6 +153,7 @@ const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
         align="center"
         p="4"
         mx="4"
+        mt={rest.mt}
         borderRadius="lg"
         role="group"
         cursor="pointer"
@@ -112,7 +161,7 @@ const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
           bg: '#805AD5',
           color: 'white',
         }}
-         whiteSpace="nowrap"
+        whiteSpace="nowrap"
         {...rest}
       >
         {icon && (
@@ -133,10 +182,11 @@ const NavItem = ({ icon, children, path, ...rest }: NavItemProps) => {
 
 interface MobileNavProps {
   onOpen: () => void;
-  isOpen: boolean;
+  toggleSearch: () => void;
+  showSearchInput: boolean; // Adicionar a propriedade
 }
 
-const MobileNav = ({ onOpen,  ...rest }: MobileNavProps) => {
+const MobileNav = ({ onOpen, toggleSearch, showSearchInput }: MobileNavProps) => {
   return (
     <Flex
       px={4}
@@ -147,10 +197,8 @@ const MobileNav = ({ onOpen,  ...rest }: MobileNavProps) => {
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
       justifyContent="space-between"
       zIndex={1}
-      {...rest}
     >
       <Flex alignItems="center">
-        {/* Botão de expandir o menu */}
         <IconButton
           variant="outline"
           border="none"
@@ -161,34 +209,37 @@ const MobileNav = ({ onOpen,  ...rest }: MobileNavProps) => {
           icon={<FiMenu size={24} color="#fff" />}
           mr={4}
         />
-        {/* Logo */}
         <Text fontSize={{ base: 'xl', md: '2xl' }} fontFamily="monospace" fontWeight="bold" color="#fff">
           Logo
         </Text>
       </Flex>
-      {/* Campo de pesquisa centralizado */}
-      <Flex flex="1" justifyContent="center" mx={4}>
-        <InputGroup bg="#fff" borderRadius={6} width={{ base: '100%', md: '350px' }}>
-          <InputLeftElement children={<FiSearch color="gray.300" />} />
-          <Input placeholder="Pesquisar..." />
-        </InputGroup>
-      </Flex>
-      {/* Área à direita para ícone de notificação e botão de entrar */}
       <Flex alignItems="center">
-        {/* Ícone de notificação */}
-        <IconButton
-          variant="outline"
-          bg="none"
-          border="none"
-          aria-label="notifications"
-          icon={<FiBell color="#fff" size={24} />}
-          _hover={{color: '#fff', bg: "#805AD5" }}
-          marginRight="4"
-        />
-        {/* Botão de entrar */}
+        {showSearchInput ? ( // Renderizar o campo de busca ou ícone
+          <InputGroup mr={4}>
+            <InputLeftElement children={<FiSearch color="#000" />} />
+            <Input 
+              bg="white" 
+              borderRadius={6}
+              focusBorderColor="#fff"  
+              placeholder="Buscar"  
+              _placeholder={{ color: "#A0AEC0" }} 
+            />
+          </InputGroup>
+        ) : (
+          <IconButton
+            variant="outline"
+            bg="none"
+            border="none"
+            aria-label="search"
+            icon={<FiSearch color="#fff" size={24} />}
+            onClick={toggleSearch}
+            _hover={{ color: '#fff', bg: "#805AD5" }}
+            marginRight="4"
+          />
+        )}
         <Link href="/login">
-          <Button color="#fff" bg="#805AD5" _hover={{bg: "#9B71E6"}}>
-          Entrar
+          <Button w='85px' h='34px' borderRadius="6px"  color="#000" bg="#fff" _hover={{ bg: "#9B71E6" }}>
+            Login
           </Button>
         </Link>
       </Flex>
