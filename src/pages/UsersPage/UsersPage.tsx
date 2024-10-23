@@ -16,7 +16,7 @@ export function UsersPage() {
   return (
     <>
       <Tabs width="100%">
-        <Tab width="100%" color="#281A45">
+        <Tab width="100%" color="#281A45" cursor="zoom-in">
           Usuários
         </Tab>
       </Tabs>
