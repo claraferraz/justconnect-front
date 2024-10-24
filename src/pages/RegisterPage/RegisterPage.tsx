@@ -23,7 +23,7 @@ export function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const toast = useToast(); // Inicializa o hook do toast
+  const toast = useToast(); 
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ export function RegisterPage() {
     
     if (password !== confirmPassword) {
       setError('As senhas não conferem!');
-      setLoading(false); // Garantir que o loading seja desativado ao encontrar erro
+      setLoading(false); 
       return;
     }
 
@@ -52,7 +52,7 @@ export function RegisterPage() {
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "top",
+        position: "bottom",
       });
 
 
