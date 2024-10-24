@@ -17,6 +17,7 @@ import {
 import { signIn } from "../../service/Auth";
 import { ChevronRightIcon } from "@chakra-ui/icons"; 
 
+
 export function LoginPage() {
   const [usernameOrEmail, setUsernameOrEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -38,6 +39,9 @@ export function LoginPage() {
         email: isEmail ? usernameOrEmail : "",     
         password,
       });
+
+      localStorage.setItem("token", user.data.token);
+      localStorage.setItem("id", user.data.id);
       
       toast({
         title: "Login realizado com sucesso!",
@@ -45,7 +49,7 @@ export function LoginPage() {
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "top",
+        position: "bottom",
       });
       
       navigate('/');
