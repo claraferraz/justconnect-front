@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Box, useColorModeValue, useDisclosure, useBreakpointValue, InputGroup, Input, InputLeftElement } from '@chakra-ui/react';
 import SidebarContent from './SidebarContent';
-import MobileNav from './MobileNav';
+import MobileNav from './SidebarHeader';
 import { FiSearch } from 'react-icons/fi';
 import { fetchUserData } from '../../service/Auth'; 
 import { UserResponse } from '../../interface/UserInterface'; 

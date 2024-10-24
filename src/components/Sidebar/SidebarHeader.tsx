@@ -1,4 +1,4 @@
-import { Flex, IconButton, Text, Button, useBreakpointValue, Link, Avatar, InputGroup, InputLeftElement, Input } from '@chakra-ui/react';
+import { Flex, IconButton, Text, Button, useBreakpointValue, Link, Avatar, InputGroup, InputLeftElement, Input, AvatarBadge } from '@chakra-ui/react';
 import { FiBell, FiMenu, FiSearch } from 'react-icons/fi';
 import { UserResponse } from '../../interface/UserInterface';
 
@@ -75,8 +75,8 @@ const MobileNav = ({ onOpen, toggleSearch, showSearchInput, user }: MobileNavPro
               _hover={{ color: '#fff', bg: "#805AD5" }}
               marginRight="4"
             />
-            <Avatar color="#fff" marginRight="4">
-              {user.name}
+            <Avatar name={user.name} color="#fff" marginRight="4">
+              <AvatarBadge bg='green.500' boxSize='1.25em' />
             </Avatar>
           </>
         ) : (
