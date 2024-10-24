@@ -26,3 +26,8 @@ export interface User {
   linkedin?: string;
   github?: string;
 }
+export interface UserResponse {
+  id: string;
+  username: string;
+  name: string;
+}
