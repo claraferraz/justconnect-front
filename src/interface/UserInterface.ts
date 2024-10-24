@@ -13,3 +13,8 @@ export interface UserSingUp{
 export interface UserForgot{
     email:string;
 }
+export interface UserResponse {
+    id: string;
+    username: string;
+    name: string;
+  }
