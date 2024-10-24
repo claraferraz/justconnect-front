@@ -1,33 +1,69 @@
-import { Box } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Flex,
+  Heading,
+  IconButton,
+  Link,
+  Text,
+} from '@chakra-ui/react';
+import { User } from '../../interface/UserInterface';
+import {
+  AiOutlineInstagram,
+  AiOutlineLinkedin,
+  AiOutlineGithub,
+} from 'react-icons/ai';
 
-export function UserProfile() {
-  const username = 'username';
-  const bio = 'bio';
-  const inicials = username[0].toUpperCase();
+export function UserProfile({
+  name,
+  username,
+  bio,
+  insta,
+  linkedin,
+  github,
+}: User) {
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      height="100vh"
-      gap="50px"
-    >
-      <Box
-        backgroundColor="black"
-        color="white"
-        width="100px"
-        height="100px"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        borderRadius="50%"
-      >
-        <p>{inicials}</p>
-      </Box>
-      <Box>
-        <p>{username}</p>
-        <p>{bio}</p>
-      </Box>
-    </Box>
+    <>
+      <Flex padding="20px" gap="30px">
+        <Avatar name={name} fontWeight={800} size="lg" />
+        <Box>
+          <Heading size="md">{username}</Heading>
+          <Text margin="10px 0">{bio}</Text>
+          <Flex gap="40px">
+            <Link href={insta}>
+              <IconButton
+                aria-label="instagram"
+                cursor="pointer"
+                fontSize="24px"
+                color="#281A45"
+              >
+                <AiOutlineInstagram />
+              </IconButton>
+            </Link>
+            <Link href={linkedin}>
+              <IconButton
+                aria-label="linkedin"
+                cursor="pointer"
+                fontSize="24px"
+                color="#281A45"
+              >
+                <AiOutlineLinkedin />
+              </IconButton>
+            </Link>
+            <Link href={github}>
+              <IconButton
+                aria-label="github"
+                cursor="pointer"
+                fontSize="24px"
+                color="#281A45"
+              >
+                <AiOutlineGithub />
+              </IconButton>
+            </Link>
+          </Flex>
+        </Box>
+      </Flex>
+      <Box borderTop="1px solid #DEDEDE"></Box>
+    </>
   );
 }
