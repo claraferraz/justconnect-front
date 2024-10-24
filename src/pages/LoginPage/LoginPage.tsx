@@ -1,4 +1,5 @@
 import { useState, FormEvent } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Input,
@@ -11,31 +12,47 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  useToast,
 } from "@chakra-ui/react";
 import { signIn } from "../../service/Auth";
 import { ChevronRightIcon } from "@chakra-ui/icons"; 
+
 
 export function LoginPage() {
   const [usernameOrEmail, setUsernameOrEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const toast = useToast();  
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
-    
+  
     const isEmail = /\S+@\S+\.\S+/.test(usernameOrEmail);
-
+  
     try {
       const user = await signIn({
         username: isEmail ? "" : usernameOrEmail,
         email: isEmail ? usernameOrEmail : "",     
         password,
       });
-      console.log("Usuário autenticado:", user);
+
+      localStorage.setItem("token", user.data.token);
+      localStorage.setItem("id", user.data.id);
+      
+      toast({
+        title: "Login realizado com sucesso!",
+        description: `Bem-vindo, ${user.data.username || usernameOrEmail}!`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      
+      navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);

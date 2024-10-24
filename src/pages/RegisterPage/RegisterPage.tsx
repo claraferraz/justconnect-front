@@ -9,6 +9,7 @@ import {
   Text,
   Link,
   Flex,
+  useToast // Importa o hook useToast do Chakra UI
 } from "@chakra-ui/react";
 import { signUp } from "../../service/Auth";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
@@ -22,25 +23,41 @@ export function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const toast = useToast(); 
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    if(password !== confirmPassword){
+    
+    if (password !== confirmPassword) {
       setError('As senhas não conferem!');
+      setLoading(false); 
       return;
     }
+
     try {
-      const user = await signUp({ 
-        name, 
-        username, 
-        password, 
-        email, 
-        // confirmPassword 
+      const user = await signUp({
+        name,
+        username,
+        password,
+        email,
+        confirmPassword
       });
-      console.log("Usuário Cadastrado:", user);
-      navigate('/login');
-      // navigate('/');
+
+
+      toast({
+        title: "Registro realizado com sucesso!",
+        description: `Bem-vindo, ${user.data.username || "usuário"}! Agora você pode fazer login.`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+
+
+      navigate("/login");
+
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -83,7 +100,7 @@ export function RegisterPage() {
         </Text>
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
-          <FormControl mb="4">
+            <FormControl mb="4">
               <FormLabel htmlFor="name">Nome</FormLabel>
               <Input
                 bg="#FAF7FB"
@@ -91,7 +108,7 @@ export function RegisterPage() {
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
                 _hover="none"
-                width="100%"  
+                width="100%"
                 height="41px"
                 id="username"
                 placeholder="Digite seu nome completo"
@@ -102,100 +119,100 @@ export function RegisterPage() {
               />
             </FormControl>
             <FormControl mb="4">
-                <FormLabel htmlFor="username">Nome do usuário</FormLabel>
-                <Input
-                  bg="#FAF7FB"
-                  border="2px solid"
-                  borderColor="#805AD5"
-                  focusBorderColor="#805AD5"
-                  _hover="none"
-                  width="100%"
-                  height="41px"
-                  id="username"
-                  placeholder="Digite seu nome de usuário"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  isDisabled={loading}
-                />
-              </FormControl>
-              <FormControl mb="4">
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <Input
-                  display="flex"
-                  placeholder="Digite seu email"
-                  bg="#FAF7FB"
-                  border="2px solid"
-                  borderColor="#805AD5"
-                  focusBorderColor="#805AD5"
-                  _hover="none"
-                  width="100%"
-                  height="41px"
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  isDisabled={loading}
-                />
-              </FormControl>
-              <FormControl mb="4">
-                <FormLabel htmlFor="password">Senha</FormLabel>
-                <Input
-                  bg="#FAF7FB"
-                  border="2px solid"
-                  borderColor="#805AD5"
-                  focusBorderColor="#805AD5"
-                  _hover="none"
-                  width="100%"
-                  height="41px"
-                  id="password"
-                  placeholder="Digite sua senha"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  isDisabled={loading}
-                />
-              </FormControl>
-
-              <FormControl mb="4">
-                <FormLabel htmlFor="confirmPassword">Confirmar senha</FormLabel>
-                <Input
-                  bg="#FAF7FB"
-                  border="2px solid"
-                  borderColor="#805AD5"
-                  focusBorderColor="#805AD5"
-                  _hover="none"
-                  width="100%"
-                  height="41px"
-                  id="confirmPassword"
-                  placeholder="Confirme sua senha"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  isDisabled={loading}
-                />
-              </FormControl>
-
-              {error && (
-                <Text color="red.500" mb="4">
-                  {error}
-                </Text>
-              )}
-
-              <Button
-                w="100%"
-                h="40px"
-                mt={5}
-                type="submit"
-                bg="#805AD5"
-                _hover={{ bg: "#9B71E6" }}
-                color="#FFF"
-                borderRadius="6px"
-                isLoading={loading}
+              <FormLabel htmlFor="username">Nome do usuário</FormLabel>
+              <Input
+                bg="#FAF7FB"
+                border="2px solid"
+                borderColor="#805AD5"
+                focusBorderColor="#805AD5"
+                _hover="none"
+                width="100%"
+                height="41px"
+                id="username"
+                placeholder="Digite seu nome de usuário"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 isDisabled={loading}
-              >
-                Registrar
-              </Button>
+              />
+            </FormControl>
+            <FormControl mb="4">
+              <FormLabel htmlFor="email">Email</FormLabel>
+              <Input
+                display="flex"
+                placeholder="Digite seu email"
+                bg="#FAF7FB"
+                border="2px solid"
+                borderColor="#805AD5"
+                focusBorderColor="#805AD5"
+                _hover="none"
+                width="100%"
+                height="41px"
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                isDisabled={loading}
+              />
+            </FormControl>
+            <FormControl mb="4">
+              <FormLabel htmlFor="password">Senha</FormLabel>
+              <Input
+                bg="#FAF7FB"
+                border="2px solid"
+                borderColor="#805AD5"
+                focusBorderColor="#805AD5"
+                _hover="none"
+                width="100%"
+                height="41px"
+                id="password"
+                placeholder="Digite sua senha"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                isDisabled={loading}
+              />
+            </FormControl>
+
+            <FormControl mb="4">
+              <FormLabel htmlFor="confirmPassword">Confirmar senha</FormLabel>
+              <Input
+                bg="#FAF7FB"
+                border="2px solid"
+                borderColor="#805AD5"
+                focusBorderColor="#805AD5"
+                _hover="none"
+                width="100%"
+                height="41px"
+                id="confirmPassword"
+                placeholder="Confirme sua senha"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                isDisabled={loading}
+              />
+            </FormControl>
+
+            {error && (
+              <Text color="red.500" mb="4">
+                {error}
+              </Text>
+            )}
+
+            <Button
+              w="100%"
+              h="40px"
+              mt={5}
+              type="submit"
+              bg="#805AD5"
+              _hover={{ bg: "#9B71E6" }}
+              color="#FFF"
+              borderRadius="6px"
+              isLoading={loading}
+              isDisabled={loading}
+            >
+              Registrar
+            </Button>
 
             <Box mb="2" mt={8}>
               Já possui uma conta?{" "}

@@ -8,8 +8,13 @@ export interface UserSingUp{
     username:string;
     email:string;
     password:string;
-    // confirmPassword:string;
+    confirmPassword:string;
 }
 export interface UserForgot{
     email:string;
 }
+export interface UserResponse {
+    id: string;
+    username: string;
+    name: string;
+  }
