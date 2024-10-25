@@ -8,7 +8,7 @@ export function MyProfilePage() {
   return (
     <>
       <Box textAlign="right">
-        <Link href="/edit-profile">
+        <Link href="/my-profile/edit">
           <Icon
             aria-label="editar"
             cursor="pointer"

@@ -10,6 +10,7 @@ import { TagsPage } from '../pages/TagsPage/TagsPage';
 import { ReportedPostsPage } from '../pages/ReportedPostsPage/ReportedPostsPage';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { MyProfilePage } from '../pages/MyProfilePage/MyProfilePage';
+import { EditProfilePage } from '../pages/EditProfilePage/EditProfilePage';
 
 export function Home() {
   return (
@@ -55,6 +56,15 @@ export function MyProfile() {
     <>
       <Sidebar>
         <MyProfilePage />
+      </Sidebar>
+    </>
+  );
+}
+export function EditProfile() {
+  return (
+    <>
+      <Sidebar>
+        <EditProfilePage />
       </Sidebar>
     </>
   );
