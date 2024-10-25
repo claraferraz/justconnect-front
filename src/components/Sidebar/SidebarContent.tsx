@@ -1,4 +1,11 @@
-import { Box, Flex, Text, useBreakpointValue, CloseButton, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Text,
+  useBreakpointValue,
+  CloseButton,
+  Image,
+} from '@chakra-ui/react';
 import NavItem from './NavItem';
 import { LinkItems } from './linkItems';
 import { MdOutlinePowerSettingsNew } from 'react-icons/md';
@@ -8,16 +15,20 @@ import logo from '../../assets/logo.png';
 interface SidebarContentProps {
   isOpen: boolean;
   onClose: () => void;
-  isUserLoggedIn: boolean; 
+  isUserLoggedIn: boolean;
 }
 
-const SidebarContent = ({ isOpen, onClose, isUserLoggedIn }: SidebarContentProps) => {
+const SidebarContent = ({
+  isOpen,
+  onClose,
+  isUserLoggedIn,
+}: SidebarContentProps) => {
   const navigate = useNavigate();
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate('/login'); 
+    navigate('/login');
   };
 
   if (!isOpen && !isDesktop) return null;
@@ -30,43 +41,66 @@ const SidebarContent = ({ isOpen, onClose, isUserLoggedIn }: SidebarContentProps
       position="fixed"
       top="0"
       left="0"
-      zIndex={isDesktop ? 0 : 2}
+      zIndex={isDesktop ? 0 : 3}
       h="full"
       transition="transform 0.3s ease"
-      transform={isDesktop ? 'none' : isOpen ? 'translateX(0)' : 'translateX(-100%)'}
+      transform={
+        isDesktop ? 'none' : isOpen ? 'translateX(0)' : 'translateX(-100%)'
+      }
     >
       {isDesktop ? (
-        <Flex direction="column" justifyContent="flex-start" mt={28} h="100%" fontSize="18px">
+        <Flex
+          direction="column"
+          justifyContent="flex-start"
+          mt={28}
+          h="100%"
+          fontSize="18px"
+        >
           {LinkItems.map((link) => (
             <NavItem key={link.name} icon={link.icon} path={link.path}>
               {link.name}
             </NavItem>
           ))}
-          {isUserLoggedIn && ( 
-            <NavItem onClick={handleLogout} icon={MdOutlinePowerSettingsNew}  mt={10}>
+          {isUserLoggedIn && (
+            <NavItem
+              onClick={handleLogout}
+              icon={MdOutlinePowerSettingsNew}
+              mt={10}
+            >
               <Text>Sair</Text>
             </NavItem>
           )}
         </Flex>
       ) : (
         <>
-          <Flex display={isDesktop ? 'none' : 'flex'} h="20" alignItems="center" mx="10" justifyContent="center" mr={0}>
-            <Image 
-              src={logo} 
-              alt="Logo" 
-              mt={20} 
-              width="90px"
-            />
+          <Flex
+            display={isDesktop ? 'none' : 'flex'}
+            h="20"
+            alignItems="center"
+            mx="10"
+            justifyContent="center"
+            mr={0}
+          >
+            <Image src={logo} alt="Logo" mt={20} width="90px" />
             <CloseButton pl={12} size="lg" onClick={onClose} />
           </Flex>
-          <Flex direction="column" justifyContent="center" h="70%" fontSize="18px">
+          <Flex
+            direction="column"
+            justifyContent="center"
+            h="70%"
+            fontSize="18px"
+          >
             {LinkItems.map((link) => (
               <NavItem key={link.name} icon={link.icon} path={link.path}>
                 {link.name}
               </NavItem>
             ))}
-            {isUserLoggedIn && ( 
-              <NavItem icon={MdOutlinePowerSettingsNew} onClick={handleLogout} mt={10}>
+            {isUserLoggedIn && (
+              <NavItem
+                icon={MdOutlinePowerSettingsNew}
+                onClick={handleLogout}
+                mt={10}
+              >
                 <Text>Sair</Text>
               </NavItem>
             )}
