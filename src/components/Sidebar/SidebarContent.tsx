@@ -1,9 +1,9 @@
-import { Box, Flex, Text, useBreakpointValue, CloseButton } from '@chakra-ui/react';
+import { Box, Flex, Text, useBreakpointValue, CloseButton, Image } from '@chakra-ui/react';
 import NavItem from './NavItem';
 import { LinkItems } from './linkItems';
 import { MdOutlinePowerSettingsNew } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-
+import logo from '../../assets/logo.png';
 
 interface SidebarContentProps {
   isOpen: boolean;
@@ -50,13 +50,16 @@ const SidebarContent = ({ isOpen, onClose, isUserLoggedIn }: SidebarContentProps
         </Flex>
       ) : (
         <>
-          <Flex display={isDesktop ? 'none' : 'flex'} h="20" alignItems="center" mx="8" justifyContent="space-between" mr={3}>
-            <Text ml={8} fontSize="40px" fontFamily="monospace" fontWeight="bold">
-              Logo
-            </Text>
-            <CloseButton size="lg" onClick={onClose} />
+          <Flex display={isDesktop ? 'none' : 'flex'} h="20" alignItems="center" mx="10" justifyContent="center" mr={0}>
+            <Image 
+              src={logo} 
+              alt="Logo" 
+              mt={20} 
+              width="90px"
+            />
+            <CloseButton pl={12} size="lg" onClick={onClose} />
           </Flex>
-          <Flex direction="column" justifyContent="center" h="60%" fontSize="18px">
+          <Flex direction="column" justifyContent="center" h="70%" fontSize="18px">
             {LinkItems.map((link) => (
               <NavItem key={link.name} icon={link.icon} path={link.path}>
                 {link.name}
