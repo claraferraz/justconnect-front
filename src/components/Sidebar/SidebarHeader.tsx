@@ -39,7 +39,7 @@ const MobileNav = ({
       alignItems="center"
       bg="#281A45"
       justifyContent="space-between"
-      zIndex={3}
+      zIndex={2}
     >
       <Flex alignItems="center">
         <IconButton
