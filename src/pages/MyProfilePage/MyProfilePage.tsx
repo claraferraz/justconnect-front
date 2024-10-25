@@ -7,7 +7,7 @@ export function MyProfilePage() {
   const user = UsersExample[0];
   return (
     <>
-      <Box width="90vw" textAlign="right">
+      <Box textAlign="right">
         <Link href="/edit-profile">
           <Icon
             aria-label="editar"
