@@ -99,7 +99,7 @@ export function EditProfileForm({ user }: Props) {
             focusBorderColor="#805AD5"
             _hover="none"
             width="100%"
-            height="41px"
+            height="155px"
             id="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
