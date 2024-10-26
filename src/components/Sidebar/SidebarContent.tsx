@@ -11,6 +11,7 @@ import { LinkItems } from './linkItems';
 import { MdOutlinePowerSettingsNew } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+import { useAuthStore } from '../../store/authStore';
 
 interface SidebarContentProps {
   isOpen: boolean;
@@ -25,9 +26,10 @@ const SidebarContent = ({
 }: SidebarContentProps) => {
   const navigate = useNavigate();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const { logoutUser } = useAuthStore();
 
   const handleLogout = () => {
-    localStorage.clear();
+    logoutUser();
     navigate('/login');
   };
 
