@@ -8,6 +8,7 @@ export interface AuthState {
   id?: UUID;
 
   loginUser: (usernameOrEmail: string, password: string) => Promise<void>;
+  logoutUser: () => void;
 }
 const storeApi: StateCreator<AuthState> = (set) => ({
   token: undefined,
