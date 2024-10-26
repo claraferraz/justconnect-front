@@ -1,10 +1,18 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { Box, useColorModeValue, useDisclosure, useBreakpointValue, InputGroup, Input, InputLeftElement } from '@chakra-ui/react';
+import {
+  Box,
+  useColorModeValue,
+  useDisclosure,
+  useBreakpointValue,
+  InputGroup,
+  Input,
+  InputLeftElement,
+} from '@chakra-ui/react';
 import SidebarContent from './SidebarContent';
 import MobileNav from './SidebarHeader';
 import { FiSearch } from 'react-icons/fi';
-import { fetchUserData } from '../../service/Auth'; 
-import { UserResponse } from '../../interface/UserInterface'; 
+import { fetchUserData } from '../../service/Auth';
+import { UserResponse } from '../../interface/UserInterface';
 
 interface SidebarProps {
   children: ReactNode;
@@ -17,13 +25,13 @@ export default function SimpleSidebar({ children }: SidebarProps) {
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const toggleSearch = () => setSearchVisible(!searchVisible);
-  const showSearchInput = useBreakpointValue({ base: false, md: true }) ?? false;
-
+  const showSearchInput =
+    useBreakpointValue({ base: false, md: true }) ?? false;
 
   //Deixei essa função de pegar o token da url, pq Jhon disse que talvez fosse melhor.
   const checkAuth = async () => {
     const token = new URLSearchParams(window.location.search).get('token');
-    
+
     try {
       if (token) {
         localStorage.setItem('token', token);
@@ -31,7 +39,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
 
       const storedToken = localStorage.getItem('token');
       if (storedToken) {
-        const userData = await fetchUserData(); 
+        const userData = await fetchUserData();
         setUser(userData);
       }
     } catch (error) {
@@ -44,9 +52,22 @@ export default function SimpleSidebar({ children }: SidebarProps) {
   }, []);
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')} position="relative">
-      <SidebarContent isUserLoggedIn={!!user} isOpen={isOpen} onClose={onClose} />
-      <MobileNav onOpen={onOpen} toggleSearch={toggleSearch} showSearchInput={showSearchInput} user={user} />
+    <Box
+      minH="100vh"
+      bg={useColorModeValue('gray.100', 'gray.900')}
+      position="relative"
+    >
+      <SidebarContent
+        isUserLoggedIn={!!user}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
+      <MobileNav
+        onOpen={onOpen}
+        toggleSearch={toggleSearch}
+        showSearchInput={showSearchInput}
+        user={user}
+      />
       <Box p="4" position="relative" zIndex={1} ml={isDesktop ? '250px' : '0'}>
         {children}
       </Box>
@@ -56,12 +77,12 @@ export default function SimpleSidebar({ children }: SidebarProps) {
           <Box mt={2} px={4} zIndex={2} position="relative" top={-16}>
             <InputGroup>
               <InputLeftElement children={<FiSearch color="#000" />} />
-              <Input 
-                bg="white" 
+              <Input
+                bg="white"
                 borderRadius={6}
-                focusBorderColor="#fff"  
-                placeholder="Buscar"  
-                _placeholder={{ color: "#A0AEC0" }}
+                focusBorderColor="#fff"
+                placeholder="Buscar"
+                _placeholder={{ color: '#A0AEC0' }}
               />
             </InputGroup>
           </Box>
