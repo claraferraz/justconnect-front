@@ -17,6 +17,9 @@ export function Home() {
       <Sidebar>
         <HomePage />
       </Sidebar>
+      <Sidebar>
+        <HomePage />
+      </Sidebar>
     </>
   );
 }
@@ -30,6 +33,7 @@ export function Login() {
 export function Register() {
   return (
     <>
+
       <RegisterPage />
     </>
   );
@@ -83,6 +87,9 @@ export function CreatePost() {
       <Sidebar>
         <CreatePostPage />
       </Sidebar>
+      <Sidebar>
+        <CreatePostPage />
+      </Sidebar>
     </>
   );
 }
@@ -92,12 +99,18 @@ export function Tags() {
       <Sidebar>
         <TagsPage />
       </Sidebar>
+      <Sidebar>
+        <TagsPage />
+      </Sidebar>
     </>
   );
 }
 export function ReportedPosts() {
   return (
     <>
+      <Sidebar>
+        <ReportedPostsPage />
+      </Sidebar>
       <Sidebar>
         <ReportedPostsPage />
       </Sidebar>
