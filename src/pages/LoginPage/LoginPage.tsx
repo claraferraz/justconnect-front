@@ -25,7 +25,7 @@ export function LoginPage() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { loginUser, token, id } = useAuthStore();
+  const { loginUser } = useAuthStore();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -53,7 +53,6 @@ export function LoginPage() {
     } finally {
       setLoading(false);
     }
-    console.log({ token, id });
   };
 
   return (
