@@ -13,6 +13,7 @@ import { MyProfilePage } from '../pages/MyProfilePage/MyProfilePage';
 import { EditProfilePage } from '../pages/EditProfilePage/EditProfilePage';
 import { Section } from '../components/Section/Section';
 import { ProtectedRoute } from './ProtectedRoute';
+import { AdminRoute } from './AdminRoutes';
 
 export function Home() {
   return (
@@ -145,9 +146,11 @@ export function ReportedPosts() {
   return (
     <>
       <Sidebar>
-        <Section>
-          <ReportedPostsPage />
-        </Section>
+        <AdminRoute>
+          <Section>
+            <ReportedPostsPage />
+          </Section>
+        </AdminRoute>
       </Sidebar>
     </>
   );
