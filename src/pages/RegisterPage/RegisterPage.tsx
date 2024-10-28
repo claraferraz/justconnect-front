@@ -13,11 +13,11 @@ import {
 } from "@chakra-ui/react";
 import { signUp } from "../../service/Auth";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
+
 
 export function RegisterPage() {
   const [name, setName] = useState<string>("");
-  const [name, setName] = useState<string>("");
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -77,9 +77,6 @@ export function RegisterPage() {
       alignItems="center"
       justifyContent="center"
       height="100vh"
-      bg="gray.50"
-      padding="4"
-      fontFamily="Poppins, sans-serif"
       bg="gray.50"
       padding="4"
       fontFamily="Poppins, sans-serif"
@@ -247,6 +244,7 @@ export function RegisterPage() {
           </Flex>
         </form>
       </Box>
+    </Box>
     </Box>
   );
 }

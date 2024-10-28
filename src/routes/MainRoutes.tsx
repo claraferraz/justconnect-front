@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import {
   CreatePost,
+  EditProfile,
   ForgotPassword,
   Home,
   Login,
@@ -21,6 +22,7 @@ export function MainRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/my-profile" element={<MyProfile />} />
+      <Route path="/my-profile/edit" element={<EditProfile />} />
       <Route path="/profile/:id" element={<Profile />} />
       <Route path="/users" element={<Users />} />
       <Route path="/post/:id" element={<Post />} />
