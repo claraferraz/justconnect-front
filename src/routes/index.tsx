@@ -12,7 +12,6 @@ import Sidebar from '../components/Sidebar/Sidebar';
 import { MyProfilePage } from '../pages/MyProfilePage/MyProfilePage';
 import { EditProfilePage } from '../pages/EditProfilePage/EditProfilePage';
 import { Section } from '../components/Section/Section';
-import { SectionAuth } from '../components/Section/SectionAuth';
 
 export function Home() {
   return (
@@ -29,9 +28,7 @@ export function Login() {
   return (
     <>
       <Sidebar>
-       
           <LoginPage />
-  
       </Sidebar>
     </>
   );
@@ -40,9 +37,7 @@ export function Register() {
   return (
     <>
       <Sidebar>
-        <SectionAuth>
           <RegisterPage />
-        </SectionAuth>
       </Sidebar>
     </>
   );
@@ -51,9 +46,7 @@ export function ForgotPassword() {
   return (
     <>
       <Sidebar>
-        <SectionAuth>
           <ForgotPasswordPage />
-        </SectionAuth>
       </Sidebar>
     </>
   );

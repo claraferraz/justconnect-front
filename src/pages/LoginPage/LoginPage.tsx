@@ -13,8 +13,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   useToast,
-  Image,
-  useBreakpointValue,
+  Image
 } from "@chakra-ui/react";
 import { signIn } from "../../service/Auth";
 import { ChevronRightIcon } from "@chakra-ui/icons"; 
@@ -27,7 +26,6 @@ export function LoginPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const toast = useToast();  
-  const isDesktop = useBreakpointValue({ base: false, md: true });
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
