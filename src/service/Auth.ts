@@ -4,8 +4,10 @@ import {
   UserSignIn,
   UserSingUp,
   UserResponse,
+  User,
 } from '../interface/UserInterface';
 import { apiAuth } from './api';
+import axios from 'axios';
 
 const signUp = async (data: UserSingUp) => {
   const response = await apiAuth.post(`/public/users/register`, data);
@@ -31,4 +33,20 @@ const fetchUserData = async (id?: UUID): Promise<UserResponse> => {
   return response.data;
 };
 
-export { signUp, signIn, forgot, fetchUserData };
+const fetchMyProfile = async (token?: string): Promise<User> => {
+  if (!token) {
+    throw new Error('Usuário deve estar logado');
+  }
+
+  const api = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const response = await api.get<User>(`/users/my-profile`);
+
+  return response.data;
+};
+
+export { signUp, signIn, forgot, fetchUserData, fetchMyProfile };
