@@ -10,15 +10,21 @@ import { TagsPage } from '../pages/TagsPage/TagsPage';
 import { ReportedPostsPage } from '../pages/ReportedPostsPage/ReportedPostsPage';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { MyProfilePage } from '../pages/MyProfilePage/MyProfilePage';
+import { EditProfilePage } from '../pages/EditProfilePage/EditProfilePage';
+import { Section } from '../components/Section/Section';
 
 export function Home() {
   return (
     <>
       <Sidebar>
-        <HomePage />
+        <Section>
+          <HomePage />
+        </Section>
       </Sidebar>
       <Sidebar>
-        <HomePage />
+        <Section>
+          <HomePage />
+        </Section>
       </Sidebar>
     </>
   );
@@ -26,22 +32,33 @@ export function Home() {
 export function Login() {
   return (
     <>
-      <LoginPage />
+      <Sidebar>
+        <Section>
+          <LoginPage />
+        </Section>
+      </Sidebar>
     </>
   );
 }
 export function Register() {
   return (
     <>
-
-      <RegisterPage />
+      <Sidebar>
+        <Section>
+          <RegisterPage />
+        </Section>
+      </Sidebar>
     </>
   );
 }
 export function ForgotPassword() {
   return (
     <>
-      <ForgotPasswordPage />
+      <Sidebar>
+        <Section>
+          <ForgotPasswordPage />
+        </Section>
+      </Sidebar>
     </>
   );
 }
@@ -49,7 +66,9 @@ export function Users() {
   return (
     <>
       <Sidebar>
-        <UsersPage />
+        <Section>
+          <UsersPage />
+        </Section>
       </Sidebar>
     </>
   );
@@ -58,7 +77,20 @@ export function MyProfile() {
   return (
     <>
       <Sidebar>
-        <MyProfilePage />
+        <Section>
+          <MyProfilePage />
+        </Section>
+      </Sidebar>
+    </>
+  );
+}
+export function EditProfile() {
+  return (
+    <>
+      <Sidebar>
+        <Section>
+          <EditProfilePage />
+        </Section>
       </Sidebar>
     </>
   );
@@ -67,7 +99,9 @@ export function Profile() {
   return (
     <>
       <Sidebar>
-        <ProfilePage />
+        <Section>
+          <ProfilePage />
+        </Section>
       </Sidebar>
     </>
   );
@@ -76,7 +110,9 @@ export function Post() {
   return (
     <>
       <Sidebar>
-        <PostPage />
+        <Section>
+          <PostPage />
+        </Section>
       </Sidebar>
     </>
   );
@@ -85,10 +121,14 @@ export function CreatePost() {
   return (
     <>
       <Sidebar>
-        <CreatePostPage />
+        <Section>
+          <CreatePostPage />
+        </Section>
       </Sidebar>
       <Sidebar>
-        <CreatePostPage />
+        <Section>
+          <CreatePostPage />
+        </Section>
       </Sidebar>
     </>
   );
@@ -97,10 +137,14 @@ export function Tags() {
   return (
     <>
       <Sidebar>
-        <TagsPage />
+        <Section>
+          <TagsPage />
+        </Section>
       </Sidebar>
       <Sidebar>
-        <TagsPage />
+        <Section>
+          <TagsPage />
+        </Section>
       </Sidebar>
     </>
   );
@@ -109,10 +153,14 @@ export function ReportedPosts() {
   return (
     <>
       <Sidebar>
-        <ReportedPostsPage />
+        <Section>
+          <ReportedPostsPage />
+        </Section>
       </Sidebar>
       <Sidebar>
-        <ReportedPostsPage />
+        <Section>
+          <ReportedPostsPage />
+        </Section>
       </Sidebar>
     </>
   );

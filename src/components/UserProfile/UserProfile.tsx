@@ -36,6 +36,9 @@ export function UserProfile({
                 cursor="pointer"
                 fontSize="24px"
                 color="#281A45"
+                _hover={{
+                  color: '#805AD5',
+                }}
               >
                 <AiOutlineInstagram />
               </IconButton>
@@ -46,6 +49,9 @@ export function UserProfile({
                 cursor="pointer"
                 fontSize="24px"
                 color="#281A45"
+                _hover={{
+                  color: '#805AD5',
+                }}
               >
                 <AiOutlineLinkedin />
               </IconButton>
@@ -56,6 +62,9 @@ export function UserProfile({
                 cursor="pointer"
                 fontSize="24px"
                 color="#281A45"
+                _hover={{
+                  color: '#805AD5',
+                }}
               >
                 <AiOutlineGithub />
               </IconButton>
