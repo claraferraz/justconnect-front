@@ -1,4 +1,3 @@
-import { Link } from "@chakra-ui/react";
 
 export function HomePage() {
   return (
