@@ -115,7 +115,7 @@ const MobileNav = ({
             </Button>
           </Link>
         )}
-        {isDesktop ? (
+        {isDesktop && !user ? (
           <Link href="/register">
             <Button
               w="85px"
