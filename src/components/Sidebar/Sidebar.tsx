@@ -13,6 +13,7 @@ import MobileNav from './SidebarHeader';
 import { FiSearch } from 'react-icons/fi';
 import { useAuthStore } from '../../store/authStore';
 import { useProfileStore } from '../../store/profileStore';
+import { Role } from '../../interface/UserInterface';
 
 interface SidebarProps {
   children: ReactNode;
@@ -23,7 +24,8 @@ export default function SimpleSidebar({ children }: SidebarProps) {
   const [searchVisible, setSearchVisible] = useState(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const { token } = useAuthStore();
-  const { user, getProfile } = useProfileStore();
+  const { user, getProfile, role } = useProfileStore();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const toggleSearch = () => setSearchVisible(!searchVisible);
   const showSearchInput =
@@ -36,6 +38,12 @@ export default function SimpleSidebar({ children }: SidebarProps) {
       }
     } catch (error) {
       console.error('Erro ao buscar os dados do usuário:', error);
+    } finally {
+      if (role === Role.ADMIN) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
     }
   };
 
@@ -54,6 +62,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
         isUserLoggedIn={!!user}
         isOpen={isOpen}
         onClose={onClose}
+        isAdm={isAdmin}
       />
       <MobileNav
         onOpen={onOpen}
