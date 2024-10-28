@@ -77,38 +77,13 @@ export function RegisterPage() {
       alignItems="center"
       justifyContent="center"
       height="100vh"
-      bg="gray.50"
+      bg="#fff"
       padding="4"
-      fontFamily="Poppins, sans-serif"
     >
       <Box
         width="476px"
         height="auto"
         p="10"
-        border="2px"
-        borderColor="gray.200"
-        borderRadius="20px"
-        bg="white"
-        boxShadow="lg"
-      >
-        <Flex alignItems="center" mb="4">
-          <Link href="/login" display="flex" alignItems="center" mr="2">
-            <ChevronLeftIcon boxSize={7} color="gray.500" />
-            <Text color="gray.500">Voltar</Text>
-          </Link>
-        </Flex>
-        <Text fontSize="2xl" mb="4" textAlign="center">
-          Criar conta
-        </Text>
-      <Box
-        width="476px"
-        height="auto"
-        p="10"
-        border="2px"
-        borderColor="gray.200"
-        borderRadius="20px"
-        bg="white"
-        boxShadow="lg"
       >
         <Flex alignItems="center" mb="4">
           <Link href="/login" display="flex" alignItems="center" mr="2">
@@ -234,7 +209,6 @@ export function RegisterPage() {
             >
               Registrar
             </Button>
-
             <Box mb="2" mt={8}>
               Já possui uma conta?{" "}
               <Link href="/login" color="#2F00FF">
@@ -244,7 +218,6 @@ export function RegisterPage() {
           </Flex>
         </form>
       </Box>
-    </Box>
     </Box>
   );
 }

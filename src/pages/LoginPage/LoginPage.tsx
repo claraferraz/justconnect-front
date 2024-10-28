@@ -70,19 +70,16 @@ export function LoginPage() {
       alignItems="center"
       justifyContent="center"
       height="100vh"
-      bg="gray.50"
+      bg="#fff"
       padding="4"
       fontFamily="Poppins, sans-serif"
     >
       <Box
         width="476px"
         height="auto"
-        p="10"
-        border="2px"
-        borderColor="gray.200"
-        borderRadius="20px"
+
         bg="white"
-        boxShadow="lg"
+
       >
         <Breadcrumb mb="4" spacing="2" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>

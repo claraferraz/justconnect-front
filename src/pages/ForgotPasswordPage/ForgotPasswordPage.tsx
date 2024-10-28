@@ -41,7 +41,7 @@ export function ForgotPasswordPage() {
       alignItems="center"
       justifyContent="center"
       height="100vh"
-      bg="gray.50"
+      bg="#fff"
       padding="4"
       fontFamily="Poppins, sans-serif"
     >
@@ -49,11 +49,6 @@ export function ForgotPasswordPage() {
         width="476px"
         height="auto"
         p="10"
-        border="2px"
-        borderColor="gray.200"
-        borderRadius="20px"
-        bg="white"
-        boxShadow="lg"
       >
         <Flex alignItems="center" mb="4">
           <Link href="/login" display="flex" alignItems="center" mr="2">
