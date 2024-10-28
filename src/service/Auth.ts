@@ -4,7 +4,7 @@ import {
   UserSignIn,
   UserSingUp,
   UserResponse,
-  User,
+  MyProfileInfos,
 } from '../interface/UserInterface';
 import { apiAuth } from './api';
 import axios from 'axios';
@@ -33,7 +33,7 @@ const fetchUserData = async (id?: UUID): Promise<UserResponse> => {
   return response.data;
 };
 
-const fetchMyProfile = async (token?: string): Promise<User> => {
+const fetchMyProfile = async (token?: string): Promise<MyProfileInfos> => {
   if (!token) {
     throw new Error('Usuário deve estar logado');
   }
@@ -44,7 +44,7 @@ const fetchMyProfile = async (token?: string): Promise<User> => {
       Authorization: `Bearer ${token}`,
     },
   });
-  const response = await api.get<User>(`/users/my-profile`);
+  const response = await api.get<MyProfileInfos>(`/users/my-profile`);
 
   return response.data;
 };
