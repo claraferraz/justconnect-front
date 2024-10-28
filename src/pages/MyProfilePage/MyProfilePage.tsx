@@ -7,8 +7,8 @@ export function MyProfilePage() {
   const user = UsersExample[0];
   return (
     <>
-      <Box width="90vw" textAlign="right">
-        <Link href="/edit-profile">
+      <Box textAlign="right">
+        <Link href="/my-profile/edit">
           <Icon
             aria-label="editar"
             cursor="pointer"
