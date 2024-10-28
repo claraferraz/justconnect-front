@@ -26,6 +26,17 @@ export interface User {
   linkedin?: string;
   github?: string;
 }
+export interface MyProfileInfos {
+  id: UUID;
+  name: string;
+  username: string;
+  email: string;
+  bio?: string;
+  insta?: string;
+  linkedin?: string;
+  github?: string;
+  role: Role;
+}
 export interface UserResponse {
   id: string;
   username: string;
