@@ -1,10 +1,11 @@
 import { create, StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { fetchMyProfile } from '../service/Auth';
-import { MyProfileInfos } from '../interface/UserInterface';
+import { MyProfileInfos, Role } from '../interface/UserInterface';
 
 export interface profileState {
   user?: MyProfileInfos;
+  role?: Role;
 
   getProfile: (token: string) => Promise<void>;
   setProfile: (user: MyProfileInfos) => void;
@@ -16,7 +17,7 @@ const storeApi: StateCreator<profileState> = (set) => ({
   getProfile: async (token: string) => {
     try {
       const user = await fetchMyProfile(token);
-      set({ user });
+      set({ user, role: user.role });
     } catch (error) {
       console.error(error);
     }
