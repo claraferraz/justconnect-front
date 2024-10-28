@@ -14,6 +14,7 @@ import {
   BreadcrumbLink,
   useToast,
   Image,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { signIn } from "../../service/Auth";
 import { ChevronRightIcon } from "@chakra-ui/icons"; 
@@ -27,7 +28,7 @@ export function LoginPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const toast = useToast();  
-
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -70,9 +71,10 @@ export function LoginPage() {
     <Box
       display="flex"
       justifyContent="center"
+      alignItems={isDesktop? "center": "unset"}
       borderRadius={2}
-      height="100vh"
-      overflowY="hidden"
+      //mudei aqui para o login n ter rolamento
+      height={isDesktop? "100vh":"90vh"}
       bg="#fff"
       mt={16}
       padding="16px"
@@ -96,7 +98,7 @@ export function LoginPage() {
           src={logo} 
           margin={"10px auto"}
           alt="Logo"  
-          width="70px" 
+          width="90px" 
           mt="10"
         />
         <form onSubmit={handleSubmit}>
