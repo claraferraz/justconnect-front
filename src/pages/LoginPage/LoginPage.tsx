@@ -18,8 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { signIn } from "../../service/Auth";
 import { ChevronRightIcon } from "@chakra-ui/icons"; 
-import logoAuth from "../../assets/logoAuth.png"
-
+import logo from "../../assets/logoAuth.png";
 
 export function LoginPage() {
   const [usernameOrEmail, setUsernameOrEmail] = useState<string>("");
@@ -71,48 +70,47 @@ export function LoginPage() {
     <Box
       display="flex"
       justifyContent="center"
-      alignItems={isDesktop? "center": "unset"}
-      borderRadius={2}
-      //mudei aqui para o login n ter rolamento
-      height={isDesktop? "100vh":"90vh"}
-      overflow={"hidden"}
+      alignItems="center"
+      height="100vh"
       bg="#fff"
-      mt={16}
-      padding="4"
+      padding="16px"
       fontFamily="Poppins, sans-serif"
+   
     >
       <Box
-        width="400px"
-        height="auto"
+        position="absolute"
+        top={'100'}
+        left="6"
       >
-        <Breadcrumb mb="4" spacing="2" separator={<ChevronRightIcon color="gray.500" />}>
+        <Breadcrumb spacing="2" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/" display="flex" alignItems="center" >
-              Início
-            </BreadcrumbLink>
+            <BreadcrumbLink href="/">Início</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
             <BreadcrumbLink color="gray.500">Login</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
+      </Box>
+
+      <Box width="476px" mt='0'>
         <Image 
-          src={logoAuth} 
-          margin={"10px auto"}
+          src={logo} 
+          margin={" auto"}
           alt="Logo"  
           width="90px" 
-          mt="30px"
+          mb="5"
         />
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
-            <FormControl mt="10" mb="4">
+            <FormControl mt="4" mb="4">
               <FormLabel htmlFor="usernameOrEmail">Nome do usuário ou Email</FormLabel>
               <Input
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
-                _hover="none"
                 width="100%" 
                 height="40px"
+                _hover="none"
                 id="usernameOrEmail"
                 placeholder="Digite seu nome de usuário ou email"
                 type="text"
@@ -121,7 +119,7 @@ export function LoginPage() {
                 isDisabled={loading}
               />
             </FormControl>
-            <FormControl mt="4" >
+            <FormControl mt="4">
               <FormLabel htmlFor="password">Senha</FormLabel>
               <Input
                 border="2px solid"

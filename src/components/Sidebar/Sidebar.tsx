@@ -68,7 +68,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
         showSearchInput={showSearchInput}
         user={user}
       />
-      <Box p="4" position="relative" zIndex={1} ml={isDesktop ? '250px' : '0'}>
+      <Box  overflowY={'hidden'} position="relative" zIndex={1} ml={isDesktop ? '250px' : '0'}>
         {children}
       </Box>
 
