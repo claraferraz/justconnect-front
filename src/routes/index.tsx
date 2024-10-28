@@ -21,11 +21,6 @@ export function Home() {
           <HomePage />
         </Section>
       </Sidebar>
-      <Sidebar>
-        <Section>
-          <HomePage />
-        </Section>
-      </Sidebar>
     </>
   );
 }
@@ -125,11 +120,6 @@ export function CreatePost() {
           <CreatePostPage />
         </Section>
       </Sidebar>
-      <Sidebar>
-        <Section>
-          <CreatePostPage />
-        </Section>
-      </Sidebar>
     </>
   );
 }
@@ -141,22 +131,12 @@ export function Tags() {
           <TagsPage />
         </Section>
       </Sidebar>
-      <Sidebar>
-        <Section>
-          <TagsPage />
-        </Section>
-      </Sidebar>
     </>
   );
 }
 export function ReportedPosts() {
   return (
     <>
-      <Sidebar>
-        <Section>
-          <ReportedPostsPage />
-        </Section>
-      </Sidebar>
       <Sidebar>
         <Section>
           <ReportedPostsPage />
