@@ -9,10 +9,12 @@ import {
   Text,
   Link,
   Flex,
-  useToast // Importa o hook useToast do Chakra UI
+  useToast, // Importa o hook useToast do Chakra UI
+  Image
 } from "@chakra-ui/react";
 import { signUp } from "../../service/Auth";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
+import logoAuth from "../../assets/logoAuth.png"
 
 
 export function RegisterPage() {
@@ -81,25 +83,27 @@ export function RegisterPage() {
       padding="4"
     >
       <Box
-        width="476px"
+        width="400px"
         height="auto"
-        p="10"
+        
       >
         <Flex alignItems="center" mb="4">
           <Link href="/login" display="flex" alignItems="center" mr="2">
             <ChevronLeftIcon boxSize={7} color="gray.500" />
-            <Text color="gray.500">Voltar</Text>
           </Link>
         </Flex>
-        <Text fontSize="2xl" mb="4" textAlign="center">
-          Criar conta
-        </Text>
+        <Image 
+          src={logoAuth} 
+          margin={"10px auto"}
+          alt="Logo"  
+          width="90px" 
+          mt="20px"
+        />
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
-            <FormControl mb="4">
+            <FormControl mt="10" mb="4">
               <FormLabel htmlFor="name">Nome</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
@@ -117,7 +121,6 @@ export function RegisterPage() {
             <FormControl mb="4">
               <FormLabel htmlFor="username">Nome do usuário</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
@@ -137,7 +140,6 @@ export function RegisterPage() {
               <Input
                 display="flex"
                 placeholder="Digite seu email"
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
@@ -154,7 +156,6 @@ export function RegisterPage() {
             <FormControl mb="4">
               <FormLabel htmlFor="password">Senha</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
@@ -173,7 +174,6 @@ export function RegisterPage() {
             <FormControl mb="4">
               <FormLabel htmlFor="confirmPassword">Confirmar senha</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"

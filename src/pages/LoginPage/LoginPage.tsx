@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { signIn } from "../../service/Auth";
 import { ChevronRightIcon } from "@chakra-ui/icons"; 
-import logo from "../../assets/logoAuth.png"
+import logoAuth from "../../assets/logoAuth.png"
 
 
 export function LoginPage() {
@@ -75,13 +75,14 @@ export function LoginPage() {
       borderRadius={2}
       //mudei aqui para o login n ter rolamento
       height={isDesktop? "100vh":"90vh"}
+      overflow={"hidden"}
       bg="#fff"
       mt={16}
-      padding="16px"
+      padding="4"
       fontFamily="Poppins, sans-serif"
     >
       <Box
-        width="476px"
+        width="400px"
         height="auto"
       >
         <Breadcrumb mb="4" spacing="2" separator={<ChevronRightIcon color="gray.500" />}>
@@ -95,11 +96,11 @@ export function LoginPage() {
           </BreadcrumbItem>
         </Breadcrumb>
         <Image 
-          src={logo} 
+          src={logoAuth} 
           margin={"10px auto"}
           alt="Logo"  
           width="90px" 
-          mt="10"
+          mt="30px"
         />
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">

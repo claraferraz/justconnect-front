@@ -8,9 +8,11 @@ import {
   Text,
   Link,
   Flex,
+  Image,
 } from "@chakra-ui/react";
 import { forgot } from "../../service/Auth";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
+import logoAuth from "../../assets/logoAuth.png"
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState<string>("");
@@ -56,9 +58,13 @@ export function ForgotPasswordPage() {
             <Text color="gray.500">Voltar</Text>
           </Link>
         </Flex>
-        <Text fontSize="2xl" mb="4" textAlign="center">
-          Recuperação de senha
-        </Text>
+        <Image 
+          src={logoAuth} 
+          margin={"10px auto"}
+          alt="Logo"  
+          width="90px" 
+          mt="10"
+        />
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
 
