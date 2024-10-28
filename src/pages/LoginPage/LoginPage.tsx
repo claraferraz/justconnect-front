@@ -95,19 +95,19 @@ export function LoginPage() {
           margin={"10px auto"}
           alt="Logo"  
           width="70px" 
+          mt="10"
         />
         <form onSubmit={handleSubmit}>
-          <Flex flexDirection="column" alignItems="center">
+          <Flex  flexDirection="column" alignItems="center">
             <FormControl mt="10" mb="4">
               <FormLabel htmlFor="usernameOrEmail">Nome do usuário ou Email</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
                 _hover="none"
                 width="100%" 
-                height="41px"
+                height="40px"
                 id="usernameOrEmail"
                 placeholder="Digite seu nome de usuário ou email"
                 type="text"
@@ -119,7 +119,6 @@ export function LoginPage() {
             <FormControl mt="5" >
               <FormLabel htmlFor="password">Senha</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"

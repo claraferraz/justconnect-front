@@ -87,7 +87,7 @@ const SidebarContent = ({
           <Flex
             direction="column"
             justifyContent="center"
-            h={{base: "80%" , md: "70%"}}
+            h="70%"
             fontSize="18px"
           >
             {LinkItems.map((link) => (
