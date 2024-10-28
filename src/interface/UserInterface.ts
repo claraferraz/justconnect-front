@@ -31,3 +31,7 @@ export interface UserResponse {
   username: string;
   name: string;
 }
+export enum Role {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+}
