@@ -13,9 +13,11 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   useToast,
+  Image,
 } from "@chakra-ui/react";
 import { signIn } from "../../service/Auth";
 import { ChevronRightIcon } from "@chakra-ui/icons"; 
+import logo from "../../assets/logoAuth.png"
 
 
 export function LoginPage() {
@@ -67,19 +69,16 @@ export function LoginPage() {
   return (
     <Box
       display="flex"
-      alignItems="center"
       justifyContent="center"
       height="100vh"
       bg="#fff"
-      padding="4"
+      padding="16px"
       fontFamily="Poppins, sans-serif"
     >
       <Box
         width="476px"
         height="auto"
-
         bg="white"
-
       >
         <Breadcrumb mb="4" spacing="2" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>
@@ -91,12 +90,15 @@ export function LoginPage() {
             <BreadcrumbLink color="gray.500">Login</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Text fontSize="2xl" mb="4" textAlign="center">
-          Login
-        </Text>
+        <Image 
+          src={logo} 
+          margin={"10px auto"}
+          alt="Logo"  
+          width="70px" 
+        />
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
-            <FormControl mb="4">
+            <FormControl mt="10" mb="4">
               <FormLabel htmlFor="usernameOrEmail">Nome do usuário ou Email</FormLabel>
               <Input
                 bg="#FAF7FB"
@@ -114,7 +116,7 @@ export function LoginPage() {
                 isDisabled={loading}
               />
             </FormControl>
-            <FormControl >
+            <FormControl mt="5" >
               <FormLabel htmlFor="password">Senha</FormLabel>
               <Input
                 bg="#FAF7FB"
