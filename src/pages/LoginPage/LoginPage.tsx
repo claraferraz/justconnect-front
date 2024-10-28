@@ -70,15 +70,17 @@ export function LoginPage() {
     <Box
       display="flex"
       justifyContent="center"
+      borderRadius={2}
       height="100vh"
+      overflowY="hidden"
       bg="#fff"
+      mt={16}
       padding="16px"
       fontFamily="Poppins, sans-serif"
     >
       <Box
         width="476px"
         height="auto"
-        bg="white"
       >
         <Breadcrumb mb="4" spacing="2" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>
@@ -98,7 +100,7 @@ export function LoginPage() {
           mt="10"
         />
         <form onSubmit={handleSubmit}>
-          <Flex  flexDirection="column" alignItems="center">
+          <Flex flexDirection="column" alignItems="center">
             <FormControl mt="10" mb="4">
               <FormLabel htmlFor="usernameOrEmail">Nome do usuário ou Email</FormLabel>
               <Input
@@ -116,7 +118,7 @@ export function LoginPage() {
                 isDisabled={loading}
               />
             </FormControl>
-            <FormControl mt="5" >
+            <FormControl mt="4" >
               <FormLabel htmlFor="password">Senha</FormLabel>
               <Input
                 border="2px solid"

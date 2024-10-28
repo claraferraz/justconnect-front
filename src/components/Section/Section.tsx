@@ -9,7 +9,7 @@ export function Section({ children }: Props) {
   const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <>
-      <Box margin={isDesktop ? '85px' : '85px auto'}>{children}</Box>
+      <Box margin={isDesktop ? '85px' : '85px auto 0px'}>{children}</Box>
     </>
   );
 }
