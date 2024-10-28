@@ -11,10 +11,8 @@ import {
 import SidebarContent from './SidebarContent';
 import MobileNav from './SidebarHeader';
 import { FiSearch } from 'react-icons/fi';
-import { fetchUserData } from '../../service/Auth';
-import { UserResponse } from '../../interface/UserInterface';
 import { useAuthStore } from '../../store/authStore';
-import { UUID } from 'crypto';
+import { useProfileStore } from '../../store/profileStore';
 
 interface SidebarProps {
   children: ReactNode;
@@ -23,20 +21,18 @@ interface SidebarProps {
 export default function SimpleSidebar({ children }: SidebarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchVisible, setSearchVisible] = useState(false);
-  const [user, setUser] = useState<UserResponse | null>(null);
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  const { token, id } = useAuthStore();
+  const { token } = useAuthStore();
+  const { user, getProfile } = useProfileStore();
 
   const toggleSearch = () => setSearchVisible(!searchVisible);
   const showSearchInput =
     useBreakpointValue({ base: false, md: true }) ?? false;
 
-  //Deixei essa função de pegar o token da url, pq Jhon disse que talvez fosse melhor.
-  const checkAuth = async (token?: string, id?: UUID) => {
+  const checkAuth = async (token?: string) => {
     try {
-      if (token && id) {
-        const userData = await fetchUserData(id);
-        setUser(userData);
+      if (token) {
+        getProfile(token);
       }
     } catch (error) {
       console.error('Erro ao buscar os dados do usuário:', error);
@@ -44,8 +40,9 @@ export default function SimpleSidebar({ children }: SidebarProps) {
   };
 
   useEffect(() => {
-    checkAuth(token, id);
-  }, [token, id]);
+    checkAuth(token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   return (
     <Box
