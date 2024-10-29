@@ -8,15 +8,18 @@ import {
   Text,
   Link,
   Flex,
+  Image,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { forgot } from "../../service/Auth";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
+import logoAuth from "../../assets/logoAuth.png"
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -41,29 +44,36 @@ export function ForgotPasswordPage() {
       alignItems="center"
       justifyContent="center"
       height="100vh"
-      bg="gray.50"
-      padding="4"
+      bg="gray.100"
+      padding="16px"
       fontFamily="Poppins, sans-serif"
     >
-      <Box
-        width="476px"
-        height="auto"
-        p="10"
-        border="2px"
-        borderColor="gray.200"
-        borderRadius="20px"
-        bg="white"
-        boxShadow="lg"
+     <Box
+        position="absolute"
+        top="100"
+        left="3"
       >
         <Flex alignItems="center" mb="4">
+          <Link href="/login" display="flex" alignItems="center" >
+            <ChevronLeftIcon boxSize={9} color="#000" />
+          </Link>
+        </Flex>
+      </Box>
+      <Box
+        width="476px"
+      >
+        {/* <Flex alignItems="center" mb="4">
           <Link href="/login" display="flex" alignItems="center" mr="2">
             <ChevronLeftIcon boxSize={7} color="gray.500" />
             <Text color="gray.500">Voltar</Text>
           </Link>
-        </Flex>
-        <Text fontSize="2xl" mb="4" textAlign="center">
-          Recuperação de senha
-        </Text>
+        </Flex> */}
+        <Image 
+          src={logoAuth} 
+          margin={"10px auto"}
+          alt="Logo"  
+          width={isDesktop? "150px": "120px"} 
+        />
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
 
@@ -72,7 +82,7 @@ export function ForgotPasswordPage() {
               <Input
                 display="flex"
                 placeholder="Digite seu email"
-                bg="#FAF7FB"
+                bg="#fff"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
@@ -108,7 +118,6 @@ export function ForgotPasswordPage() {
             >
               Recuperar senha
             </Button>
-
             <Box mb="2" mt={8}>
               Ainda não possui uma conta?{" "}
               <Link href="/register" color="#2F00FF">

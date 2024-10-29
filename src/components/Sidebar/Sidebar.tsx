@@ -70,13 +70,13 @@ export default function SimpleSidebar({ children }: SidebarProps) {
         showSearchInput={showSearchInput}
         user={user}
       />
-      <Box p="4" position="relative" zIndex={1} ml={isDesktop ? '250px' : '0'}>
+      <Box position="relative" zIndex={1} ml={isDesktop ? '250px' : '0'}>
         {children}
       </Box>
 
       {!isDesktop && searchVisible && (
         <>
-          <Box mt={2} px={4} zIndex={2} position="relative" top={-16}>
+          <Box px={4} zIndex={2} position="absolute" top={0} w={'full'}>
             <InputGroup>
               <InputLeftElement children={<FiSearch color="#000" />} />
               <Input
