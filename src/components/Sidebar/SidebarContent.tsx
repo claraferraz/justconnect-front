@@ -11,23 +11,30 @@ import { LinkItems } from './linkItems';
 import { MdOutlinePowerSettingsNew } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+import { useAuthStore } from '../../store/authStore';
+import { useProfileStore } from '../../store/profileStore';
 
 interface SidebarContentProps {
   isOpen: boolean;
   onClose: () => void;
   isUserLoggedIn: boolean;
+  isAdm: boolean;
 }
 
 const SidebarContent = ({
   isOpen,
   onClose,
   isUserLoggedIn,
+  isAdm,
 }: SidebarContentProps) => {
   const navigate = useNavigate();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const { logoutUser } = useAuthStore();
+  const { resetUser } = useProfileStore();
 
   const handleLogout = () => {
-    localStorage.clear();
+    logoutUser();
+    resetUser();
     navigate('/login');
   };
 
@@ -56,11 +63,22 @@ const SidebarContent = ({
           h="100%"
           fontSize="18px"
         >
-          {LinkItems.map((link) => (
-            <NavItem key={link.name} icon={link.icon} path={link.path}>
-              {link.name}
-            </NavItem>
-          ))}
+          {LinkItems.map((link) => {
+            if (link.name === 'Posts Denunciados') {
+              return isAdm ? (
+                <NavItem key={link.name} icon={link.icon} path={link.path}>
+                  {link.name}
+                </NavItem>
+              ) : (
+                ''
+              );
+            }
+            return (
+              <NavItem key={link.name} icon={link.icon} path={link.path}>
+                {link.name}
+              </NavItem>
+            );
+          })}
           {isUserLoggedIn && (
             <NavItem
               onClick={handleLogout}
@@ -90,11 +108,18 @@ const SidebarContent = ({
             h="70%"
             fontSize="18px"
           >
-            {LinkItems.map((link) => (
-              <NavItem key={link.name} icon={link.icon} path={link.path}>
-                {link.name}
-              </NavItem>
-            ))}
+            {LinkItems.map((link) => {
+              if (link.name === 'Posts Denunciados') {
+                if (!isAdm) {
+                  return;
+                }
+              }
+              return (
+                <NavItem key={link.name} icon={link.icon} path={link.path}>
+                  {link.name}
+                </NavItem>
+              );
+            })}
             {isUserLoggedIn && (
               <NavItem
                 icon={MdOutlinePowerSettingsNew}

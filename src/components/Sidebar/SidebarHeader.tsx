@@ -12,14 +12,14 @@ import {
   Image,
 } from '@chakra-ui/react';
 import { FiBell, FiMenu, FiSearch } from 'react-icons/fi';
-import { UserResponse } from '../../interface/UserInterface';
+import { MyProfileInfos } from '../../interface/UserInterface';
 import logoBot from '../../assets/logobot.png';
 
 interface MobileNavProps {
   onOpen: () => void;
   toggleSearch: () => void;
   showSearchInput: boolean;
-  user: UserResponse | null;
+  user?: MyProfileInfos;
 }
 
 const MobileNav = ({

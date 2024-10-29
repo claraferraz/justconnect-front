@@ -14,6 +14,7 @@ export function MyProfilePage() {
             cursor="pointer"
             fontSize="24px"
             color="#281A45"
+            _hover={{ color: '#805AD5' }}
           >
             <MdEdit />
           </Icon>
