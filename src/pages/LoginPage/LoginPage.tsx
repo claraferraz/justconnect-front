@@ -9,16 +9,12 @@ import {
   Text,
   Link,
   Flex,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   useToast,
   useBreakpointValue,
   Image,
 } from '@chakra-ui/react';
-import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useAuthStore } from '../../store/authStore';
-import logo from '../../assets/logoAuth.png'
+import logo from '../../assets/logoAuth.png';
 
 export function LoginPage() {
   const [usernameOrEmail, setUsernameOrEmail] = useState<string>('');
@@ -67,41 +63,27 @@ export function LoginPage() {
       bg="gray.100"
       padding="16px"
       fontFamily="Poppins, sans-serif"
-      
     >
-      <Box
-        position="absolute"
-        top="100"
-        left="6"
-      >
-        <Breadcrumb fontSize={isDesktop? 18 : 16} spacing="2" separator={<ChevronRightIcon color="gray.500" />}>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Início</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink color="gray.500">Login</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
-      </Box>
-
       <Box width="476px">
-        <Image 
-          src={logo} 
-          margin={" auto"}
-          alt="Logo"  
-          width={isDesktop? "150px" : "120px"} 
+        <Image
+          src={logo}
+          margin={' auto'}
+          alt="Logo"
+          width={isDesktop ? '150px' : '120px'}
           mb="5"
         />
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
             <FormControl mt="4" mb="4">
-              <FormLabel htmlFor="usernameOrEmail">Nome do usuário ou Email</FormLabel>
+              <FormLabel htmlFor="usernameOrEmail">
+                Nome do usuário ou Email
+              </FormLabel>
               <Input
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
                 bg="#fff"
-                width="100%" 
+                width="100%"
                 height="41px"
                 _hover="none"
                 id="usernameOrEmail"
@@ -120,7 +102,7 @@ export function LoginPage() {
                 focusBorderColor="#805AD5"
                 bg="#fff"
                 _hover="none"
-                width="100%" 
+                width="100%"
                 height="41px"
                 id="password"
                 placeholder="Digite sua senha"
@@ -130,7 +112,7 @@ export function LoginPage() {
                 isDisabled={loading}
               />
             </FormControl>
-            
+
             <Box width="100%" textAlign="start" mt="2" mb="4">
               <Link href="/forgot-password" color="#805AD5">
                 Esqueceu a senha?
@@ -149,7 +131,7 @@ export function LoginPage() {
               mt={5}
               type="submit"
               bg="#805AD5"
-              _hover={{ bg: "#9B71E6" }}
+              _hover={{ bg: '#9B71E6' }}
               color="#FFF"
               borderRadius="6px"
               isLoading={loading}
@@ -159,7 +141,7 @@ export function LoginPage() {
             </Button>
 
             <Box mb="2" mt={8}>
-              Não possui uma conta?{" "}
+              Não possui uma conta?{' '}
               <Link href="/register" color="#2F00FF">
                 Registrar-se
               </Link>

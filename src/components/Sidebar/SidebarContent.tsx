@@ -29,8 +29,8 @@ const SidebarContent = ({
 }: SidebarContentProps) => {
   const navigate = useNavigate();
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  const { logoutUser } = useAuthStore();
-  const { resetUser } = useProfileStore();
+  const logoutUser = useAuthStore((state) => state.logoutUser);
+  const resetUser = useProfileStore((state) => state.resetUser);
 
   const handleLogout = () => {
     logoutUser();
