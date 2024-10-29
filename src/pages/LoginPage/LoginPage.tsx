@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent } from "react";
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
@@ -13,42 +13,53 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   useToast,
-} from '@chakra-ui/react';
-import { ChevronRightIcon } from '@chakra-ui/icons';
-import { useAuthStore } from '../../store/authStore';
+  Image,
+  useBreakpointValue
+} from "@chakra-ui/react";
+import { signIn } from "../../service/Auth";
+import { ChevronRightIcon } from "@chakra-ui/icons"; 
+import logo from "../../assets/logoAuth.png";
 
 export function LoginPage() {
-  const [usernameOrEmail, setUsernameOrEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [usernameOrEmail, setUsernameOrEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const toast = useToast();
-
-  const { loginUser } = useAuthStore();
-
+  const toast = useToast();  
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+  
+    const isEmail = /\S+@\S+\.\S+/.test(usernameOrEmail);
+  
     try {
-      await loginUser(usernameOrEmail, password);
-      toast({
-        title: 'Login realizado com sucesso!',
-        description: `Bem-vindo, ${usernameOrEmail}!`,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'bottom',
+      const user = await signIn({
+        username: isEmail ? "" : usernameOrEmail,
+        email: isEmail ? usernameOrEmail : "",     
+        password,
       });
 
+      localStorage.setItem("token", user.data.token);
+      localStorage.setItem("id", user.data.id);
+      
+      toast({
+        title: "Login realizado com sucesso!",
+        description: `Bem-vindo, ${user.data.username || usernameOrEmail}!`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+      
       navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError('Ocorreu um erro inesperado!');
+        setError("Ocorreu um erro inesperado!");
       }
     } finally {
       setLoading(false);
@@ -58,54 +69,49 @@ export function LoginPage() {
   return (
     <Box
       display="flex"
-      alignItems="center"
       justifyContent="center"
+      alignItems="center"
       height="100vh"
-      bg="gray.50"
-      padding="4"
+      bg="gray.100"
+      padding="16px"
       fontFamily="Poppins, sans-serif"
+      
     >
       <Box
-        width="476px"
-        height="auto"
-        p="10"
-        border="2px"
-        borderColor="gray.200"
-        borderRadius="20px"
-        bg="white"
-        boxShadow="lg"
+        position="absolute"
+        top="100"
+        left="6"
       >
-        <Breadcrumb
-          mb="4"
-          spacing="2"
-          separator={<ChevronRightIcon color="gray.500" />}
-        >
+        <Breadcrumb fontSize={isDesktop? 18 : 16} spacing="2" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/" display="flex" alignItems="center">
-              Início
-            </BreadcrumbLink>
+            <BreadcrumbLink href="/">Início</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
             <BreadcrumbLink color="gray.500">Login</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Text fontSize="2xl" mb="4" textAlign="center">
-          Login
-        </Text>
+      </Box>
+
+      <Box width="476px">
+        <Image 
+          src={logo} 
+          margin={" auto"}
+          alt="Logo"  
+          width={isDesktop? "150px" : "120px"} 
+          mb="5"
+        />
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
-            <FormControl mb="4">
-              <FormLabel htmlFor="usernameOrEmail">
-                Nome do usuário ou Email
-              </FormLabel>
+            <FormControl mt="4" mb="4">
+              <FormLabel htmlFor="usernameOrEmail">Nome do usuário ou Email</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
-                _hover="none"
-                width="100%"
+                bg="#fff"
+                width="100%" 
                 height="41px"
+                _hover="none"
                 id="usernameOrEmail"
                 placeholder="Digite seu nome de usuário ou email"
                 type="text"
@@ -114,15 +120,15 @@ export function LoginPage() {
                 isDisabled={loading}
               />
             </FormControl>
-            <FormControl>
+            <FormControl mt="2">
               <FormLabel htmlFor="password">Senha</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
+                bg="#fff"
                 _hover="none"
-                width="100%"
+                width="100%" 
                 height="41px"
                 id="password"
                 placeholder="Digite sua senha"
@@ -132,7 +138,7 @@ export function LoginPage() {
                 isDisabled={loading}
               />
             </FormControl>
-
+            
             <Box width="100%" textAlign="start" mt="2" mb="4">
               <Link href="/forgot-password" color="#805AD5">
                 Esqueceu a senha?
@@ -151,7 +157,7 @@ export function LoginPage() {
               mt={5}
               type="submit"
               bg="#805AD5"
-              _hover={{ bg: '#9B71E6' }}
+              _hover={{ bg: "#9B71E6" }}
               color="#FFF"
               borderRadius="6px"
               isLoading={loading}
@@ -161,7 +167,7 @@ export function LoginPage() {
             </Button>
 
             <Box mb="2" mt={8}>
-              Não possui uma conta?{' '}
+              Não possui uma conta?{" "}
               <Link href="/register" color="#2F00FF">
                 Registrar-se
               </Link>

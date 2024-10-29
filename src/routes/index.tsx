@@ -30,9 +30,7 @@ export function Login() {
   return (
     <>
       <Sidebar>
-        <Section>
           <LoginPage />
-        </Section>
       </Sidebar>
     </>
   );
@@ -41,9 +39,7 @@ export function Register() {
   return (
     <>
       <Sidebar>
-        <Section>
           <RegisterPage />
-        </Section>
       </Sidebar>
     </>
   );
@@ -52,9 +48,7 @@ export function ForgotPassword() {
   return (
     <>
       <Sidebar>
-        <Section>
           <ForgotPasswordPage />
-        </Section>
       </Sidebar>
     </>
   );

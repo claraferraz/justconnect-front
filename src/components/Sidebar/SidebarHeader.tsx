@@ -34,6 +34,7 @@ const MobileNav = ({
     <Flex
       position={'fixed'}
       px={4}
+      top={0}
       height="20"
       width="100%"
       alignItems="center"
