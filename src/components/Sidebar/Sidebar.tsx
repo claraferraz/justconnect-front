@@ -23,7 +23,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchVisible, setSearchVisible] = useState(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  const { token } = useAuthStore();
+  const token = useAuthStore((state) => state.token);
   const { user, getProfile, role } = useProfileStore();
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -76,7 +76,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
 
       {!isDesktop && searchVisible && (
         <>
-          <Box px={4} zIndex={2} position="absolute" top={0} w={'full'}>
+          <Box px={4} zIndex={2} position="absolute" top={20} w={'full'}>
             <InputGroup>
               <InputLeftElement children={<FiSearch color="#000" />} />
               <Input
