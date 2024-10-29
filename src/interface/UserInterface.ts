@@ -26,8 +26,23 @@ export interface User {
   linkedin?: string;
   github?: string;
 }
+export interface MyProfileInfos {
+  id: UUID;
+  name: string;
+  username: string;
+  email: string;
+  bio?: string;
+  insta?: string;
+  linkedin?: string;
+  github?: string;
+  role: Role;
+}
 export interface UserResponse {
   id: string;
   username: string;
   name: string;
+}
+export enum Role {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
 }

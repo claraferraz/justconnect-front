@@ -12,6 +12,8 @@ import Sidebar from '../components/Sidebar/Sidebar';
 import { MyProfilePage } from '../pages/MyProfilePage/MyProfilePage';
 import { EditProfilePage } from '../pages/EditProfilePage/EditProfilePage';
 import { Section } from '../components/Section/Section';
+import { ProtectedRoute } from './ProtectedRoute';
+import { AdminRoute } from './AdminRoutes';
 
 export function Home() {
   return (
@@ -72,9 +74,11 @@ export function MyProfile() {
   return (
     <>
       <Sidebar>
-        <Section>
-          <MyProfilePage />
-        </Section>
+        <ProtectedRoute>
+          <Section>
+            <MyProfilePage />
+          </Section>
+        </ProtectedRoute>
       </Sidebar>
     </>
   );
@@ -83,9 +87,11 @@ export function EditProfile() {
   return (
     <>
       <Sidebar>
-        <Section>
-          <EditProfilePage />
-        </Section>
+        <ProtectedRoute>
+          <Section>
+            <EditProfilePage />
+          </Section>
+        </ProtectedRoute>
       </Sidebar>
     </>
   );
@@ -116,9 +122,11 @@ export function CreatePost() {
   return (
     <>
       <Sidebar>
-        <Section>
-          <CreatePostPage />
-        </Section>
+        <ProtectedRoute>
+          <Section>
+            <CreatePostPage />
+          </Section>
+        </ProtectedRoute>
       </Sidebar>
     </>
   );
@@ -138,9 +146,11 @@ export function ReportedPosts() {
   return (
     <>
       <Sidebar>
-        <Section>
-          <ReportedPostsPage />
-        </Section>
+        <AdminRoute>
+          <Section>
+            <ReportedPostsPage />
+          </Section>
+        </AdminRoute>
       </Sidebar>
     </>
   );
