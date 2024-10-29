@@ -11,8 +11,9 @@ import {
 import SidebarContent from './SidebarContent';
 import MobileNav from './SidebarHeader';
 import { FiSearch } from 'react-icons/fi';
-import { fetchUserData } from '../../service/Auth';
-import { UserResponse } from '../../interface/UserInterface';
+import { useAuthStore } from '../../store/authStore';
+import { useProfileStore } from '../../store/profileStore';
+import { Role } from '../../interface/UserInterface';
 
 interface SidebarProps {
   children: ReactNode;
@@ -21,35 +22,35 @@ interface SidebarProps {
 export default function SimpleSidebar({ children }: SidebarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchVisible, setSearchVisible] = useState(false);
-  const [user, setUser] = useState<UserResponse | null>(null);
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const { token } = useAuthStore();
+  const { user, getProfile, role } = useProfileStore();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const toggleSearch = () => setSearchVisible(!searchVisible);
   const showSearchInput =
     useBreakpointValue({ base: false, md: true }) ?? false;
 
-  //Deixei essa função de pegar o token da url, pq Jhon disse que talvez fosse melhor.
-  const checkAuth = async () => {
-    const token = new URLSearchParams(window.location.search).get('token');
-
+  const checkAuth = async (token?: string) => {
     try {
       if (token) {
-        localStorage.setItem('token', token);
-      }
-
-      const storedToken = localStorage.getItem('token');
-      if (storedToken) {
-        const userData = await fetchUserData();
-        setUser(userData);
+        getProfile(token);
       }
     } catch (error) {
       console.error('Erro ao buscar os dados do usuário:', error);
+    } finally {
+      if (role === Role.ADMIN) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
     }
   };
 
   useEffect(() => {
-    checkAuth();
-  }, []);
+    checkAuth(token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   return (
     <Box
@@ -61,6 +62,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
         isUserLoggedIn={!!user}
         isOpen={isOpen}
         onClose={onClose}
+        isAdm={isAdmin}
       />
       <MobileNav
         onOpen={onOpen}
