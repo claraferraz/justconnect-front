@@ -1,6 +1,6 @@
 import { create, StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { fetchMyProfile } from '../service/Auth';
+import { fetchMyProfile } from '../service/Profile';
 import { MyProfileInfos, Role } from '../interface/UserInterface';
 
 export interface profileState {
