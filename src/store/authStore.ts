@@ -6,6 +6,7 @@ import { devtools, persist } from 'zustand/middleware';
 export interface AuthState {
   token?: string;
   id?: UUID;
+  //ver se precisa mesmo desse id
 
   loginUser: (usernameOrEmail: string, password: string) => Promise<void>;
   logoutUser: () => void;
@@ -26,11 +27,18 @@ const storeApi: StateCreator<AuthState> = (set) => ({
       const { token, id } = user.data;
       set({ token, id });
     } catch (error) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error('Erro ao fazer login:', error.message);
+        throw new Error(error.message); // Lança erro para tratamento posterior
+      } else {
+        console.error('Erro inesperado ao fazer login:', error);
+        throw new Error('Erro inesperado ao fazer login');
+      }
     }
   },
 
   logoutUser: () => {
+    //chamar reset user aqui
     set({ token: undefined, id: undefined });
   },
 });
