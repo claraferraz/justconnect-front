@@ -123,7 +123,7 @@ import {
                 ml="20px"
                 h="34px"
                 borderRadius="6px"
-                color="#000"
+                color="#fff"
                 bg="#805AD5"
                 _hover={{ bg: '#9B71E6', color: '#fff' }}
               >

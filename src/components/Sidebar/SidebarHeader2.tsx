@@ -70,7 +70,7 @@ const MobileNav = ({
       >
         {showSearchInput ? (
           <InputGroup
-            width={{ base: '70%', md: '400px' }}
+            width={{ base: '70%', md: '60%' }}
           >
             <InputLeftElement children={<FiSearch color="#000" />} />
             <Input
@@ -134,7 +134,7 @@ const MobileNav = ({
             ml="20px"
             h="34px"
             borderRadius="6px"
-            color="#000"
+            color="#fff"
             bg="#805AD5"
             _hover={{ bg: '#9B71E6', color: '#fff' }}
           >
