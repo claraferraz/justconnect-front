@@ -6,6 +6,7 @@ import { devtools, persist } from 'zustand/middleware';
 export interface AuthState {
   token?: string;
   id?: UUID;
+  //ver se precisa mesmo desse id
 
   loginUser: (usernameOrEmail: string, password: string) => Promise<void>;
   logoutUser: () => void;
@@ -37,6 +38,7 @@ const storeApi: StateCreator<AuthState> = (set) => ({
   },
 
   logoutUser: () => {
+    //chamar reset user aqui
     set({ token: undefined, id: undefined });
   },
 });
