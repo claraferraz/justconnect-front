@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { signUp } from '../../service/Auth';
 import logoAuth from '../../assets/logoAuth.png';
+import { useAuthStore } from '../../store/authStore';
 
 export function RegisterPage() {
   const [name, setName] = useState<string>('');
@@ -28,6 +29,9 @@ export function RegisterPage() {
   const navigate = useNavigate();
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+
+  const { loginUser, token } = useAuthStore();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -40,26 +44,34 @@ export function RegisterPage() {
     }
 
     try {
-      const user = await signUp({
+      await signUp({
         name,
         username,
         password,
         email,
         confirmPassword,
       });
-
+      handleLogin();
       toast({
-        title: 'Registro realizado com sucesso!',
-        description: `Bem-vindo, ${
-          user.data.username || 'usuário'
-        }! Agora você pode fazer login.`,
+        title: 'Login realizado com sucesso!',
+        description: `Bem-vindo, ${username}!`,
         status: 'success',
         duration: 5000,
         isClosable: true,
         position: 'bottom',
       });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Ocorreu um erro inesperado!');
+      }
+    }
+  };
 
-      navigate('/login');
+  const handleLogin = async () => {
+    try {
+      loginUser(username, password);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -67,6 +79,9 @@ export function RegisterPage() {
         setError('Ocorreu um erro inesperado!');
       }
     } finally {
+      if (token) {
+        navigate('/my-profile');
+      }
       setLoading(false);
     }
   };
