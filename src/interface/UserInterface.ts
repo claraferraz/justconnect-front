@@ -25,6 +25,7 @@ export interface User {
   insta?: string;
   linkedin?: string;
   github?: string;
+  adminBlock: boolean;
 }
 export interface MyProfileInfos {
   id: UUID;
@@ -36,6 +37,7 @@ export interface MyProfileInfos {
   linkedin?: string;
   github?: string;
   role: Role;
+  adminBlock: boolean;
 }
 export interface UserResponse {
   id: string;

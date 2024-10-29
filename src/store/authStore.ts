@@ -2,6 +2,9 @@ import { UUID } from 'crypto';
 import { create, StateCreator } from 'zustand';
 import { signIn } from '../service/Auth';
 import { devtools, persist } from 'zustand/middleware';
+import { useProfileStore } from './profileStore';
+
+const { getProfile, resetUser } = useProfileStore.getState();
 
 export interface AuthState {
   token?: string;
@@ -26,6 +29,7 @@ const storeApi: StateCreator<AuthState> = (set) => ({
       });
       const { token, id } = user.data;
       set({ token, id });
+      getProfile(token);
     } catch (error) {
       if (error instanceof Error) {
         console.error('Erro ao fazer login:', error.message);
@@ -40,6 +44,7 @@ const storeApi: StateCreator<AuthState> = (set) => ({
   logoutUser: () => {
     //chamar reset user aqui
     set({ token: undefined, id: undefined });
+    resetUser();
   },
 });
 export const useAuthStore = create<AuthState>()(
