@@ -32,6 +32,7 @@ export function LoginPage() {
     setError(null);
 
     try {
+      //tratar error após o tratamento de erro da API
       await loginUser(usernameOrEmail, password);
       toast({
         title: 'Login realizado com sucesso!',
@@ -41,7 +42,6 @@ export function LoginPage() {
         isClosable: true,
         position: 'bottom',
       });
-
       navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -67,7 +67,7 @@ export function LoginPage() {
       <Box width="476px">
         <Image
           src={logo}
-          margin={' auto'}
+          margin={' 50px auto 0 auto'}
           alt="Logo"
           width={isDesktop ? '150px' : '120px'}
           mb="5"
