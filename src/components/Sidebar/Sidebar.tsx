@@ -23,7 +23,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchVisible, setSearchVisible] = useState(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  const { token } = useAuthStore();
+  const token = useAuthStore((state) => state.token);
   const { user, getProfile, role } = useProfileStore();
   const [isAdmin, setIsAdmin] = useState(false);
 
