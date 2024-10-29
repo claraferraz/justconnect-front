@@ -1,5 +1,4 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import '@fontsource/poppins';
 
 import { MainRoutes } from './routes/MainRoutes';
 import { ChakraProvider } from '@chakra-ui/react';

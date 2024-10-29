@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
@@ -11,33 +11,31 @@ import {
   Flex,
   useToast, // Importa o hook useToast do Chakra UI
   Image,
-  useBreakpointValue
-} from "@chakra-ui/react";
-import { signUp } from "../../service/Auth";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
-import logoAuth from "../../assets/logoAuth.png"
-
+  useBreakpointValue,
+} from '@chakra-ui/react';
+import { signUp } from '../../service/Auth';
+import logoAuth from '../../assets/logoAuth.png';
 
 export function RegisterPage() {
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>('');
 
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const toast = useToast(); 
+  const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    
+
     if (password !== confirmPassword) {
       setError('As senhas não conferem!');
-      setLoading(false); 
+      setLoading(false);
       return;
     }
 
@@ -47,27 +45,26 @@ export function RegisterPage() {
         username,
         password,
         email,
-        confirmPassword
+        confirmPassword,
       });
-
 
       toast({
-        title: "Registro realizado com sucesso!",
-        description: `Bem-vindo, ${user.data.username || "usuário"}! Agora você pode fazer login.`,
-        status: "success",
+        title: 'Registro realizado com sucesso!',
+        description: `Bem-vindo, ${
+          user.data.username || 'usuário'
+        }! Agora você pode fazer login.`,
+        status: 'success',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
 
-
-      navigate("/login");
-
+      navigate('/login');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError("Ocorreu um erro inesperado!");
+        setError('Ocorreu um erro inesperado!');
       }
     } finally {
       setLoading(false);
@@ -79,36 +76,16 @@ export function RegisterPage() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      height={isDesktop? "100vh" : "120vh"}
+      height={isDesktop ? '135vh' : '100vh'}
       bg="gray.100"
       padding="16px"
-      
     >
-      <Box
-        position="absolute"
-        top="100"
-        left="3"
-      >
-      <Flex alignItems="center" mb="4">
-          <Link href="/login" display="flex" alignItems="center" >
-            <ChevronLeftIcon boxSize={9} color="#000" />
-          </Link>
-        </Flex>
-      </Box>
-      <Box
-        width="476px"
-      >
-        {/* <Flex alignItems="center" mb="4">
-          <Link href="/login" display="flex" alignItems="center" mr="2">
-            <ChevronLeftIcon boxSize={7} color="gray.500" />
-            <Text color="gray.500">Voltar</Text>
-          </Link>
-        </Flex> */}
-        <Image 
-          src={logoAuth} 
-          margin={"auto"}
-          alt="Logo"  
-          width={isDesktop? "150px": "120px"} 
+      <Box width="476px">
+        <Image
+          src={logoAuth}
+          margin={'auto'}
+          alt="Logo"
+          width={isDesktop ? '150px' : '120px'}
           mt="60px"
         />
         <form onSubmit={handleSubmit}>
@@ -131,7 +108,7 @@ export function RegisterPage() {
                 isDisabled={loading}
               />
             </FormControl>
-            <FormControl mt="2"  mb="4">
+            <FormControl mt="2" mb="4">
               <FormLabel htmlFor="username">Nome do usuário</FormLabel>
               <Input
                 border="2px solid"
@@ -149,7 +126,7 @@ export function RegisterPage() {
                 isDisabled={loading}
               />
             </FormControl>
-            <FormControl mt="2"  mb="4">
+            <FormControl mt="2" mb="4">
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
                 display="flex"
@@ -218,7 +195,7 @@ export function RegisterPage() {
               mt={5}
               type="submit"
               bg="#805AD5"
-              _hover={{ bg: "#9B71E6" }}
+              _hover={{ bg: '#9B71E6' }}
               color="#FFF"
               borderRadius="6px"
               isLoading={loading}
@@ -227,7 +204,7 @@ export function RegisterPage() {
               Registrar
             </Button>
             <Box mb="2" mt={8}>
-              Já possui uma conta?{" "}
+              Já possui uma conta?{' '}
               <Link href="/login" color="#2F00FF">
                 Fazer login
               </Link>
