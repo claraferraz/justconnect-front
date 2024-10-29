@@ -34,6 +34,7 @@ const MobileNav = ({
     <Flex
       position={'fixed'}
       px={4}
+      top={0}
       height="20"
       width="100%"
       alignItems="center"
@@ -115,7 +116,7 @@ const MobileNav = ({
             </Button>
           </Link>
         )}
-        {isDesktop ? (
+        {isDesktop && !user ?  (
           <Link href="/register">
             <Button
               w="85px"
