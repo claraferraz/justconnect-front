@@ -26,27 +26,21 @@ export function Home() {
 export function Login() {
   return (
     <>
-      <Section>
-        <LoginPage />
-      </Section>
+      <LoginPage />
     </>
   );
 }
 export function Register() {
   return (
     <>
-      <Section>
-        <RegisterPage />
-      </Section>
+      <RegisterPage />
     </>
   );
 }
 export function ForgotPassword() {
   return (
     <>
-      <Section>
-        <ForgotPasswordPage />
-      </Section>
+      <ForgotPasswordPage />
     </>
   );
 }

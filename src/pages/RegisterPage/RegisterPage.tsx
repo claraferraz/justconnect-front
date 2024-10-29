@@ -9,13 +9,18 @@ import {
   Text,
   Link,
   Flex,
-  useToast // Importa o hook useToast do Chakra UI
+  useToast, // Importa o hook useToast do Chakra UI
+  Image,
+  useBreakpointValue
 } from "@chakra-ui/react";
 import { signUp } from "../../service/Auth";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
+import logoAuth from "../../assets/logoAuth.png"
+
 
 export function RegisterPage() {
   const [name, setName] = useState<string>("");
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -24,7 +29,7 @@ export function RegisterPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const toast = useToast(); 
-
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -74,39 +79,47 @@ export function RegisterPage() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      height="100vh"
-      bg="gray.50"
-      padding="4"
-      fontFamily="Poppins, sans-serif"
+      height={isDesktop? "100vh" : "120vh"}
+      bg="gray.100"
+      padding="16px"
+      
     >
       <Box
-        width="476px"
-        height="auto"
-        p="10"
-        border="2px"
-        borderColor="gray.200"
-        borderRadius="20px"
-        bg="white"
-        boxShadow="lg"
+        position="absolute"
+        top="100"
+        left="3"
       >
-        <Flex alignItems="center" mb="4">
+      <Flex alignItems="center" mb="4">
+          <Link href="/login" display="flex" alignItems="center" >
+            <ChevronLeftIcon boxSize={9} color="#000" />
+          </Link>
+        </Flex>
+      </Box>
+      <Box
+        width="476px"
+      >
+        {/* <Flex alignItems="center" mb="4">
           <Link href="/login" display="flex" alignItems="center" mr="2">
             <ChevronLeftIcon boxSize={7} color="gray.500" />
             <Text color="gray.500">Voltar</Text>
           </Link>
-        </Flex>
-        <Text fontSize="2xl" mb="4" textAlign="center">
-          Criar conta
-        </Text>
+        </Flex> */}
+        <Image 
+          src={logoAuth} 
+          margin={"auto"}
+          alt="Logo"  
+          width={isDesktop? "150px": "120px"} 
+          mt="60px"
+        />
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
-            <FormControl mb="4">
+            <FormControl mt="4" mb="4">
               <FormLabel htmlFor="name">Nome</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
+                bg="#fff"
                 _hover="none"
                 width="100%"
                 height="41px"
@@ -118,13 +131,13 @@ export function RegisterPage() {
                 isDisabled={loading}
               />
             </FormControl>
-            <FormControl mb="4">
+            <FormControl mt="2"  mb="4">
               <FormLabel htmlFor="username">Nome do usuário</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
+                bg="#fff"
                 _hover="none"
                 width="100%"
                 height="41px"
@@ -136,15 +149,15 @@ export function RegisterPage() {
                 isDisabled={loading}
               />
             </FormControl>
-            <FormControl mb="4">
+            <FormControl mt="2"  mb="4">
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
                 display="flex"
                 placeholder="Digite seu email"
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
+                bg="#fff"
                 _hover="none"
                 width="100%"
                 height="41px"
@@ -155,13 +168,13 @@ export function RegisterPage() {
                 isDisabled={loading}
               />
             </FormControl>
-            <FormControl mb="4">
+            <FormControl mt="2" mb="4">
               <FormLabel htmlFor="password">Senha</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
+                bg="#fff"
                 _hover="none"
                 width="100%"
                 height="41px"
@@ -174,13 +187,13 @@ export function RegisterPage() {
               />
             </FormControl>
 
-            <FormControl mb="4">
+            <FormControl mt="2" mb="4">
               <FormLabel htmlFor="confirmPassword">Confirmar senha</FormLabel>
               <Input
-                bg="#FAF7FB"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
+                bg="#fff"
                 _hover="none"
                 width="100%"
                 height="41px"
@@ -213,7 +226,6 @@ export function RegisterPage() {
             >
               Registrar
             </Button>
-
             <Box mb="2" mt={8}>
               Já possui uma conta?{" "}
               <Link href="/login" color="#2F00FF">
