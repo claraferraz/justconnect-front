@@ -28,4 +28,21 @@ const fetchMyProfile = async (token?: string): Promise<MyProfileInfos> => {
   return response.data;
 };
 
-export { fetchUserData, fetchMyProfile };
+const alterProfile = async (
+  token: string,
+  id: UUID,
+  data: MyProfileInfos
+): Promise<MyProfileInfos> => {
+  const api = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const response = await api.put<MyProfileInfos>(`/users/${id}`, data);
+
+  return response.data;
+};
+
+export { fetchUserData, fetchMyProfile, alterProfile };
