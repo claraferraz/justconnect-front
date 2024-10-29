@@ -8,7 +8,6 @@ import { PostPage } from '../pages/PostPage/PostPage';
 import { CreatePostPage } from '../pages/CreatePostPage/CreatePostPage';
 import { TagsPage } from '../pages/TagsPage/TagsPage';
 import { ReportedPostsPage } from '../pages/ReportedPostsPage/ReportedPostsPage';
-import Sidebar from '../components/Sidebar/Sidebar';
 import { MyProfilePage } from '../pages/MyProfilePage/MyProfilePage';
 import { EditProfilePage } from '../pages/EditProfilePage/EditProfilePage';
 import { Section } from '../components/Section/Section';
@@ -18,140 +17,116 @@ import { AdminRoute } from './AdminRoutes';
 export function Home() {
   return (
     <>
-      <Sidebar>
-        <Section>
-          <HomePage />
-        </Section>
-      </Sidebar>
+      <Section>
+        <HomePage />
+      </Section>
     </>
   );
 }
 export function Login() {
   return (
     <>
-      <Sidebar>
-        <Section>
-          <LoginPage />
-        </Section>
-      </Sidebar>
+      <Section>
+        <LoginPage />
+      </Section>
     </>
   );
 }
 export function Register() {
   return (
     <>
-      <Sidebar>
-        <Section>
-          <RegisterPage />
-        </Section>
-      </Sidebar>
+      <Section>
+        <RegisterPage />
+      </Section>
     </>
   );
 }
 export function ForgotPassword() {
   return (
     <>
-      <Sidebar>
-        <Section>
-          <ForgotPasswordPage />
-        </Section>
-      </Sidebar>
+      <Section>
+        <ForgotPasswordPage />
+      </Section>
     </>
   );
 }
 export function Users() {
   return (
     <>
-      <Sidebar>
-        <Section>
-          <UsersPage />
-        </Section>
-      </Sidebar>
+      <Section>
+        <UsersPage />
+      </Section>
     </>
   );
 }
 export function MyProfile() {
   return (
     <>
-      <Sidebar>
-        <ProtectedRoute>
-          <Section>
-            <MyProfilePage />
-          </Section>
-        </ProtectedRoute>
-      </Sidebar>
+      <ProtectedRoute>
+        <Section>
+          <MyProfilePage />
+        </Section>
+      </ProtectedRoute>
     </>
   );
 }
 export function EditProfile() {
   return (
     <>
-      <Sidebar>
-        <ProtectedRoute>
-          <Section>
-            <EditProfilePage />
-          </Section>
-        </ProtectedRoute>
-      </Sidebar>
+      <ProtectedRoute>
+        <Section>
+          <EditProfilePage />
+        </Section>
+      </ProtectedRoute>
     </>
   );
 }
 export function Profile() {
   return (
     <>
-      <Sidebar>
-        <Section>
-          <ProfilePage />
-        </Section>
-      </Sidebar>
+      <Section>
+        <ProfilePage />
+      </Section>
     </>
   );
 }
 export function Post() {
   return (
     <>
-      <Sidebar>
-        <Section>
-          <PostPage />
-        </Section>
-      </Sidebar>
+      <Section>
+        <PostPage />
+      </Section>
     </>
   );
 }
 export function CreatePost() {
   return (
     <>
-      <Sidebar>
-        <ProtectedRoute>
-          <Section>
-            <CreatePostPage />
-          </Section>
-        </ProtectedRoute>
-      </Sidebar>
+      <ProtectedRoute>
+        <Section>
+          <CreatePostPage />
+        </Section>
+      </ProtectedRoute>
     </>
   );
 }
 export function Tags() {
   return (
     <>
-      <Sidebar>
-        <Section>
-          <TagsPage />
-        </Section>
-      </Sidebar>
+      <Section>
+        <TagsPage />
+      </Section>
     </>
   );
 }
 export function ReportedPosts() {
   return (
     <>
-      <Sidebar>
-        <AdminRoute>
-          <Section>
-            <ReportedPostsPage />
-          </Section>
-        </AdminRoute>
-      </Sidebar>
+      <AdminRoute>
+        <Section>
+          <ReportedPostsPage />
+        </Section>
+      </AdminRoute>
     </>
   );
 }
