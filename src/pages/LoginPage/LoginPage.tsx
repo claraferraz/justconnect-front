@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
@@ -13,53 +13,45 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   useToast,
+  useBreakpointValue,
   Image,
-  useBreakpointValue
-} from "@chakra-ui/react";
-import { signIn } from "../../service/Auth";
-import { ChevronRightIcon } from "@chakra-ui/icons"; 
-import logo from "../../assets/logoAuth.png";
+} from '@chakra-ui/react';
+import { ChevronRightIcon } from '@chakra-ui/icons';
+import { useAuthStore } from '../../store/authStore';
+import logo from '../../assets/logoAuth.png'
 
 export function LoginPage() {
-  const [usernameOrEmail, setUsernameOrEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const toast = useToast();  
+  const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const { loginUser } = useAuthStore();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-  
-    const isEmail = /\S+@\S+\.\S+/.test(usernameOrEmail);
-  
-    try {
-      const user = await signIn({
-        username: isEmail ? "" : usernameOrEmail,
-        email: isEmail ? usernameOrEmail : "",     
-        password,
-      });
 
-      localStorage.setItem("token", user.data.token);
-      localStorage.setItem("id", user.data.id);
-      
+    try {
+      await loginUser(usernameOrEmail, password);
       toast({
-        title: "Login realizado com sucesso!",
-        description: `Bem-vindo, ${user.data.username || usernameOrEmail}!`,
-        status: "success",
+        title: 'Login realizado com sucesso!',
+        description: `Bem-vindo, ${usernameOrEmail}!`,
+        status: 'success',
         duration: 5000,
         isClosable: true,
-        position: "bottom-right",
+        position: 'bottom',
       });
-      
+
       navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError("Ocorreu um erro inesperado!");
+        setError('Ocorreu um erro inesperado!');
       }
     } finally {
       setLoading(false);
