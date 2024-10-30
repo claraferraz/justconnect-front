@@ -7,45 +7,18 @@ import { Avatar,
   CardHeader, 
   Flex, 
   Heading, 
-  Input, 
-  Stack, 
+  HStack,  
   Tab, 
   TabList, 
   TabPanel, 
   TabPanels, 
-  Tabs } from "@chakra-ui/react";
-import { SearchIcon, BellIcon } from "@chakra-ui/icons";
+  Tabs, 
+  Tag} from "@chakra-ui/react";
+
 
 export function HomePage() {
   return (
     <>
-      <header >
-        <Box 
-          display="flex" 
-          alignItems="center" 
-          justifyContent="space-between" 
-          margin="25px" 
-          flexWrap="wrap"
-        >
-          {/* BellIcon e Avatar alinhados à esquerda */}
-          <Box display="flex" alignItems="center">
-            <Heading marginLeft="auto">Just Connect</Heading>
-          </Box>
-
-          {/* SearchIcon e Input centralizados */}
-          <Box display="flex" alignItems="center" flexGrow={1} justifyContent="center">
-            <SearchIcon boxSize={6} marginRight="10px" />
-            <Input width={{ base: "200px", md: "300px" }} placeholder='Pesquisar' />
-          </Box>
-
-          {/* Heading alinhado à direita */}
-          <BellIcon boxSize={8} marginRight="5px" />
-            <Stack>
-              <Avatar src='https://bit.ly/broken-link'/>
-            </Stack>
-        </Box>
-      </header>
-
       <Box
       display="flex"
       alignItems=""
@@ -81,6 +54,23 @@ export function HomePage() {
                     create a screen.
                   </p>
                 </CardBody>
+                <HStack spacing={4}>
+                  {['md'].map((size) => (
+                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
+                      +Tag
+                    </Tag>
+                  ))}
+                  {['md'].map((size) => (
+                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
+                      +Tag
+                    </Tag>
+                  ))}
+                  {['md'].map((size) => (
+                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
+                      +Tag
+                    </Tag>
+                  ))}
+                </HStack>
                 <CardFooter
                   justify='space-between'
                   flexWrap='wrap'
@@ -103,7 +93,60 @@ export function HomePage() {
               </Card>
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+            <Card maxW='md'>
+                <CardHeader>
+                  <Flex>
+                    <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                      <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+
+                      <Box>
+                        <Heading size='sm'>Segun Adebayo</Heading>
+                        <p>Creator, Chakra UI</p>
+                      </Box>
+                    </Flex>
+                  </Flex>
+                </CardHeader>
+                <CardBody>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae justo in ante commodo egestas. Aenean viverra lobortis eleifend. Cras enim lectus, tincidunt non aliquam sit amet, pretium nec felis. Pellentesque tincidunt varius diam et dignissim. Morbi ipsum magna, sollicitudin sed magna eget, bibendum scelerisque nisi. Proin eget condimentum ipsum. Quisque nec maximus turpis
+                  </p>
+                </CardBody>
+                <HStack spacing={4}>
+                  {['md'].map((size) => (
+                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
+                      +Tag
+                    </Tag>
+                  ))}
+                  {['md'].map((size) => (
+                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
+                      +Tag
+                    </Tag>
+                  ))}
+                  {['md'].map((size) => (
+                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
+                      +Tag
+                    </Tag>
+                  ))}
+                </HStack>
+                <CardFooter
+                  justify='space-between'
+                  flexWrap='wrap'
+                  sx={{
+                    '& > button': {
+                      minW: '136px',
+                    },
+                  }}
+                >
+                  <Button flex='1' variant='ghost'>
+                    Like
+                  </Button>
+                  <Button flex='1' variant='ghost' >
+                    Comment
+                  </Button>
+                  <Button flex='1' variant='ghost'>
+                    Share
+                  </Button>
+                </CardFooter>
+              </Card>
             </TabPanel>
           </TabPanels>
         </Tabs>
