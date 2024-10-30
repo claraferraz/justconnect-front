@@ -1,25 +1,19 @@
-import { UserForgot, UserSignIn, UserSingUp } from "../interface/UserInterface";
-import { apiAuth } from "./api";
-
-const baseURL = '/user';
+import { UserForgot, UserSignIn, UserSingUp } from '../interface/UserInterface';
+import api from '../service/api';
 
 const signUp = async (data: UserSingUp) => {
-    const response = await apiAuth.post(`${baseURL}/signup`, data);
-    return response;
+  const response = await api.post(`/public/users/register`, data);
+  return response;
 };
 
 const signIn = async (data: UserSignIn) => {
-    const response = await apiAuth.post(`${baseURL}/signin`, data);
-    return response;
+  const response = await api.post(`/public/auth`, data);
+  return response;
 };
 
 const forgot = async (data: UserForgot) => {
-    const response = await apiAuth.post(`${baseURL}/forgot`, data);
-    return response;
+  const response = await api.post(`/forgot`, data);
+  return response;
 };
 
-export{
-    signUp,
-    signIn,
-    forgot
-};
+export { signUp, signIn, forgot };
