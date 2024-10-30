@@ -1,15 +1,6 @@
 import { UUID } from 'crypto';
-import { MyProfileInfos, UserResponse } from '../interface/UserInterface';
+import { MyProfileInfos } from '../interface/UserInterface';
 import api from './api';
-
-const fetchUserData = async (id?: UUID): Promise<UserResponse> => {
-  if (!id) {
-    throw new Error('ID não foi encontrado');
-  }
-  const response = await api.get<UserResponse>(`/public/users/${id}`);
-
-  return response.data;
-};
 
 const fetchMyProfile = async (): Promise<MyProfileInfos> => {
   const response = await api.get<MyProfileInfos>(`/users/my-profile`);
@@ -29,4 +20,4 @@ const deleteProfile = async (id: UUID) => {
   await api.delete<MyProfileInfos>(`/users/${id}`);
 };
 
-export { fetchUserData, fetchMyProfile, alterProfile, deleteProfile };
+export { fetchMyProfile, alterProfile, deleteProfile };
