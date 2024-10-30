@@ -1,16 +1,18 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
 import {
   CreatePost,
+  EditProfile,
   ForgotPassword,
   Home,
   Login,
+  MyProfile,
   Post,
   Profile,
   Register,
   ReportedPosts,
   Tags,
   Users,
-} from "./index";
+} from './index';
 
 export function MainRoutes() {
   return (
@@ -19,7 +21,9 @@ export function MainRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/my-profile" element={<MyProfile />} />
+      <Route path="/my-profile/edit" element={<EditProfile />} />
+      <Route path="/profile/:id" element={<Profile />} />
       <Route path="/users" element={<Users />} />
       <Route path="/post/:id" element={<Post />} />
       <Route path="/create-post" element={<CreatePost />} />
