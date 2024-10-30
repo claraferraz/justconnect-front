@@ -7,8 +7,6 @@ import {
   MyProfileInfos,
 } from '../interface/UserInterface';
 import  apiAuth  from '../service/api';
-import axios from 'axios';
-import { useAuthStore } from '../store/authStore';
 
 const signUp = async (data: UserSingUp) => {
   const response = await apiAuth.post(`/public/users/register`, data);
