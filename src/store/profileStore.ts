@@ -7,16 +7,16 @@ export interface profileState {
   user?: MyProfileInfos;
   role?: Role;
 
-  getProfile: (token: string) => Promise<void>;
+  getProfile: () => Promise<void>;
   setProfile: (user: MyProfileInfos) => void;
   resetUser: () => void;
 }
 const storeApi: StateCreator<profileState> = (set) => ({
   user: undefined,
 
-  getProfile: async (token: string) => {
+  getProfile: async () => {
     try {
-      const user = await fetchMyProfile(token);
+      const user = await fetchMyProfile();
       set({ user, role: user.role });
     } catch (error) {
       console.error(error);

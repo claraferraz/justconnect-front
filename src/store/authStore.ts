@@ -29,7 +29,7 @@ const storeApi: StateCreator<AuthState> = (set) => ({
       });
       const { token, id } = user.data;
       set({ token, id });
-      getProfile(token);
+      getProfile();
     } catch (error) {
       if (error instanceof Error) {
         console.error('Erro ao fazer login:', error.message);
