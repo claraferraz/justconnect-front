@@ -9,7 +9,7 @@ const { getProfile, resetUser } = useProfileStore.getState();
 export interface AuthState {
   token?: string;
   id?: UUID;
-  //ver se precisa mesmo desse id
+ 
 
   loginUser: (usernameOrEmail: string, password: string) => Promise<void>;
   logoutUser: () => void;
