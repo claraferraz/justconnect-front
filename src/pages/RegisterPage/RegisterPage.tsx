@@ -14,7 +14,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { signUp } from '../../service/Auth';
-import logoAuth from '../../assets/logoAuth.png';
+import logoAuth from '../../assets/logoAuth.svg';
 import { useAuthStore } from '../../store/authStore';
 
 export function RegisterPage() {
@@ -100,7 +100,8 @@ export function RegisterPage() {
           src={logoAuth}
           margin={'auto'}
           alt="Logo"
-          width={isDesktop ? '150px' : '120px'}
+          width={isDesktop ? '170px' : '140px'}
+          // width={isDesktop ? '150px' : '120px'}
           mt="60px"
         />
         <form onSubmit={handleSubmit}>
