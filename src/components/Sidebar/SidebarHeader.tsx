@@ -13,7 +13,7 @@ import {
   } from '@chakra-ui/react';
   import { FiBell, FiMenu, FiSearch } from 'react-icons/fi';
   import { MyProfileInfos } from '../../interface/UserInterface';
-  import logoBot from '../../assets/logobot.png';
+  import logoBot from '../../assets/logoBot.svg';
   
   interface MobileNavProps {
     onOpen: () => void;

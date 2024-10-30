@@ -14,7 +14,7 @@ import {
   Image,
 } from '@chakra-ui/react';
 import { useAuthStore } from '../../store/authStore';
-import logo from '../../assets/logoAuth.png';
+import logo from '../../assets/logoAuth.svg';
 
 export function LoginPage() {
   const [usernameOrEmail, setUsernameOrEmail] = useState<string>('');
@@ -69,7 +69,8 @@ export function LoginPage() {
           src={logo}
           margin={' auto'}
           alt="Logo"
-          width={isDesktop ? '150px' : '120px'}
+          width={isDesktop ? '170px' : '140px'}
+          // width={isDesktop ? '150px' : '120px'}
           mb="5"
         />
         <form onSubmit={handleSubmit}>
