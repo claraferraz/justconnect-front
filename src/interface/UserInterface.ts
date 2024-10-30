@@ -16,16 +16,14 @@ export interface UserForgot {
   email: string;
 }
 export interface User {
-  id?: UUID;
   name: string;
   username: string;
-  posts?: number;
-  email?: string;
   bio?: string;
   insta?: string;
   linkedin?: string;
   github?: string;
-  adminBlock: boolean;
+  admin_user_block: boolean;
+  posts?: number;
 }
 export interface MyProfileInfos {
   id: UUID;
@@ -43,6 +41,7 @@ export interface UserResponse {
   id: string;
   username: string;
   name: string;
+  posts?: number;
 }
 export enum Role {
   ADMIN = 'ADMIN',
