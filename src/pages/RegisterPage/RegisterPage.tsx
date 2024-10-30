@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
@@ -66,25 +66,28 @@ export function RegisterPage() {
       } else {
         setError('Ocorreu um erro inesperado!');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleLogin = async () => {
     try {
-      loginUser(username, password);
+      await loginUser(username, password);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
         setError('Ocorreu um erro inesperado!');
       }
-    } finally {
-      if (token) {
-        navigate('/my-profile');
-      }
-      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (token) {
+      navigate('/my-profile');
+    }
+  }, [token, navigate]); 
 
   return (
     <Box
