@@ -11,7 +11,6 @@ import {
 import SidebarContent from './SidebarContent';
 import MobileNav from './SidebarHeader';
 import { FiSearch } from 'react-icons/fi';
-import { useAuthStore } from '../../store/authStore';
 import { useProfileStore } from '../../store/profileStore';
 import { Role } from '../../interface/UserInterface';
 
@@ -23,34 +22,24 @@ export default function SimpleSidebar({ children }: SidebarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchVisible, setSearchVisible] = useState(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  const token = useAuthStore((state) => state.token);
-  const { user, getProfile, role } = useProfileStore();
+  const { user, role } = useProfileStore();
   const [isAdmin, setIsAdmin] = useState(false);
 
   const toggleSearch = () => setSearchVisible(!searchVisible);
   const showSearchInput =
     useBreakpointValue({ base: false, md: true }) ?? false;
 
-  const checkAuth = async (token?: string) => {
-    try {
-      if (token) {
-        getProfile(token);
-      }
-    } catch (error) {
-      console.error('Erro ao buscar os dados do usuário:', error);
-    } finally {
-      if (role === Role.ADMIN) {
-        setIsAdmin(true);
-      } else {
-        setIsAdmin(false);
-      }
+  const checkAuth = async (role?: Role) => {
+    if (role === Role.ADMIN) {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
     }
   };
 
   useEffect(() => {
-    checkAuth(token);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+    checkAuth(role);
+  }, [role]);
 
   return (
     <Box

@@ -32,6 +32,7 @@ export function UserProfile({
           <Flex gap="40px">
             <Link href={insta}>
               <IconButton
+                isDisabled={insta ? false : true}
                 aria-label="instagram"
                 cursor="pointer"
                 fontSize="24px"
@@ -43,8 +44,10 @@ export function UserProfile({
                 <AiOutlineInstagram />
               </IconButton>
             </Link>
+
             <Link href={linkedin}>
               <IconButton
+                isDisabled={linkedin ? false : true}
                 aria-label="linkedin"
                 cursor="pointer"
                 fontSize="24px"
@@ -56,8 +59,10 @@ export function UserProfile({
                 <AiOutlineLinkedin />
               </IconButton>
             </Link>
+
             <Link href={github}>
               <IconButton
+                isDisabled={github ? false : true}
                 aria-label="github"
                 cursor="pointer"
                 fontSize="24px"

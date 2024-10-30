@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { useAuthStore } from '../store/authStore'; 
+import { useAuthStore } from '../store/authStore';
 
-const apiAuth = axios.create({
+const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-apiAuth.interceptors.request.use((config) => {
+api.interceptors.request.use((config) => {
   const { token } = useAuthStore.getState();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -13,4 +13,4 @@ apiAuth.interceptors.request.use((config) => {
   return config;
 });
 
-export default apiAuth;
+export default api;
