@@ -2,10 +2,17 @@ import { Box, Flex, Icon, Link, useBreakpointValue } from '@chakra-ui/react';
 import { UserProfile } from '../../components/UserProfile/UserProfile';
 import { MdEdit } from 'react-icons/md';
 import { useProfileStore } from '../../store/profileStore';
+import { useNavigate } from 'react-router-dom';
 
 export function MyProfilePage() {
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const user = useProfileStore((state) => state.user);
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    navigate('/my-profile/edit');
+  };
+
   if (!user) {
     return;
   }
@@ -18,7 +25,7 @@ export function MyProfilePage() {
         maxWidth={isDesktop ? '1024px' : '350px'}
       >
         <Flex width="100%" justifyContent="right">
-          <Link href="/my-profile/edit">
+          <Link onClick={handleEdit}>
             <Icon
               mt="15px"
               aria-label="editar"
