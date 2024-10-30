@@ -26,10 +26,10 @@ const storeApi: StateCreator<AuthState> = (set) => ({
       });
       const { token, id } = user.data;
       set({ token, id });
-    } catch (error) {
+    }  catch (error) {
       if (error instanceof Error) {
         console.error('Erro ao fazer login:', error.message);
-        throw new Error(error.message); // Lança erro para tratamento posterior
+        throw new Error(error.message); 
       } else {
         console.error('Erro inesperado ao fazer login:', error);
         throw new Error('Erro inesperado ao fazer login');

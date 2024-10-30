@@ -6,8 +6,7 @@ import {
   UserResponse,
   MyProfileInfos,
 } from '../interface/UserInterface';
-import { apiAuth } from './api';
-import axios from 'axios';
+import  apiAuth  from '../service/api';
 
 const signUp = async (data: UserSingUp) => {
   const response = await apiAuth.post(`/public/users/register`, data);
@@ -33,19 +32,9 @@ const fetchUserData = async (id?: UUID): Promise<UserResponse> => {
   return response.data;
 };
 
-const fetchMyProfile = async (token?: string): Promise<MyProfileInfos> => {
-  if (!token) {
-    throw new Error('Usuário deve estar logado');
-  }
+const fetchMyProfile = async (): Promise<MyProfileInfos> => {
 
-  const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const response = await api.get<MyProfileInfos>(`/users/my-profile`);
-
+  const response = await apiAuth.get<MyProfileInfos>(`/users/my-profile`);
   return response.data;
 };
 

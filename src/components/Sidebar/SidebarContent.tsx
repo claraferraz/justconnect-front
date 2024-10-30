@@ -10,7 +10,7 @@ import NavItem from './NavItem';
 import { LinkItems } from './linkItems';
 import { MdOutlinePowerSettingsNew } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo.svg';
 import { useAuthStore } from '../../store/authStore';
 import { useProfileStore } from '../../store/profileStore';
 
@@ -99,13 +99,18 @@ const SidebarContent = ({
             justifyContent="center"
             mr={0}
           >
-            <Image src={logo} alt="Logo" mt={20} width="90px" />
+            <Image 
+              src={logo} 
+              alt="Logo" 
+              mt={20} 
+              width="110px" 
+            />
             <CloseButton pl={12} size="lg" onClick={onClose} />
           </Flex>
           <Flex
             direction="column"
             justifyContent="center"
-            h="70%"
+            h={isUserLoggedIn? "85%" : "70%"}
             fontSize="18px"
           >
             {LinkItems.map((link) => {
