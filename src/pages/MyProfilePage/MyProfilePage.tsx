@@ -1,15 +1,19 @@
 import { Box, Icon, Link } from '@chakra-ui/react';
 import { UserProfile } from '../../components/UserProfile/UserProfile';
-import { UsersExample } from '../../UsersExample';
 import { MdEdit } from 'react-icons/md';
+import { useProfileStore } from '../../store/profileStore';
 
 export function MyProfilePage() {
-  const user = UsersExample[0];
+  const user = useProfileStore((state) => state.user);
+  if (!user) {
+    return;
+  }
   return (
     <>
       <Box textAlign="right">
         <Link href="/my-profile/edit">
           <Icon
+            mt="15px"
             aria-label="editar"
             cursor="pointer"
             fontSize="24px"
@@ -28,6 +32,7 @@ export function MyProfilePage() {
         insta={user.insta}
         linkedin={user.linkedin}
         github={user.github}
+        adminBlock={false}
       />
     </>
   );
