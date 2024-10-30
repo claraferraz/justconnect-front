@@ -13,7 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { forgot } from '../../service/Auth';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-import logoAuth from '../../assets/logoAuth.png';
+import logoAuth from '../../assets/logoAuth.svg';
+
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState<string>('');
@@ -60,7 +61,8 @@ export function ForgotPasswordPage() {
           src={logoAuth}
           margin={'10px auto'}
           alt="Logo"
-          width={isDesktop ? '150px' : '120px'}
+          width={isDesktop ? '170px' : '140px'}
+          // width={isDesktop ? '150px' : '120px'}
         />
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">

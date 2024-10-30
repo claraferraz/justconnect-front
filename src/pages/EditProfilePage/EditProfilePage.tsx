@@ -1,13 +1,16 @@
 import { Avatar, Box, Flex, Icon, Link } from '@chakra-ui/react';
 import { EditProfileForm } from '../../components/EditProfileForm/EditProfileForm';
-import { UsersExample } from '../../UsersExample';
 import { MdDeleteOutline } from 'react-icons/md';
+import { useProfileStore } from '../../store/profileStore';
 
 export function EditProfilePage() {
-  const user = UsersExample[0];
+  const user = useProfileStore((state) => state.user);
+  if (!user) {
+    return;
+  }
   return (
     <>
-      <Box width="100%" textAlign="right">
+      <Box width="100%" textAlign="right" mt="15px">
         <Link color="#281A45" _hover={{ color: '#805AD5' }} href="/my-profile">
           Cancelar
         </Link>
