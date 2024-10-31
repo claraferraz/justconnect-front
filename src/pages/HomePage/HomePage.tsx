@@ -27,14 +27,14 @@ export function HomePage() {
       margin="30px"
       color="purple"
       >
-        <Tabs isFitted variant='enclosed'>
+        <Tabs isFitted variant='enclosed' width="100%">
           <TabList mb='1em'>
             <Tab>Recentes</Tab>
             <Tab>Relevantes</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Card maxW='md'>
+              <Card width="100%" >
                 <CardHeader>
                   <Flex>
                     <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
@@ -93,7 +93,7 @@ export function HomePage() {
               </Card>
             </TabPanel>
             <TabPanel>
-            <Card maxW='md'>
+            <Card width="100%">
                 <CardHeader>
                   <Flex>
                     <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
