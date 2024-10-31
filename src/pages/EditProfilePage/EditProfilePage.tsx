@@ -29,10 +29,9 @@ export function EditProfilePage() {
       <Flex
         direction="column"
         maxWidth={isDesktop ? '1024px' : '350px'}
-        justify="center"
         margin="0 auto"
       >
-        <Box width="100%" textAlign="right" mt="15px">
+        <Box textAlign="right" margin="15px 0">
           <Link
             color="#281A45"
             _hover={{ color: '#805AD5' }}
@@ -42,9 +41,14 @@ export function EditProfilePage() {
           </Link>
         </Box>
 
-        <Flex alignItems="stretch" gap="50px">
-          <Flex direction="column" gap="50px" align="center">
-            <Avatar name={user.name} fontWeight={800} size="lg" />
+        <Flex alignItems="stretch" gap={isDesktop ? '170px' : '50px'}>
+          <Flex direction="column" gap={isDesktop ? '70px' : '50px'}>
+            <Avatar
+              mt="15px"
+              name={user.name}
+              fontWeight={800}
+              size={isDesktop ? 'xl' : 'lg'}
+            />
             <Link _hover={{ color: '#805AD5' }}>Alterar Senha</Link>
           </Flex>
 
