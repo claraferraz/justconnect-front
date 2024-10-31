@@ -26,41 +26,39 @@ export function EditProfilePage() {
 
   return (
     <>
-      <Flex
-        direction="column"
-        maxWidth={isDesktop ? '1024px' : '350px'}
-        margin="0 auto"
-      >
-        <Box textAlign="right" margin="15px 0">
-          <Link
-            color="#281A45"
-            _hover={{ color: '#805AD5' }}
-            onClick={handleCancel}
-          >
-            Cancelar
-          </Link>
-        </Box>
+      <Box textAlign="right" margin="15px 0">
+        <Link
+          color="#281A45"
+          _hover={{ color: '#805AD5' }}
+          onClick={handleCancel}
+        >
+          Cancelar
+        </Link>
+      </Box>
 
-        <Flex alignItems="stretch" gap={isDesktop ? '170px' : '50px'}>
-          <Flex direction="column" gap={isDesktop ? '70px' : '50px'}>
-            <Avatar
-              mt="15px"
-              name={user.name}
-              fontWeight={800}
-              size={isDesktop ? 'xl' : 'lg'}
-            />
-            <Link _hover={{ color: '#805AD5' }}>Alterar Senha</Link>
-          </Flex>
-
-          <EditProfileForm user={user} />
+      <Flex alignItems="stretch" gap={isDesktop ? '170px' : '50px'}>
+        <Flex
+          direction="column"
+          align="center"
+          gap={isDesktop ? '70px' : '50px'}
+        >
+          <Avatar
+            mt="15px"
+            name={user.name}
+            fontWeight={800}
+            size={isDesktop ? 'xl' : 'lg'}
+          />
+          <Link _hover={{ color: '#805AD5' }}>Alterar Senha</Link>
         </Flex>
 
-        <Flex margin="60px 0" color="#D20000" _hover={{ color: '#9c0303' }}>
-          <Icon aria-label="editar" cursor="pointer" fontSize="24px">
-            <MdDeleteOutline />
-          </Icon>
-          <Link href="">Excluir Conta</Link>
-        </Flex>
+        <EditProfileForm user={user} />
+      </Flex>
+
+      <Flex margin="60px 0" color="#D20000" _hover={{ color: '#9c0303' }}>
+        <Icon aria-label="editar" cursor="pointer" fontSize="24px">
+          <MdDeleteOutline />
+        </Icon>
+        <Link href="">Excluir Conta</Link>
       </Flex>
     </>
   );
