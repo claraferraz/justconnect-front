@@ -77,7 +77,6 @@ export function UserProfile({
           </Flex>
         </Box>
       </Flex>
-      <Box borderTop="1px solid #DEDEDE"></Box>
     </>
   );
 }
