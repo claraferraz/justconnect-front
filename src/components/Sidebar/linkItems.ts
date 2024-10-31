@@ -22,7 +22,7 @@ export const LinkItems: Array<LinkItemProps> = [
   { name: 'Posts', icon: FiFileText, path: '/post/:id' },
   { name: 'Tags', icon: FiTag, path: '/tags/:id' },
   {
-    name: 'Posts Denunciados',
+    name: 'Denúncias',
     icon: MdOutlineSmsFailed,
     path: '/reported-posts',
   },
