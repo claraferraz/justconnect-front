@@ -38,7 +38,7 @@ export interface MyProfileInfos {
   adminBlock: boolean;
 }
 export interface UserResponse {
-  id: string;
+  id: UUID;
   username: string;
   name: string;
   posts?: number;
