@@ -1,4 +1,4 @@
-import { User } from '../../interface/UserInterface';
+import { MyProfileInfos } from '../../interface/UserInterface';
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 type Props = {
-  user: User;
+  user: MyProfileInfos;
 };
 
 export function EditProfileForm({ user }: Props) {
@@ -62,6 +62,7 @@ export function EditProfileForm({ user }: Props) {
         <FormControl mb="4">
           <FormLabel htmlFor="name">Nome</FormLabel>
           <Input
+            bg="#fff"
             border="2px solid"
             borderColor="#805AD5"
             focusBorderColor="#805AD5"
@@ -78,6 +79,7 @@ export function EditProfileForm({ user }: Props) {
         <FormControl mb="4">
           <FormLabel htmlFor="username">Nome de usuário</FormLabel>
           <Input
+            bg="#fff"
             border="2px solid"
             borderColor="#805AD5"
             focusBorderColor="#805AD5"
@@ -94,6 +96,7 @@ export function EditProfileForm({ user }: Props) {
         <FormControl mb="4">
           <FormLabel htmlFor="bio">Bio</FormLabel>
           <Textarea
+            bg="#fff"
             border="2px solid"
             borderColor="#805AD5"
             focusBorderColor="#805AD5"
@@ -109,6 +112,7 @@ export function EditProfileForm({ user }: Props) {
         <FormControl mb="4">
           <FormLabel htmlFor="email">E-mail</FormLabel>
           <Input
+            bg="#fff"
             border="2px solid"
             borderColor="#805AD5"
             focusBorderColor="#805AD5"
@@ -125,6 +129,7 @@ export function EditProfileForm({ user }: Props) {
         <FormControl mb="4">
           <FormLabel htmlFor="insta">Instagram</FormLabel>
           <Input
+            bg="#fff"
             border="2px solid"
             borderColor="#805AD5"
             focusBorderColor="#805AD5"
@@ -141,6 +146,7 @@ export function EditProfileForm({ user }: Props) {
         <FormControl mb="4">
           <FormLabel htmlFor="linkedin">LinkedIn</FormLabel>
           <Input
+            bg="#fff"
             border="2px solid"
             borderColor="#805AD5"
             focusBorderColor="#805AD5"
@@ -157,6 +163,7 @@ export function EditProfileForm({ user }: Props) {
         <FormControl mb="4">
           <FormLabel htmlFor="github">GitHub</FormLabel>
           <Input
+            bg="#fff"
             border="2px solid"
             borderColor="#805AD5"
             focusBorderColor="#805AD5"

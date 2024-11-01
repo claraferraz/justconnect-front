@@ -13,30 +13,43 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { useAuthStore } from '../../store/authStore';
 import { useProfileStore } from '../../store/profileStore';
+import { useEffect, useState } from 'react';
+import { Role } from '../../interface/UserInterface';
 
 interface SidebarContentProps {
   isOpen: boolean;
   onClose: () => void;
   isUserLoggedIn: boolean;
-  isAdm: boolean;
 }
 
 const SidebarContent = ({
   isOpen,
   onClose,
   isUserLoggedIn,
-  isAdm,
 }: SidebarContentProps) => {
   const navigate = useNavigate();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const logoutUser = useAuthStore((state) => state.logoutUser);
-  const resetUser = useProfileStore((state) => state.resetUser);
+  const role = useProfileStore((state) => state.role);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const checkAuth = async (role?: Role) => {
+    if (role === Role.ADMIN) {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
+  };
 
   const handleLogout = () => {
     logoutUser();
-    resetUser();
     navigate('/login');
   };
+
+  useEffect(() => {
+    checkAuth(role);
+    console.log(role);
+  }, [role]);
 
   if (!isOpen && !isDesktop) return null;
 
@@ -64,8 +77,8 @@ const SidebarContent = ({
           fontSize="18px"
         >
           {LinkItems.map((link) => {
-            if (link.name === 'Posts Denunciados') {
-              return isAdm ? (
+            if (link.name === 'Denúncias') {
+              return isAdmin ? (
                 <NavItem key={link.name} icon={link.icon} path={link.path}>
                   {link.name}
                 </NavItem>
@@ -99,23 +112,18 @@ const SidebarContent = ({
             justifyContent="center"
             mr={0}
           >
-            <Image 
-              src={logo} 
-              alt="Logo" 
-              mt={20} 
-              width="110px" 
-            />
+            <Image src={logo} alt="Logo" mt={20} width="110px" />
             <CloseButton pl={12} size="lg" onClick={onClose} />
           </Flex>
           <Flex
             direction="column"
             justifyContent="center"
-            h={isUserLoggedIn? "85%" : "70%"}
+            h={isUserLoggedIn ? '85%' : '70%'}
             fontSize="18px"
           >
             {LinkItems.map((link) => {
-              if (link.name === 'Posts Denunciados') {
-                if (!isAdm) {
+              if (link.name === 'Denúncias') {
+                if (!isAdmin) {
                   return;
                 }
               }

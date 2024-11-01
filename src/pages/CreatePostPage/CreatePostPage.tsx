@@ -37,9 +37,9 @@ export function CreatePostPage() {
           borderColor="#805AD5"
           focusBorderColor="#805AD5"
           _hover={{ borderColor: '#805AD5' }}
-          placeholder="Digite o título"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          width="400px"
         />
       </FormControl>
 
@@ -51,9 +51,10 @@ export function CreatePostPage() {
           borderColor="#805AD5"
           focusBorderColor="#805AD5"
           _hover={{ borderColor: '#805AD5' }}
-          placeholder="Digite a descrição"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          height="301px"
+          width="400px"
         />
       </FormControl>
 

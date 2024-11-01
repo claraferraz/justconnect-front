@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   Box,
   useColorModeValue,
@@ -12,7 +12,6 @@ import SidebarContent from './SidebarContent';
 import MobileNav from './SidebarHeader';
 import { FiSearch } from 'react-icons/fi';
 import { useProfileStore } from '../../store/profileStore';
-import { Role } from '../../interface/UserInterface';
 
 interface SidebarProps {
   children: ReactNode;
@@ -22,24 +21,11 @@ export default function SimpleSidebar({ children }: SidebarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchVisible, setSearchVisible] = useState(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  const { user, role } = useProfileStore();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const user = useProfileStore((state) => state.user);
 
   const toggleSearch = () => setSearchVisible(!searchVisible);
   const showSearchInput =
     useBreakpointValue({ base: false, md: true }) ?? false;
-
-  const checkAuth = async (role?: Role) => {
-    if (role === Role.ADMIN) {
-      setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
-    }
-  };
-
-  useEffect(() => {
-    checkAuth(role);
-  }, [role]);
 
   return (
     <Box
@@ -51,7 +37,6 @@ export default function SimpleSidebar({ children }: SidebarProps) {
         isUserLoggedIn={!!user}
         isOpen={isOpen}
         onClose={onClose}
-        isAdm={isAdmin}
       />
       <MobileNav
         onOpen={onOpen}
