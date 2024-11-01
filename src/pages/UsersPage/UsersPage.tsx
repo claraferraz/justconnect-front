@@ -7,7 +7,7 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { UserCard } from '../../components/UserCard/UserCard';
-import { User } from '../../interface/UserInterface';
+import { UserResponse } from '../../interface/UserInterface';
 import { FiSearch } from 'react-icons/fi';
 import { UsersExample } from '../../UsersExample';
 
@@ -22,9 +22,11 @@ export function UsersPage() {
       </Tabs>
 
       <InputGroup
-        margin="30px 0"
+        background="gray.100"
+        margin="30px auto"
         borderRadius={6}
-        width={{ base: '100%', md: '350px' }}
+        width="70%"
+        borderColor="gray.400"
       >
         <InputLeftElement children={<FiSearch color="gray.300" />} />
         <Input placeholder="Pesquisar usuário" />
@@ -34,14 +36,14 @@ export function UsersPage() {
         justifyItems="center"
         templateColumns={{
           base: 'repeat(1, 1fr)',
-          sm: 'repeat(2, 1fr)',
-          md: 'repeat(3, 1fr)',
-          lg: 'repeat(4, 1fr)',
+          sm: 'repeat(1, 1fr)',
+          md: 'repeat(2, 1fr)',
+          lg: 'repeat(2, 1fr)',
         }}
         gap="15px"
         overflow="hidden"
       >
-        {users.map((u: User) => (
+        {users.map((u: UserResponse) => (
           <UserCard
             name={u.name}
             username={u.username}
