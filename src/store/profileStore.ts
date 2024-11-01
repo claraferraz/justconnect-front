@@ -13,6 +13,7 @@ export interface profileState {
 }
 const storeApi: StateCreator<profileState> = (set) => ({
   user: undefined,
+  role: undefined,
 
   getProfile: async () => {
     try {
@@ -30,7 +31,7 @@ const storeApi: StateCreator<profileState> = (set) => ({
     }
   },
   resetUser: () => {
-    set({ user: undefined });
+    set({ user: undefined, role: undefined });
   },
 });
 export const useProfileStore = create<profileState>()(

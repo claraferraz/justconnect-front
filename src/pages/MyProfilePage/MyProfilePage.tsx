@@ -1,17 +1,24 @@
-import { Box, Icon, Link } from '@chakra-ui/react';
+import { Box, Flex, Icon, Link } from '@chakra-ui/react';
 import { UserProfile } from '../../components/UserProfile/UserProfile';
 import { MdEdit } from 'react-icons/md';
 import { useProfileStore } from '../../store/profileStore';
+import { useNavigate } from 'react-router-dom';
 
 export function MyProfilePage() {
   const user = useProfileStore((state) => state.user);
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    navigate('/my-profile/edit');
+  };
+
   if (!user) {
     return;
   }
   return (
     <>
-      <Box textAlign="right">
-        <Link href="/my-profile/edit">
+      <Flex width="100%" justifyContent="right">
+        <Link onClick={handleEdit}>
           <Icon
             mt="15px"
             aria-label="editar"
@@ -23,17 +30,18 @@ export function MyProfilePage() {
             <MdEdit />
           </Icon>
         </Link>
+      </Flex>
+      <Box borderBottom="1px solid #B6B4BB">
+        <UserProfile
+          name={user.name}
+          username={user.username}
+          bio={user.bio}
+          insta={user.insta}
+          linkedin={user.linkedin}
+          github={user.github}
+          admin_user_block={false}
+        />
       </Box>
-
-      <UserProfile
-        name={user.name}
-        username={user.username}
-        bio={user.bio}
-        insta={user.insta}
-        linkedin={user.linkedin}
-        github={user.github}
-        adminBlock={false}
-      />
     </>
   );
 }
