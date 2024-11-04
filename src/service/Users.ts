@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import { User } from '../interface/UserInterface';
+import { User, UserResponse } from '../interface/UserInterface';
 import api from './api';
 
 const fetchUserData = async (id?: UUID): Promise<User> => {
@@ -10,5 +10,15 @@ const fetchUserData = async (id?: UUID): Promise<User> => {
 
   return response.data;
 };
+const fetchUsersList = async (
+  page: number,
+  limit: number
+): Promise<UserResponse> => {
+  const response = await api.get<UserResponse>(`/public/users/`, {
+    params: { page, limit },
+  });
 
-export { fetchUserData };
+  return response.data;
+};
+
+export { fetchUserData, fetchUsersList };
