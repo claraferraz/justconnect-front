@@ -28,26 +28,31 @@ export function HomePage() {
       color="purple"
       >
         <Tabs isFitted variant='enclosed' width="100%">
-          <TabList mb='1em'>
-            <Tab>Recentes</Tab>
-            <Tab>Relevantes</Tab>
+          <TabList mb='2em'>
+            <Tab width="50%" fontSize="xl">Recentes</Tab>
+            <Tab width="50%" fontSize="xl">Relevantes</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
               <Card width="100%" >
-                <CardHeader>
-                  <Flex>
-                    <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                      <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-
-                      <Box>
-                        <Heading size='sm'>Segun Adebayo</Heading>
-                        <p>Creator, Chakra UI</p>
-                      </Box>
-                    </Flex>
-                  </Flex>
+                <CardHeader 
+                  justifyContent ='space-between'
+                  flexWrap='wrap'
+                  sx={{
+                    '& > button': {
+                      minW: '136px',
+                    },
+                  }}
+                >
+                  <Button flex='1' variant='ghost'>
+                    curtidas
+                  </Button>
+                  <Button flex='1' variant='ghost' >
+                    comentarios
+                  </Button>
                 </CardHeader>
                 <CardBody>
+                  <Heading size="lg">title 2</Heading> <br />
                   <p>
                     With Chakra UI, I wanted to sync the speed of development with the speed
                     of design. I wanted the developer to be just as excited as the designer to
@@ -71,43 +76,28 @@ export function HomePage() {
                     </Tag>
                   ))}
                 </HStack>
-                <CardFooter
-                  justify='space-between'
+              </Card>
+            </TabPanel>
+            <TabPanel>
+              <Card width="100%">
+                <CardHeader
+                  justifyContent ='space-between'
                   flexWrap='wrap'
                   sx={{
                     '& > button': {
                       minW: '136px',
                     },
-                  }}
-                >
-                  <Button flex='1' variant='ghost'>
-                    Like
-                  </Button>
+                  }}>
                   <Button flex='1' variant='ghost' >
-                    Comment
+                    curtidas
                   </Button>
                   <Button flex='1' variant='ghost'>
-                    Share
+                    comentários
                   </Button>
-                </CardFooter>
-              </Card>
-            </TabPanel>
-            <TabPanel>
-            <Card width="100%">
-                <CardHeader>
-                  <Flex>
-                    <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                      <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-
-                      <Box>
-                        <Heading size='sm'>Segun Adebayo</Heading>
-                        <p>Creator, Chakra UI</p>
-                      </Box>
-                    </Flex>
-                  </Flex>
                 </CardHeader>
                 <CardBody>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae justo in ante commodo egestas. Aenean viverra lobortis eleifend. Cras enim lectus, tincidunt non aliquam sit amet, pretium nec felis. Pellentesque tincidunt varius diam et dignissim. Morbi ipsum magna, sollicitudin sed magna eget, bibendum scelerisque nisi. Proin eget condimentum ipsum. Quisque nec maximus turpis
+                  <Heading size="lg">title</Heading> <br />
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae justo in ante commodo egestas. Aenean viverra lobortis eleifend. Cras enim lectus, tincidunt non aliquam sit amet, pretium nec felis. 
                   </p>
                 </CardBody>
                 <HStack spacing={4}>
@@ -127,25 +117,6 @@ export function HomePage() {
                     </Tag>
                   ))}
                 </HStack>
-                <CardFooter
-                  justify='space-between'
-                  flexWrap='wrap'
-                  sx={{
-                    '& > button': {
-                      minW: '136px',
-                    },
-                  }}
-                >
-                  <Button flex='1' variant='ghost'>
-                    Like
-                  </Button>
-                  <Button flex='1' variant='ghost' >
-                    Comment
-                  </Button>
-                  <Button flex='1' variant='ghost'>
-                    Share
-                  </Button>
-                </CardFooter>
               </Card>
             </TabPanel>
           </TabPanels>
