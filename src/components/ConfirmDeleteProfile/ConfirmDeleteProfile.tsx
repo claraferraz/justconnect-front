@@ -7,8 +7,12 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogCloseButton,
+  useToast,
 } from '@chakra-ui/react';
 import { useRef } from 'react';
+import { useAuthStore } from '../../store/authStore';
+import { useNavigate } from 'react-router-dom';
+import { deleteProfile } from '../../service/Profile';
 
 interface Props {
   isOpen: boolean;
@@ -16,7 +20,32 @@ interface Props {
 }
 
 export function ConfirmDeleteProfile({ isOpen, onClose }: Props) {
+  const toast = useToast();
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const logoutUser = useAuthStore((state) => state.logoutUser);
+  const id = useAuthStore((state) => state.id);
+  const navigate = useNavigate();
+
+  if (!id) {
+    return;
+  }
+
+  const handleDeleteProfile = async () => {
+    try {
+      await deleteProfile(id);
+      toast({
+        title: 'Perfil excluído com sucesso!',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
+      logoutUser();
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -41,7 +70,7 @@ export function ConfirmDeleteProfile({ isOpen, onClose }: Props) {
               <Button ref={cancelRef} onClick={onClose}>
                 Cancelar
               </Button>
-              <Button colorScheme="red" ml={3}>
+              <Button colorScheme="red" ml={3} onClick={handleDeleteProfile}>
                 Excluir
               </Button>
             </AlertDialogFooter>

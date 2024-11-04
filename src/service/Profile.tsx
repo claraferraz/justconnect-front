@@ -17,7 +17,7 @@ const alterProfile = async (
 };
 
 const deleteProfile = async (id: UUID) => {
-  await api.delete<MyProfileInfos>(`/users/${id}`);
+  await api.delete(`/users/${id}`);
 };
 
 export { fetchMyProfile, alterProfile, deleteProfile };
