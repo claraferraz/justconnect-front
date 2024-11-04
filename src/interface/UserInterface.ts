@@ -47,11 +47,11 @@ export enum Role {
   ADMIN = 'ADMIN',
   USER = 'USER',
 }
-export interface UserPost{
+export interface UserCreatePost{
   title: string;
   description: string;
 }
-export interface Post {
+export interface UserPostInfo {
   id: string;
   title: string;
   description: string;
