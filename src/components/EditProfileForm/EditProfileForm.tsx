@@ -19,9 +19,9 @@ type Props = {
 export function EditProfileForm({ user }: Props) {
   const [name, setName] = useState<string>(user.name);
   const [username, setUsername] = useState<string>(user.username);
-  const [bio, setBio] = useState<string | undefined>(user.bio);
+  const [bio, setBio] = useState<string | undefined>(user.bio_description);
   const [email, setEmail] = useState<string | undefined>(user.email);
-  const [insta, setInsta] = useState<string | undefined>(user.insta);
+  const [insta, setInsta] = useState<string | undefined>(user.instagram);
   const [linkedin, setLinkedin] = useState<string | undefined>(user.linkedin);
   const [github, setGithub] = useState<string | undefined>(user.github);
 

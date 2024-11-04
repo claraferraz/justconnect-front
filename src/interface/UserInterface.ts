@@ -30,12 +30,21 @@ export interface MyProfileInfos {
   name: string;
   username: string;
   email: string;
-  bio?: string;
-  insta?: string;
+  bio_description?: string;
+  instagram?: string;
   linkedin?: string;
   github?: string;
   role: Role;
-  adminBlock: boolean;
+  admin_user_block: boolean;
+}
+export interface MyProfileUpdate {
+  name: string;
+  username: string;
+  email: string;
+  bio_description?: string;
+  instagram?: string;
+  linkedin?: string;
+  github?: string;
 }
 export interface UserCardData {
   id: UUID;
@@ -53,7 +62,7 @@ export enum Role {
   ADMIN = 'ADMIN',
   USER = 'USER',
 }
-export interface UserCreatePost{
+export interface UserCreatePost {
   title: string;
   description: string;
 }
@@ -62,5 +71,5 @@ export interface UserPostInfo {
   title: string;
   description: string;
   createdAt: string;
-  updatedAt: string; 
+  updatedAt: string;
 }
