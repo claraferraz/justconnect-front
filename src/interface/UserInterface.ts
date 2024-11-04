@@ -37,11 +37,17 @@ export interface MyProfileInfos {
   role: Role;
   adminBlock: boolean;
 }
-export interface UserResponse {
+export interface UserCardData {
   id: UUID;
-  username: string;
   name: string;
-  posts?: number;
+  username: string;
+  postCount: number;
+}
+export interface UserResponse {
+  users: UserCardData[];
+  totalPages: number;
+  page: string;
+  limit: string;
 }
 export enum Role {
   ADMIN = 'ADMIN',

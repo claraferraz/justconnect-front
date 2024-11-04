@@ -7,14 +7,37 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { UserCard } from '../../components/UserCard/UserCard';
-import { UserResponse } from '../../interface/UserInterface';
+
 import { FiSearch } from 'react-icons/fi';
-import { UsersExample } from '../../UsersExample';
+import { fetchUsersList } from '../../service/Users';
+import { useEffect, useState } from 'react';
+import { UserCardData } from '../../interface/UserInterface';
 
 export function UsersPage() {
-  const users = UsersExample;
+  const [loading, setLoading] = useState<boolean>(false);
+  const [users, setUsers] = useState<UserCardData[]>([]);
+
+  const getUsersList = async () => {
+    setLoading(true);
+    try {
+      const response = await fetchUsersList(1, 16);
+      if (response) {
+        setUsers(response.users);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getUsersList();
+  }, []);
+
   return (
     <>
+      {loading && <></>}
       <Tabs width="100%">
         <Tab width="100%" color="#281A45" cursor="zoom-in">
           Usuários
@@ -43,11 +66,11 @@ export function UsersPage() {
         gap="15px"
         overflow="hidden"
       >
-        {users.map((u: UserResponse) => (
+        {users.map((u: UserCardData) => (
           <UserCard
             name={u.name}
             username={u.username}
-            posts={u.posts}
+            postCount={u.postCount}
             id={u.id}
           />
         ))}
