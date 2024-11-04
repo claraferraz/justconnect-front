@@ -8,6 +8,7 @@ import {
   AlertDialogOverlay,
   AlertDialogCloseButton,
   useToast,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { useAuthStore } from '../../store/authStore';
@@ -25,6 +26,7 @@ export function ConfirmDeleteProfile({ isOpen, onClose }: Props) {
   const logoutUser = useAuthStore((state) => state.logoutUser);
   const id = useAuthStore((state) => state.id);
   const navigate = useNavigate();
+  const isDesktop = useBreakpointValue({ base: false, md: true });
 
   if (!id) {
     return;
@@ -55,15 +57,15 @@ export function ConfirmDeleteProfile({ isOpen, onClose }: Props) {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent>
+          <AlertDialogContent width={isDesktop ? '450px' : '330px'}>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Excluir conta
               <AlertDialogCloseButton onClick={onClose} />
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Tem certeza de que deseja excluir seu perfil? Esta ação não pode
-              ser desfeita.
+              <p>Tem certeza de que deseja excluir seu perfil?</p>
+              <p>Esta ação não pode ser desfeita.</p>
             </AlertDialogBody>
 
             <AlertDialogFooter>
