@@ -47,3 +47,14 @@ export enum Role {
   ADMIN = 'ADMIN',
   USER = 'USER',
 }
+export interface UserPost{
+  title: string;
+  description: string;
+}
+export interface Post {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string; 
+}
