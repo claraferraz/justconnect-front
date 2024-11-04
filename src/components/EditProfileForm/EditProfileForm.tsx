@@ -11,6 +11,8 @@ import {
   useToast,
   Textarea,
 } from '@chakra-ui/react';
+import { useProfileStore } from '../../store/profileStore';
+import { useAuthStore } from '../../store/authStore';
 
 type Props = {
   user: MyProfileInfos;
@@ -19,8 +21,8 @@ type Props = {
 export function EditProfileForm({ user }: Props) {
   const [name, setName] = useState<string>(user.name);
   const [username, setUsername] = useState<string>(user.username);
+  const [email, setEmail] = useState<string>(user.email);
   const [bio, setBio] = useState<string | undefined>(user.bio_description);
-  const [email, setEmail] = useState<string | undefined>(user.email);
   const [insta, setInsta] = useState<string | undefined>(user.instagram);
   const [linkedin, setLinkedin] = useState<string | undefined>(user.linkedin);
   const [github, setGithub] = useState<string | undefined>(user.github);
@@ -29,13 +31,28 @@ export function EditProfileForm({ user }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const toast = useToast();
+  const id = useAuthStore((state) => state.id);
 
+  const setProfile = useProfileStore((state) => state.setProfile);
+  const data: Omit<MyProfileInfos, 'id' | 'role' | 'admin_user_block'> = {
+    name: name,
+    username: username,
+    email: email,
+    bio_description: bio,
+    instagram: insta,
+    linkedin: linkedin,
+    github: github,
+  };
+  if (!id) {
+    return;
+  }
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
+      setProfile(id, data);
       toast({
         title: 'Perfil atualizado com sucesso!',
         status: 'success',
