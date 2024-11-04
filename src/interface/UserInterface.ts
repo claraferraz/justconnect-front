@@ -37,15 +37,7 @@ export interface MyProfileInfos {
   role: Role;
   admin_user_block: boolean;
 }
-export interface MyProfileUpdate {
-  name: string;
-  username: string;
-  email: string;
-  bio_description?: string;
-  instagram?: string;
-  linkedin?: string;
-  github?: string;
-}
+
 export interface UserCardData {
   id: UUID;
   name: string;
