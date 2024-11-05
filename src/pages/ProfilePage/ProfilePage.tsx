@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { UserProfile } from '../../components/UserProfile/UserProfile';
 import { User, UserPostInfo } from '../../interface/UserInterface';
 import { useEffect, useState } from 'react';
@@ -41,21 +41,26 @@ export function ProfilePage() {
   return (
     <>
       {loading ? (
-        <p>loading...</p>
+        <Text>loading...</Text>
       ) : (
         <>
           <Box borderBottom="1px solid #B6B4BB">
             <UserProfile {...user} />
           </Box>
-          {posts &&
-            posts.map((p) => {
-              return (
-                <Box>
-                  <p>{p.title}</p>
-                  <p>{p.description}</p>
-                </Box>
-              );
-            })}
+          <Box mt="30px">
+            {posts && posts.length > 0 ? (
+              posts.map((p) => {
+                return (
+                  <Box>
+                    <Text>{p.title}</Text>
+                    <Text>{p.description}</Text>
+                  </Box>
+                );
+              })
+            ) : (
+              <Text> Usuário possui postagens </Text>
+            )}
+          </Box>
         </>
       )}
     </>
