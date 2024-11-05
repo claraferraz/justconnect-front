@@ -48,7 +48,6 @@ const SidebarContent = ({
 
   useEffect(() => {
     checkAuth(role);
-    console.log(role);
   }, [role]);
 
   if (!isOpen && !isDesktop) return null;
