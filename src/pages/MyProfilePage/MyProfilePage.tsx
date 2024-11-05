@@ -45,7 +45,7 @@ export function MyProfilePage() {
             );
           })
         ) : (
-          <Text> Usuário possui postagens </Text>
+          <Text> Usuário não possui postagens </Text>
         )}
       </Box>
     </>
