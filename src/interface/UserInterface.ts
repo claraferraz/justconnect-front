@@ -36,6 +36,7 @@ export interface ProfileInfos {
   github?: string;
   role: Role;
   admin_user_block: boolean;
+  posts?: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[];
 }
 
 export interface UserCardData {
