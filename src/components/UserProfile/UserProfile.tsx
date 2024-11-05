@@ -17,8 +17,8 @@ import {
 export function UserProfile({
   name,
   username,
-  bio,
-  insta,
+  bio_description,
+  instagram,
   linkedin,
   github,
 }: User) {
@@ -28,11 +28,11 @@ export function UserProfile({
         <Avatar name={name} fontWeight={800} size="lg" />
         <Box>
           <Heading size="md">{username}</Heading>
-          <Text margin="10px 0">{bio}</Text>
+          <Text margin="10px 0">{bio_description}</Text>
           <Flex gap="40px">
-            <Link href={insta}>
+            <Link href={instagram}>
               <IconButton
-                isDisabled={insta ? false : true}
+                isDisabled={instagram ? false : true}
                 aria-label="instagram"
                 cursor="pointer"
                 fontSize="24px"

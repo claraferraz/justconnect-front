@@ -1,12 +1,12 @@
 import { UUID } from 'crypto';
-import { ProfileInfos, UserResponse } from '../interface/UserInterface';
+import { User, UserResponse } from '../interface/UserInterface';
 import api from './api';
 
-const fetchUserData = async (id?: UUID | string): Promise<ProfileInfos> => {
+const fetchUserData = async (id?: UUID | string): Promise<User> => {
   if (!id) {
     throw new Error('ID não foi encontrado');
   }
-  const response = await api.get<ProfileInfos>(`/public/users/${id}`);
+  const response = await api.get<User>(`/public/users/${id}`);
 
   return response.data;
 };

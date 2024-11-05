@@ -32,15 +32,7 @@ export function MyProfilePage() {
         </Link>
       </Flex>
       <Box borderBottom="1px solid #B6B4BB">
-        <UserProfile
-          name={user.name}
-          username={user.username}
-          bio={user.bio_description}
-          insta={user.instagram}
-          linkedin={user.linkedin}
-          github={user.github}
-          admin_user_block={false}
-        />
+        <UserProfile {...user} />
       </Box>
     </>
   );

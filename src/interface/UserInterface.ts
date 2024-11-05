@@ -18,8 +18,8 @@ export interface UserForgot {
 export interface User {
   name: string;
   username: string;
-  bio?: string;
-  insta?: string;
+  bio_description?: string;
+  instagram?: string;
   linkedin?: string;
   github?: string;
   admin_user_block: boolean;
