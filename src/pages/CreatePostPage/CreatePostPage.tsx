@@ -6,125 +6,161 @@ import {
   Input,
   Textarea,
   Tag,
-  Tab,
+  useToast,
   Tabs,
+  Tab,
+  useBreakpointValue,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
+import { CreatePost } from '../../service/Post';
 
 export function CreatePostPage() {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [tag, setTag] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
+  const isDesktop = useBreakpointValue({ base: false, md: true });
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      await CreatePost({ title, description });
+      toast({
+        title: 'Post created.',
+        description: 'Your post has been successfully created!',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      setTitle('');
+      setDescription('');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('An unexpected error occurred!');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Box
-      h="860px"
-      bg="gray.100"
-      mx="auto"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-    >
+    <>
       <Box
-        position="absolute"
-        left="10px"
-        height="900px"
-        width="1px"
-        bg="#B6B4BB"
-      />
-
-      <Box
-        position="absolute"
-        right="10px"
-        height="900px"
-        width="1px"
-        bg="#B6B4BB"
-      />
-
-      <Box padding="20px" position="absolute" top="20px">
-        <Tabs size="md" variant="line" width="850px" height="54px">
-          <Tab width="100%" color="#281A45" cursor="zoom-in">
+        maxW="500px"
+        mx="auto"
+        p={3}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Tabs size="md" variant="line">
+          <Tab
+            fontWeight="600"
+            width={isDesktop ? '850px' : '390px'}
+            color="#281A45"
+            cursor="zoom-in"
+          >
             Criar Postagem
           </Tab>
         </Tabs>
       </Box>
 
-      <Box>
-        <FormControl mt="113px">
-          <FormLabel>Título</FormLabel>
-          <Input
-            bg="#fff"
-            border="2px solid"
-            borderColor="#805AD5"
-            focusBorderColor="#805AD5"
-            _hover={{ borderColor: '#805AD5' }}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            h="40px"
-            width="550px"
-          />
-        </FormControl>
+      <Box
+        maxW="500px"
+        mx="auto"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        
+      >
+        {error && (
+          <Box mb="4" color="red.500">
+            {error}
+          </Box>
+        )}
 
-        <FormControl mt="56px">
-          <FormLabel>Descrição</FormLabel>
-          <Textarea
-            placeholder="Descreva sua postagem"
-            bg="#fff"
-            border="2px solid"
-            borderColor="#805AD5"
-            focusBorderColor="#805AD5"
-            _hover={{ borderColor: '#805AD5' }}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            height="84px"
-            width="550px"
-          />
-        </FormControl>
+        <form onSubmit={handleSubmit}>
+          <FormControl mb={5} mt={113}>
+            <FormLabel fontWeight="600">Título</FormLabel>
+            <Input
+              placeholder="Escreva seu título"
+              bg="#fff"
+              border="2px solid"
+              borderColor="#805AD5"
+              focusBorderColor="#805AD5"
+              _hover={{ borderColor: '#805AD5' }}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              h="40px"
+              width={isDesktop ? '550px' : '400px'}
+            />
+          </FormControl>
 
-        <FormControl mt="53px">
-          <FormLabel>Adicionar Tag</FormLabel>
-          <Input
-            bg="#fff"
-            border="2px solid"
-            borderColor="#805AD5"
-            focusBorderColor="#805AD5"
-            _hover={{ borderColor: '#805AD5' }}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            width="550px"
-            h="40px"
-          />
-        </FormControl>
+          <FormControl mb={5}>
+            <FormLabel fontWeight="600">Descrição</FormLabel>
+            <Textarea
+              placeholder="Descreva sua postagem"
+              bg="#fff"
+              border="2px solid"
+              borderColor="#805AD5"
+              focusBorderColor="#805AD5"
+              _hover={{ borderColor: '#805AD5' }}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              height="86px"
+              width={isDesktop ? '550px' : '400px'}
+            />
+          </FormControl>
 
-        <FormControl mt="21px">
-          <FormLabel></FormLabel>
-          <Tag
-            variant="solid"
-            size="md"
-            colorScheme="purple"
-            display="inline-flex"
-            h="24px"
-            backgroundColor="purple.500"
+          <FormControl mb={5}>
+            <FormLabel fontWeight="600">Adicionar Tag</FormLabel>
+            <Input
+              placeholder="Adicione sua(s) tag(s)"
+              bg="#fff"
+              border="2px solid"
+              borderColor="#805AD5"
+              focusBorderColor="#805AD5"
+              _hover={{ borderColor: '#805AD5' }}
+              value={tag}
+              onChange={(e) => setTag(e.target.value)}
+              width={isDesktop ? '550px' : '400px'}
+            />
+          </FormControl>
+
+          <FormControl mb={5}>
+            <Tag
+              variant="solid"
+              size="md"
+              colorScheme="purple"
+              display="inline-flex"
+              h="24px"
+              backgroundColor="purple.500"
+            >
+              Tag X
+            </Tag>
+          </FormControl>
+
+          <Button
+            isLoading={loading}
+            type="submit"
+            color="#FFF"
+            bg="#805AD5"
+            width="full"
+            mt={4}
           >
-            Tag X
-          </Tag>
-        </FormControl>
-
-        <Button
-          mt="52px"
-          padding="0px 24px"
-          gap="8px"
-          alignItems="center"
-          justifyContent="center"
-          display="flex"
-          color="#FFF"
-          bg="#805AD5"
-          width="550px"
-          h="38px"
-        >
-          Publicar
-        </Button>
+            Postar
+          </Button>
+        </form>
       </Box>
-    </Box>
+    </>
   );
 }
