@@ -23,7 +23,7 @@ export interface User {
   linkedin?: string;
   github?: string;
   admin_user_block: boolean;
-  posts?: number;
+  posts?: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[];
 }
 export interface ProfileInfos {
   id: UUID;
