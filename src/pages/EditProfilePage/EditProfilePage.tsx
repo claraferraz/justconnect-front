@@ -10,8 +10,11 @@ import { EditProfileForm } from '../../components/EditProfileForm/EditProfileFor
 import { MdDeleteOutline } from 'react-icons/md';
 import { useProfileStore } from '../../store/profileStore';
 import { useNavigate } from 'react-router-dom';
+import { ConfirmDeleteProfile } from '../../components/ConfirmDeleteProfile/ConfirmDeleteProfile';
+import { useState } from 'react';
 
 export function EditProfilePage() {
+  const [isOpen, setIsOpen] = useState(false);
   const user = useProfileStore((state) => state.user);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const navigate = useNavigate();
@@ -19,7 +22,6 @@ export function EditProfilePage() {
   if (!user) {
     return;
   }
-
   const handleCancel = () => {
     navigate('/my-profile');
   };
@@ -58,8 +60,9 @@ export function EditProfilePage() {
         <Icon aria-label="editar" cursor="pointer" fontSize="24px">
           <MdDeleteOutline />
         </Icon>
-        <Link href="">Excluir Conta</Link>
+        <Link onClick={() => setIsOpen(true)}>Excluir Conta</Link>
       </Flex>
+      <ConfirmDeleteProfile isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 }

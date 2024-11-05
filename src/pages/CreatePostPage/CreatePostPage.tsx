@@ -14,6 +14,7 @@ import { useState } from 'react';
 export function CreatePostPage() {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [tag, setTag] = useState<string>(''); 
 
   return (
     <Box
@@ -25,22 +26,6 @@ export function CreatePostPage() {
       alignItems="center"
       justifyContent="center"
     >
-      <Box
-        position="absolute"
-        left="10px"
-        height="900px"
-        width="1px"
-        bg="#B6B4BB"
-      />
-
-      <Box
-        position="absolute"
-        right="10px"
-        height="900px"
-        width="1px"
-        bg="#B6B4BB"
-      />
-
       <Box padding="20px" position="absolute" top="20px">
         <Tabs size="md" variant="line" width="850px" height="54px">
           <Tab width="100%" color="#281A45" cursor="zoom-in">
@@ -84,20 +69,20 @@ export function CreatePostPage() {
         <FormControl mt="53px">
           <FormLabel>Adicionar Tag</FormLabel>
           <Input
+            placeholder=""
             bg="#fff"
             border="2px solid"
             borderColor="#805AD5"
             focusBorderColor="#805AD5"
             _hover={{ borderColor: '#805AD5' }}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
             width="550px"
             h="40px"
           />
         </FormControl>
 
         <FormControl mt="21px">
-          <FormLabel></FormLabel>
           <Tag
             variant="solid"
             size="md"
