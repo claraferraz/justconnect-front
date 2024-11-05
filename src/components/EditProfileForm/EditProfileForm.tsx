@@ -77,7 +77,7 @@ export function EditProfileForm({ user }: Props) {
     <Box>
       <form onSubmit={handleSubmit}>
         <FormControl mb="4">
-          <FormLabel htmlFor="name">Nome</FormLabel>
+          <FormLabel htmlFor="name">Nome *</FormLabel>
           <Input
             bg="#fff"
             border="2px solid"
@@ -91,10 +91,11 @@ export function EditProfileForm({ user }: Props) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             isDisabled={loading}
+            required
           />
         </FormControl>
         <FormControl mb="4">
-          <FormLabel htmlFor="username">Nome de usuário</FormLabel>
+          <FormLabel htmlFor="username">Nome de usuário *</FormLabel>
           <Input
             bg="#fff"
             border="2px solid"
@@ -108,6 +109,7 @@ export function EditProfileForm({ user }: Props) {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             isDisabled={loading}
+            required
           />
         </FormControl>
         <FormControl mb="4">
@@ -127,7 +129,7 @@ export function EditProfileForm({ user }: Props) {
           />
         </FormControl>
         <FormControl mb="4">
-          <FormLabel htmlFor="email">E-mail</FormLabel>
+          <FormLabel htmlFor="email">E-mail *</FormLabel>
           <Input
             bg="#fff"
             border="2px solid"
@@ -141,6 +143,7 @@ export function EditProfileForm({ user }: Props) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             isDisabled={loading}
+            required
           />
         </FormControl>
         <FormControl mb="4">
