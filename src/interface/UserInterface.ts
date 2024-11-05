@@ -25,7 +25,7 @@ export interface User {
   admin_user_block: boolean;
   posts?: number;
 }
-export interface MyProfileInfos {
+export interface ProfileInfos {
   id: UUID;
   name: string;
   username: string;
@@ -60,8 +60,12 @@ export interface UserCreatePost {
 }
 export interface UserPostInfo {
   id: string;
+  user_id: UUID;
   title: string;
   description: string;
+  score: number;
+  statusOpen: boolean;
   createdAt: string;
   updatedAt: string;
+  admin_post_block: boolean;
 }

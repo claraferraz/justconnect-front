@@ -1,4 +1,4 @@
-import { MyProfileInfos } from '../../interface/UserInterface';
+import { ProfileInfos } from '../../interface/UserInterface';
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,7 +15,7 @@ import { useProfileStore } from '../../store/profileStore';
 import { useAuthStore } from '../../store/authStore';
 
 type Props = {
-  user: MyProfileInfos;
+  user: ProfileInfos;
 };
 
 export function EditProfileForm({ user }: Props) {
@@ -34,7 +34,7 @@ export function EditProfileForm({ user }: Props) {
   const id = useAuthStore((state) => state.id);
 
   const setProfile = useProfileStore((state) => state.setProfile);
-  const data: Omit<MyProfileInfos, 'id' | 'role' | 'admin_user_block'> = {
+  const data: Omit<ProfileInfos, 'id' | 'role' | 'admin_user_block'> = {
     name: name,
     username: username,
     email: email,

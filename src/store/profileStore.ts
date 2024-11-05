@@ -1,17 +1,17 @@
 import { create, StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { alterProfile, fetchMyProfile } from '../service/Profile';
-import { MyProfileInfos, Role } from '../interface/UserInterface';
+import { ProfileInfos, Role } from '../interface/UserInterface';
 import { UUID } from 'crypto';
 
 export interface profileState {
-  user?: MyProfileInfos;
+  user?: ProfileInfos;
   role?: Role;
 
   getProfile: () => Promise<void>;
   setProfile: (
     id: UUID,
-    user: Omit<MyProfileInfos, 'id' | 'role' | 'admin_user_block'>
+    user: Omit<ProfileInfos, 'id' | 'role' | 'admin_user_block'>
   ) => Promise<void>;
   resetUser: () => void;
 }
@@ -31,7 +31,7 @@ const storeApi: StateCreator<profileState> = (set, get) => ({
 
   setProfile: async (
     id: UUID,
-    data: Omit<MyProfileInfos, 'id' | 'role' | 'admin_user_block'>
+    data: Omit<ProfileInfos, 'id' | 'role' | 'admin_user_block'>
   ) => {
     try {
       await alterProfile(id, {
@@ -48,7 +48,7 @@ const storeApi: StateCreator<profileState> = (set, get) => ({
       set({
         ...state,
         user: {
-          ...(state.user as MyProfileInfos),
+          ...(state.user as ProfileInfos),
           name: data.name,
           username: data.username,
           email: data.email,
