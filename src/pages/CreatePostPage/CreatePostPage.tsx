@@ -80,7 +80,6 @@ export function CreatePostPage() {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        
       >
         {error && (
           <Box mb="4" color="red.500">
