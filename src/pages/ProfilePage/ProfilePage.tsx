@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { UserProfile } from '../../components/UserProfile/UserProfile';
-import { ProfileInfos } from '../../interface/UserInterface';
+import { User, UserPostInfo } from '../../interface/UserInterface';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchUserData } from '../../service/Users';
@@ -8,7 +8,10 @@ import { UUID } from 'crypto';
 
 export function ProfilePage() {
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<ProfileInfos>();
+  const [user, setUser] = useState<User>();
+  const [posts, setPosts] = useState<
+    Omit<UserPostInfo, 'user_id' | 'updatedAt'>[] | undefined
+  >([]);
   const url = useParams();
   const id = url.id;
 
@@ -20,6 +23,7 @@ export function ProfilePage() {
     try {
       const response = await fetchUserData(id);
       setUser(response);
+      setPosts(response.posts);
     } catch (error) {
       console.error(error);
     } finally {
@@ -39,17 +43,20 @@ export function ProfilePage() {
       {loading ? (
         <p>loading...</p>
       ) : (
-        <Box borderBottom="1px solid #B6B4BB">
-          <UserProfile
-            name={user.name}
-            username={user.username}
-            bio={user.bio_description}
-            insta={user.instagram}
-            linkedin={user.linkedin}
-            github={user.github}
-            admin_user_block={false}
-          />
-        </Box>
+        <>
+          <Box borderBottom="1px solid #B6B4BB">
+            <UserProfile {...user} />
+          </Box>
+          {posts &&
+            posts.map((p) => {
+              return (
+                <Box>
+                  <p>{p.title}</p>
+                  <p>{p.description}</p>
+                </Box>
+              );
+            })}
+        </>
       )}
     </>
   );
