@@ -1,4 +1,4 @@
-import { MyProfileInfos } from '../../interface/UserInterface';
+import { ProfileInfos } from '../../interface/UserInterface';
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -11,17 +11,19 @@ import {
   useToast,
   Textarea,
 } from '@chakra-ui/react';
+import { useProfileStore } from '../../store/profileStore';
+import { useAuthStore } from '../../store/authStore';
 
 type Props = {
-  user: MyProfileInfos;
+  user: ProfileInfos;
 };
 
 export function EditProfileForm({ user }: Props) {
   const [name, setName] = useState<string>(user.name);
   const [username, setUsername] = useState<string>(user.username);
-  const [bio, setBio] = useState<string | undefined>(user.bio);
-  const [email, setEmail] = useState<string | undefined>(user.email);
-  const [insta, setInsta] = useState<string | undefined>(user.insta);
+  const [email, setEmail] = useState<string>(user.email);
+  const [bio, setBio] = useState<string | undefined>(user.bio_description);
+  const [insta, setInsta] = useState<string | undefined>(user.instagram);
   const [linkedin, setLinkedin] = useState<string | undefined>(user.linkedin);
   const [github, setGithub] = useState<string | undefined>(user.github);
 
@@ -29,13 +31,28 @@ export function EditProfileForm({ user }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const toast = useToast();
+  const id = useAuthStore((state) => state.id);
 
+  const setProfile = useProfileStore((state) => state.setProfile);
+  const data: Omit<ProfileInfos, 'id' | 'role' | 'admin_user_block'> = {
+    name: name,
+    username: username,
+    email: email,
+    bio_description: bio,
+    instagram: insta,
+    linkedin: linkedin,
+    github: github,
+  };
+  if (!id) {
+    return;
+  }
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
+      setProfile(id, data);
       toast({
         title: 'Perfil atualizado com sucesso!',
         status: 'success',
@@ -60,7 +77,7 @@ export function EditProfileForm({ user }: Props) {
     <Box>
       <form onSubmit={handleSubmit}>
         <FormControl mb="4">
-          <FormLabel htmlFor="name">Nome</FormLabel>
+          <FormLabel htmlFor="name">Nome *</FormLabel>
           <Input
             bg="#fff"
             border="2px solid"
@@ -74,10 +91,11 @@ export function EditProfileForm({ user }: Props) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             isDisabled={loading}
+            required
           />
         </FormControl>
         <FormControl mb="4">
-          <FormLabel htmlFor="username">Nome de usuário</FormLabel>
+          <FormLabel htmlFor="username">Nome de usuário *</FormLabel>
           <Input
             bg="#fff"
             border="2px solid"
@@ -91,6 +109,7 @@ export function EditProfileForm({ user }: Props) {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             isDisabled={loading}
+            required
           />
         </FormControl>
         <FormControl mb="4">
@@ -110,7 +129,7 @@ export function EditProfileForm({ user }: Props) {
           />
         </FormControl>
         <FormControl mb="4">
-          <FormLabel htmlFor="email">E-mail</FormLabel>
+          <FormLabel htmlFor="email">E-mail *</FormLabel>
           <Input
             bg="#fff"
             border="2px solid"
@@ -124,6 +143,7 @@ export function EditProfileForm({ user }: Props) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             isDisabled={loading}
+            required
           />
         </FormControl>
         <FormControl mb="4">

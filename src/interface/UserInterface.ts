@@ -18,43 +18,55 @@ export interface UserForgot {
 export interface User {
   name: string;
   username: string;
-  bio?: string;
-  insta?: string;
+  bio_description?: string;
+  instagram?: string;
   linkedin?: string;
   github?: string;
   admin_user_block: boolean;
-  posts?: number;
+  posts?: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[];
 }
-export interface MyProfileInfos {
+export interface ProfileInfos {
   id: UUID;
   name: string;
   username: string;
   email: string;
-  bio?: string;
-  insta?: string;
+  bio_description?: string;
+  instagram?: string;
   linkedin?: string;
   github?: string;
   role: Role;
-  adminBlock: boolean;
+  admin_user_block: boolean;
+  posts?: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[];
+}
+
+export interface UserCardData {
+  id: UUID;
+  name: string;
+  username: string;
+  postCount: number;
 }
 export interface UserResponse {
-  id: UUID;
-  username: string;
-  name: string;
-  posts?: number;
+  users: UserCardData[];
+  totalPages: number;
+  page: string;
+  limit: string;
 }
 export enum Role {
   ADMIN = 'ADMIN',
   USER = 'USER',
 }
-export interface UserCreatePost{
+export interface UserCreatePost {
   title: string;
   description: string;
 }
 export interface UserPostInfo {
   id: string;
+  user_id: UUID;
   title: string;
   description: string;
+  score: number;
+  statusOpen: boolean;
   createdAt: string;
-  updatedAt: string; 
+  updatedAt: string;
+  admin_post_block: boolean;
 }
