@@ -87,14 +87,14 @@ export function RegisterPage() {
     if (token) {
       navigate('/my-profile');
     }
-  }, [token, navigate]); 
+  }, [token, navigate]);
 
   return (
     <Box
       display="flex"
       alignItems="center"
       justifyContent="center"
-      height={isDesktop ? '135vh' : '100vh'}
+      height={isDesktop ? '135vh' : '110vh'}
       bg="gray.100"
       padding="16px"
     >
@@ -104,7 +104,6 @@ export function RegisterPage() {
           margin={'auto'}
           alt="Logo"
           width={isDesktop ? '170px' : '140px'}
-          // width={isDesktop ? '150px' : '120px'}
           mt="60px"
         />
         <form onSubmit={handleSubmit}>
