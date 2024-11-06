@@ -142,7 +142,7 @@ export function HomePage() {
                   <Button flex='1' variant='ghost' >
                     comentarios
                   </Button>
-                  <Icon as={UnlockIcon} />
+                  
                 </CardHeader>
                 <CardBody>
                   <Heading size="lg">title 3</Heading> <br />
