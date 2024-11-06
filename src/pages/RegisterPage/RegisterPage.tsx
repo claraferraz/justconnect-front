@@ -104,7 +104,6 @@ export function RegisterPage() {
           margin={'auto'}
           alt="Logo"
           width={isDesktop ? '170px' : '140px'}
-          // width={isDesktop ? '150px' : '120px'}
           mt="60px"
         />
         <form onSubmit={handleSubmit}>
