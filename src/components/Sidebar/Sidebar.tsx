@@ -29,7 +29,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
 
   return (
     <Box
-    //se mexe aqui para tirar o bd gray.100
+      //se mexe aqui para tirar o bd gray.100
       minH="100vh"
       bg={useColorModeValue('gray.50', 'gray.900')}
       position="relative"

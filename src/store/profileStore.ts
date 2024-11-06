@@ -39,9 +39,9 @@ const storeApi: StateCreator<profileState> = (set, get) => ({
         username: data.username,
         email: data.email,
         bio_description: data.bio_description,
-        instagram: data.instagram,
-        linkedin: data.linkedin,
-        github: data.github,
+        instagram: data.instagram || null,
+        linkedin: data.linkedin || null,
+        github: data.github || null,
       });
       const state = get();
 
