@@ -1,10 +1,16 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
-  bg:"gray.100",
   fonts: {
-    heading: ` "Montserrat", sans-serif`,
-    body: ` "Montserrat", sans-serif`,
+    heading: `"Montserrat", sans-serif`,
+    body: `"Montserrat", sans-serif`,
+  },
+  styles: {
+    global: {
+      body: {
+        backgroundColor: "gray.100",
+      },
+    },
   },
 });
 
