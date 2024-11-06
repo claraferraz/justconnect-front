@@ -76,11 +76,12 @@ export function CreatePostPage() {
             <FormLabel fontWeight="600">Título</FormLabel>
             <Input
               placeholder="Escreva seu título"
-              bg="#fff"
+              bg="gray.50"
               border="2px solid"
               borderColor="#805AD5"
               focusBorderColor="#805AD5"
-              _hover={{ borderColor: '#805AD5' }}
+              _hover={{ bg: 'gray.200' }}
+              _focus={{ bg: 'white' }}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               h="40px"
@@ -92,11 +93,12 @@ export function CreatePostPage() {
             <FormLabel fontWeight="600">Descrição</FormLabel>
             <Textarea
               placeholder="Descreva sua postagem"
-              bg="#fff"
+              bg="gray.50"
               border="2px solid"
               borderColor="#805AD5"
               focusBorderColor="#805AD5"
-              _hover={{ borderColor: '#805AD5' }}
+              _hover={{ bg: 'gray.100' }}
+              _focus={{ bg: 'white' }}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               height="86px"
@@ -108,11 +110,12 @@ export function CreatePostPage() {
             <FormLabel fontWeight="600">Adicionar Tag</FormLabel>
             <Input
               placeholder="Adicione sua(s) tag(s)"
-              bg="#fff"
+              bg="gray.50"
               border="2px solid"
               borderColor="#805AD5"
               focusBorderColor="#805AD5"
-              _hover={{ borderColor: '#805AD5' }}
+              _hover={{ bg: 'gray.200' }}
+              _focus={{ bg: 'white' }}
               value={tag}
               onChange={(e) => setTag(e.target.value)}
               

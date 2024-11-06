@@ -8,7 +8,8 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        backgroundColor: "gray.100",
+        backgroundColor: "gray.50",
+        color: "#fff", // Define o texto como #111 globalmente
       },
     },
   },
