@@ -60,7 +60,6 @@ export function LoginPage() {
       justifyContent="center"
       alignItems="center"
       height="100vh"
-      bg="gray.100"
       padding="16px"
     >
       <Box width="476px">

@@ -95,7 +95,6 @@ export function RegisterPage() {
       alignItems="center"
       justifyContent="center"
       height='135vh'
-      bg="gray.100"
       padding="16px"
     >
       <Box width="476px">

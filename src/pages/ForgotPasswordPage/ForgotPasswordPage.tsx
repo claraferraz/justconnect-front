@@ -45,7 +45,6 @@ export function ForgotPasswordPage() {
       alignItems="center"
       justifyContent="center"
       height="100vh"
-      bg="gray.100"
       padding="16px"
     >
       <Box position="absolute" top="100" left="3">
