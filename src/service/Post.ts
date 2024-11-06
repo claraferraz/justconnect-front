@@ -1,4 +1,4 @@
-// api.js
+
 import { UserPostInfo, UserCreatePost } from "../interface/UserInterface";
 import api from "../service/api";
 

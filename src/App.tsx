@@ -5,7 +5,6 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { useState } from 'react';
 import initialTheme from './theme/theme';
 import Sidebar from './components/Sidebar/Sidebar';
-
 function App() {
   const [currentTheme] = useState(initialTheme);
 
