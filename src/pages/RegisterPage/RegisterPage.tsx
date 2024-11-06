@@ -95,7 +95,6 @@ export function RegisterPage() {
       alignItems="center"
       justifyContent="center"
       height={isDesktop ? '135vh' : '110vh'}
-      bg="gray.100"
       padding="16px"
     >
       <Box width="476px">
@@ -111,11 +110,12 @@ export function RegisterPage() {
             <FormControl mt="4" mb="4">
               <FormLabel htmlFor="name">Nome</FormLabel>
               <Input
+                bg="gray.50"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
-                bg="#fff"
-                _hover="none"
+                _hover={{ bg: 'gray.200' }}
+                _focus={{ bg: 'white' }}
                 width="100%"
                 height="41px"
                 id="username"
@@ -129,11 +129,12 @@ export function RegisterPage() {
             <FormControl mt="2" mb="4">
               <FormLabel htmlFor="username">Nome do usuário</FormLabel>
               <Input
+                bg="gray.50"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
-                bg="#fff"
-                _hover="none"
+                _hover={{ bg: 'gray.200' }}
+                _focus={{ bg: 'white' }}
                 width="100%"
                 height="41px"
                 id="username"
@@ -149,11 +150,12 @@ export function RegisterPage() {
               <Input
                 display="flex"
                 placeholder="Digite seu email"
+                bg="gray.50"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
-                bg="#fff"
-                _hover="none"
+                _hover={{ bg: 'gray.200' }}
+                _focus={{ bg: 'white' }}
                 width="100%"
                 height="41px"
                 id="email"
@@ -166,11 +168,12 @@ export function RegisterPage() {
             <FormControl mt="2" mb="4">
               <FormLabel htmlFor="password">Senha</FormLabel>
               <Input
+                bg="gray.50"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
-                bg="#fff"
-                _hover="none"
+                _hover={{ bg: 'gray.200' }}
+                _focus={{ bg: 'white' }}
                 width="100%"
                 height="41px"
                 id="password"
@@ -185,11 +188,12 @@ export function RegisterPage() {
             <FormControl mt="2" mb="4">
               <FormLabel htmlFor="confirmPassword">Confirmar senha</FormLabel>
               <Input
+                bg="gray.50"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
-                bg="#fff"
-                _hover="none"
+                _hover={{ bg: 'gray.200' }}
+                _focus={{ bg: 'white' }}
                 width="100%"
                 height="41px"
                 id="confirmPassword"
