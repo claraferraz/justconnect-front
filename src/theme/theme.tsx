@@ -9,6 +9,7 @@ const theme = extendTheme({
     global: {
       body: {
         backgroundColor: "gray.50",
+        color: "#fff", // Define o texto como #111 globalmente
       },
     },
   },
