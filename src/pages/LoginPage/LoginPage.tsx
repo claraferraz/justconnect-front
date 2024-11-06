@@ -62,7 +62,6 @@ export function LoginPage() {
       height="100vh"
       bg="gray.100"
       padding="16px"
-      fontFamily="Poppins, sans-serif"
     >
       <Box width="476px">
         <Image
