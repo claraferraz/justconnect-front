@@ -94,7 +94,7 @@ export function RegisterPage() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      height={isDesktop ? '135vh' : '100vh'}
+      height='135vh'
       bg="gray.100"
       padding="16px"
     >
