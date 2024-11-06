@@ -52,30 +52,14 @@ export function CreatePostPage() {
 
   return (
     <>
-      <Box
-        maxW="500px"
-        mx="auto"
-        p={3}
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Tabs size="md" variant="line">
-          <Tab
-            fontWeight="600"
-            width={isDesktop ? '850px' : '390px'}
-            color="#281A45"
-            cursor="zoom-in"
-          >
-            Criar Postagem
-          </Tab>
-        </Tabs>
-      </Box>
+      <Tabs mt="4" width="100%">
+        <Tab pb="3" fontWeight="500" borderBottom="3px solid" width="100%" color="#281A45" cursor="zoom-in">
+          Criar Postagem
+        </Tab>
+      </Tabs>
 
       <Box
-        maxW="500px"
-        mx="auto"
+        maxW="auto"
         display="flex"
         flexDirection="column"
         alignItems="center"
@@ -88,7 +72,7 @@ export function CreatePostPage() {
         )}
 
         <form onSubmit={handleSubmit}>
-          <FormControl mb={5} mt={113}>
+          <FormControl width={isDesktop ? '550px' : '350px'} mb={5} mt={isDesktop ? 113 :50}>
             <FormLabel fontWeight="600">Título</FormLabel>
             <Input
               placeholder="Escreva seu título"
@@ -100,11 +84,11 @@ export function CreatePostPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               h="40px"
-              width={isDesktop ? '550px' : '400px'}
+              
             />
           </FormControl>
 
-          <FormControl mb={5}>
+          <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
             <FormLabel fontWeight="600">Descrição</FormLabel>
             <Textarea
               placeholder="Descreva sua postagem"
@@ -116,11 +100,11 @@ export function CreatePostPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               height="86px"
-              width={isDesktop ? '550px' : '400px'}
+              
             />
           </FormControl>
 
-          <FormControl mb={5}>
+          <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
             <FormLabel fontWeight="600">Adicionar Tag</FormLabel>
             <Input
               placeholder="Adicione sua(s) tag(s)"
@@ -131,11 +115,11 @@ export function CreatePostPage() {
               _hover={{ borderColor: '#805AD5' }}
               value={tag}
               onChange={(e) => setTag(e.target.value)}
-              width={isDesktop ? '550px' : '400px'}
+              
             />
           </FormControl>
 
-          <FormControl mb={5}>
+          <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
             <Tag
               variant="solid"
               size="md"
