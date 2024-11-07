@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import { ProfileInfos } from '../interface/UserInterface';
+import { ProfileInfos, UpdateProfileInfos } from '../interface/UserInterface';
 import api from './api';
 
 const fetchMyProfile = async (): Promise<ProfileInfos> => {
@@ -7,10 +7,7 @@ const fetchMyProfile = async (): Promise<ProfileInfos> => {
   return response.data;
 };
 
-const alterProfile = async (
-  id: UUID,
-  data: Omit<ProfileInfos, 'id' | 'role' | 'admin_user_block'>
-) => {
+const alterProfile = async (id: UUID, data: UpdateProfileInfos) => {
   const response = await api.put(`/users/${id}`, data);
 
   return response.data;
