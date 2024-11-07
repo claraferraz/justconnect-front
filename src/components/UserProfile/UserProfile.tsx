@@ -6,6 +6,7 @@ import {
   IconButton,
   Link,
   Text,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { User } from '../../interface/UserInterface';
 import {
@@ -17,25 +18,32 @@ import {
 export function UserProfile({
   name,
   username,
-  bio,
-  insta,
+  bio_description,
+  instagram,
   linkedin,
   github,
 }: User) {
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <>
-      <Flex padding="20px" gap="30px">
-        <Avatar name={name} fontWeight={800} size="lg" />
-        <Box>
-          <Heading size="md">{username}</Heading>
-          <Text margin="10px 0">{bio}</Text>
-          <Flex gap="40px">
-            <Link href={insta}>
+      <Flex align="top" padding="20px" gap="36px">
+        <Avatar name={name} fontWeight={800} size={isDesktop ? 'xl' : 'lg'} />
+        <Flex direction="column" gap="13px">
+          <Box>
+            <Heading size="lg">{name}</Heading>
+            <Text color="#805AD5;">{username}</Text>
+          </Box>
+          <Text>{bio_description}</Text>
+          <Flex gap="45px">
+            <Link href={instagram}>
               <IconButton
-                isDisabled={insta ? false : true}
+                variant="plain"
+                padding={0}
+                size="xs"
+                fontSize="24px"
+                isDisabled={instagram ? false : true}
                 aria-label="instagram"
                 cursor="pointer"
-                fontSize="24px"
                 color="#281A45"
                 _hover={{
                   color: '#805AD5',
@@ -47,6 +55,9 @@ export function UserProfile({
 
             <Link href={linkedin}>
               <IconButton
+                variant="plain"
+                padding={0}
+                size="xs"
                 isDisabled={linkedin ? false : true}
                 aria-label="linkedin"
                 cursor="pointer"
@@ -62,6 +73,9 @@ export function UserProfile({
 
             <Link href={github}>
               <IconButton
+                variant="plain"
+                padding={0}
+                size="xs"
                 isDisabled={github ? false : true}
                 aria-label="github"
                 cursor="pointer"
@@ -75,7 +89,7 @@ export function UserProfile({
               </IconButton>
             </Link>
           </Flex>
-        </Box>
+        </Flex>
       </Flex>
     </>
   );

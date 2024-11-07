@@ -1,17 +1,22 @@
 import { create, StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { fetchMyProfile } from '../service/Profile';
-import { MyProfileInfos, Role } from '../interface/UserInterface';
+import { alterProfile, fetchMyProfile } from '../service/Profile';
+import { ProfileInfos, Role } from '../interface/UserInterface';
+import { UUID } from 'crypto';
 
 export interface profileState {
-  user?: MyProfileInfos;
+  user?: ProfileInfos;
   role?: Role;
 
   getProfile: () => Promise<void>;
-  setProfile: (user: MyProfileInfos) => void;
+  setProfile: (
+    id: UUID,
+    user: Omit<ProfileInfos, 'id' | 'role' | 'admin_user_block'>
+  ) => Promise<void>;
   resetUser: () => void;
 }
-const storeApi: StateCreator<profileState> = (set) => ({
+
+const storeApi: StateCreator<profileState> = (set, get) => ({
   user: undefined,
   role: undefined,
 
@@ -23,9 +28,36 @@ const storeApi: StateCreator<profileState> = (set) => ({
       console.error(error);
     }
   },
-  setProfile(user) {
+
+  setProfile: async (
+    id: UUID,
+    data: Omit<ProfileInfos, 'id' | 'role' | 'admin_user_block'>
+  ) => {
     try {
-      set({ user });
+      await alterProfile(id, {
+        name: data.name,
+        username: data.username,
+        email: data.email,
+        bio_description: data.bio_description,
+        instagram: data.instagram || null,
+        linkedin: data.linkedin || null,
+        github: data.github || null,
+      });
+      const state = get();
+
+      set({
+        ...state,
+        user: {
+          ...(state.user as ProfileInfos),
+          name: data.name,
+          username: data.username,
+          email: data.email,
+          bio_description: data.bio_description,
+          instagram: data.instagram,
+          linkedin: data.linkedin,
+          github: data.github,
+        },
+      });
     } catch (error) {
       console.error(error);
     }

@@ -1,9 +1,9 @@
 import { Box, Avatar, Heading, Flex } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { UserResponse } from '../../interface/UserInterface';
+import { UserCardData } from '../../interface/UserInterface';
 import { UUID } from 'crypto';
 
-export function UserCard({ name, username, posts, id }: UserResponse) {
+export function UserCard({ name, username, postCount, id }: UserCardData) {
   const navigate = useNavigate();
 
   function handleOpenProfile(id: UUID | undefined): void {
@@ -29,7 +29,7 @@ export function UserCard({ name, username, posts, id }: UserResponse) {
       <Avatar name={name} fontWeight={800} />
       <Box>
         <Heading size="md">{username}</Heading>
-        <p>{posts} posts</p>
+        <p>{postCount} posts</p>
       </Box>
     </Flex>
   );

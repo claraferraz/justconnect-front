@@ -48,7 +48,6 @@ const SidebarContent = ({
 
   useEffect(() => {
     checkAuth(role);
-    console.log(role);
   }, [role]);
 
   if (!isOpen && !isDesktop) return null;
@@ -134,13 +133,14 @@ const SidebarContent = ({
               );
             })}
             {isUserLoggedIn && (
-              <NavItem
-                icon={MdOutlinePowerSettingsNew}
-                onClick={handleLogout}
-                mt={10}
-              >
-                <Text>Sair</Text>
-              </NavItem>
+              <Box mt={10}>
+                <NavItem
+                  icon={MdOutlinePowerSettingsNew}
+                  onClick={handleLogout}
+                >
+                  <Text>Sair</Text>
+                </NavItem>
+              </Box>
             )}
           </Flex>
         </>
