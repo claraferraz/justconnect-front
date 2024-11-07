@@ -1,7 +1,11 @@
 import { create, StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { alterProfile, fetchMyProfile } from '../service/Profile';
-import { ProfileInfos, Role } from '../interface/UserInterface';
+import {
+  ProfileInfos,
+  Role,
+  UpdateProfileInfos,
+} from '../interface/UserInterface';
 import { UUID } from 'crypto';
 
 export interface profileState {
@@ -9,10 +13,7 @@ export interface profileState {
   role?: Role;
 
   getProfile: () => Promise<void>;
-  setProfile: (
-    id: UUID,
-    user: Omit<ProfileInfos, 'id' | 'role' | 'admin_user_block'>
-  ) => Promise<void>;
+  setProfile: (id: UUID, user: UpdateProfileInfos) => Promise<void>;
   resetUser: () => void;
 }
 
@@ -29,10 +30,7 @@ const storeApi: StateCreator<profileState> = (set, get) => ({
     }
   },
 
-  setProfile: async (
-    id: UUID,
-    data: Omit<ProfileInfos, 'id' | 'role' | 'admin_user_block'>
-  ) => {
+  setProfile: async (id: UUID, data: UpdateProfileInfos) => {
     try {
       await alterProfile(id, {
         name: data.name,
@@ -53,9 +51,9 @@ const storeApi: StateCreator<profileState> = (set, get) => ({
           username: data.username,
           email: data.email,
           bio_description: data.bio_description,
-          instagram: data.instagram,
-          linkedin: data.linkedin,
-          github: data.github,
+          instagram: data.instagram || undefined,
+          linkedin: data.linkedin || undefined,
+          github: data.github || undefined,
         },
       });
     } catch (error) {
