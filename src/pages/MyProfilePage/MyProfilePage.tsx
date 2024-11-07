@@ -46,7 +46,7 @@ export function MyProfilePage() {
           })
         ) : (
           <Text textAlign="center" color="gray.500">
-            Usuário não possui postagens
+            Você ainda não possui postagens
           </Text>
         )}
       </Box>
