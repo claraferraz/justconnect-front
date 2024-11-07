@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 import { UnlockIcon } from "@chakra-ui/icons";
 import { 
   Box, 
@@ -14,6 +15,8 @@ import {
   TabPanels, 
   Tabs, 
   Tag,
+  Flex,
+  Text
   } from "@chakra-ui/react";
 
 
@@ -25,33 +28,36 @@ export function HomePage() {
       alignItems=""
       justifyContent="center"
       height="100vh"
-      margin="30px"
       color="purple"
       >
         <Tabs isFitted variant='enclosed' width="100%">
-          <TabList mb='2em'>
+          <TabList>
             <Tab width="50%" fontSize="xl">Recentes</Tab>
             <Tab width="50%" fontSize="xl">Relevantes</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Card width="100%" >
+              <Card width="100%" shadow={"none"} bg={"gray.100"} >
                 <CardHeader 
-                  justifyContent ='space-between'
-                  flexWrap='wrap'
+                  justifyContent ='space-between'                 
+                  p={0}
                   sx={{
                     '& > button': {
                       minW: '136px',
                     },
                   }}
                 >
-                  <Button flex='1' variant='ghost'>
-                    curtidas
-                  </Button>
-                  <Button flex='1' variant='ghost' >
-                    comentarios
-                  </Button>
-                  <Icon as={UnlockIcon}/>
+                 <Flex justifyContent={"space-between"} alignItems={"center"}>
+                    <Flex>
+                      <Button flex="1" fontSize="12px" fontFamily="montserrat" color="#515151" variant="ghost">
+                        2 curtidas
+                      </Button>
+                      <Button flex="1" fontSize="12px" fontFamily="montserrat" color="#515151" variant="ghost">
+                        4 comentários
+                      </Button>
+                    </Flex>
+                    <Icon as={UnlockIcon} />
+                  </Flex>
                 </CardHeader>
                 <CardBody>
                   <Heading size="lg">title 2</Heading> <br />
@@ -61,88 +67,118 @@ export function HomePage() {
                     create a screen.
                   </p>
                 </CardBody>
-                <HStack spacing={4}>
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
+                <HStack spacing={4} width="100%" justifyContent="space-between">
+                  <Flex>
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-1`} variant='solid' colorScheme='blue'>
+                        +Tag
+                      </Tag>
+                    ))}
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-2`} variant='solid' colorScheme='yellow'>
+                        +Tag
+                      </Tag>
+                    ))}
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-3`} variant='solid' colorScheme='green'>
+                        +Tag
+                      </Tag>
+                    ))}
+                  </Flex>
+                  <Flex direction="column" alignItems="flex-end">
+                    <Text fontSize="12px" fontFamily="montserrat">
+                      2 horas atrás
+                    </Text>
+                    <Text fontSize="12px" fontFamily="montserrat" color="purple">
+                      @username
+                    </Text>
+                  </Flex>
                 </HStack>
               </Card>
             </TabPanel>
             <TabPanel>
-              <Card width="100%">
-                <CardHeader
+              <Card width="100%" shadow={"none"} bg={"gray.100"}>
+                <CardHeader 
                   justifyContent ='space-between'
-                  flexWrap='wrap'
+                  p={0}
                   sx={{
                     '& > button': {
                       minW: '136px',
                     },
                   }}>
-                  <Button flex='1' variant='ghost' >
-                    curtidas
-                  </Button>
-                  <Button flex='1' variant='ghost'>
-                    comentários
-                  </Button>
-                  <Icon as={UnlockIcon} />
+                  <Flex justifyContent={"space-between"} alignItems={"center"}>
+                    <Flex>
+                      <Button flex="1" fontSize="12px" fontFamily="montserrat" color="#515151" variant="ghost">
+                        1 curtidas
+                      </Button>
+                      <Button flex="1" fontSize="12px" fontFamily="montserrat" color="#515151" variant="ghost">
+                        2 comentários
+                      </Button>
+                    </Flex>
+                    <Icon as={UnlockIcon} />
+                  </Flex>
                 </CardHeader>
                 <CardBody>
                   <Heading size="lg">title</Heading> <br />
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae justo in ante commodo egestas. Aenean viverra lobortis eleifend. Cras enim lectus, tincidunt non aliquam sit amet, pretium nec felis. 
                   </p>
                 </CardBody>
-                <HStack spacing={4}>
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
+                <HStack spacing={4} width="100%" justifyContent="space-between">
+                  <Flex>
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-1`} variant='solid' colorScheme='blue'>
+                        +Tag
+                      </Tag>
+                    ))}
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-2`} variant='solid' colorScheme='yellow'>
+                        +Tag
+                      </Tag>
+                    ))}
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-3`} variant='solid' colorScheme='green'>
+                        +Tag
+                      </Tag>
+                    ))}
+                  </Flex>
+                  <Flex direction="column" alignItems="flex-end">
+                    <Text fontSize="12px" fontFamily="montserrat">
+                      4 dias atrás
+                    </Text>
+                    <Text fontSize="12px" fontFamily="montserrat" color="purple">
+                      @username
+                    </Text>
+                  </Flex>
                 </HStack>
               </Card>
             </TabPanel>
+            <hr /> 
           </TabPanels>
           
           <TabPanels>
             <TabPanel>
-              <Card width="100%" >
+              <Card width="100%" shadow={"none"} bg={"gray.100"}>
                 <CardHeader 
                   justifyContent ='space-between'
                   flexWrap='wrap'
+                  p={0}
                   sx={{
                     '& > button': {
                       minW: '136px',
                     },
                   }}
                 >
-                  <Button flex='1' variant='ghost'>
-                    curtidas
-                  </Button>
-                  <Button flex='1' variant='ghost' >
-                    comentarios
-                  </Button>
-                  
+                  <Flex justifyContent={"space-between"} alignItems={"center"}>
+                    <Flex>
+                      <Button flex="1" fontSize="12px" fontFamily="montserrat" color="#515151" variant="ghost">
+                        15 curtidas
+                      </Button>
+                      <Button flex="1" fontSize="12px" fontFamily="montserrat" color="#515151" variant="ghost">
+                        7 comentários
+                      </Button>
+                    </Flex>
+                    <Icon as={UnlockIcon} />
+                  </Flex>
                 </CardHeader>
                 <CardBody>
                   <Heading size="lg">title 3</Heading> <br />
@@ -152,70 +188,96 @@ export function HomePage() {
                     create a screen.
                   </p>
                 </CardBody>
-                <HStack spacing={4}>
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
+                <HStack spacing={4} width="100%" justifyContent="space-between">
+                  <Flex>
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-1`} variant='solid' colorScheme='orange'>
+                        +Tag
+                      </Tag>
+                    ))}
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-2`} variant='solid' colorScheme='yellow'>
+                        +Tag
+                      </Tag>
+                    ))}
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-3`} variant='solid' colorScheme='red'>
+                        +Tag
+                      </Tag>
+                    ))}
+                  </Flex>
+                  <Flex direction="column" alignItems="flex-end">
+                    <Text fontSize="12px" fontFamily="montserrat">
+                      5 horas atrás
+                    </Text>
+                    <Text fontSize="12px" fontFamily="montserrat" color="purple">
+                      @username
+                    </Text>
+                  </Flex>
                 </HStack>
               </Card>
             </TabPanel>
             <TabPanel>
-              <Card >
+              <Card width="100%" shadow={"none"} bg={"gray.100"}>
                 <CardHeader
                   justifyContent ='space-between'
                   flexWrap='wrap'
+                  p={0}
                   sx={{
                     '& > button': {
                       minW: '136px',
                     },
                   }}>
-                  <Button flex='1' variant='ghost' >
-                    curtidas
-                  </Button>
-                  <Button flex='1' variant='ghost'>
-                    comentários
-                  </Button>
-                  <Icon as={UnlockIcon} />
+                  <Flex justifyContent={"space-between"} alignItems={"center"}>
+                    <Flex>
+                      <Button flex="1" fontSize="12px" fontFamily="montserrat" color="#515151" variant="ghost">
+                        0 curtidas
+                      </Button>
+                      <Button flex="1" fontSize="12px" fontFamily="montserrat" color="#515151" variant="ghost">
+                        2 comentários
+                      </Button>
+                    </Flex>
+                    <Icon as={UnlockIcon} />
+                  </Flex>
                 </CardHeader>
                 <CardBody>
                   <Heading size="lg">title 2</Heading> <br />
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae justo in ante commodo egestas. Aenean viverra lobortis eleifend. Cras enim lectus, tincidunt non aliquam sit amet, pretium nec felis. 
                   </p>
                 </CardBody>
-                <HStack spacing={4}>
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
-                  {['md'].map((size) => (
-                    <Tag margin="15px" size={size} key={size} variant='solid' colorScheme='teal'>
-                      +Tag
-                    </Tag>
-                  ))}
+                <HStack spacing={4} width="100%" justifyContent="space-between">
+                  <Flex>
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-1`} variant='solid' colorScheme='red'>
+                        +Tag
+                      </Tag>
+                    ))}
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-2`} variant='solid' colorScheme='pink'>
+                        +Tag
+                      </Tag>
+                    ))}
+                    {['md'].map((size) => (
+                      <Tag margin={"15px"} size={size} key={`${size}-3`} variant='solid' colorScheme='purple'>
+                        +Tag
+                      </Tag>
+                    ))}
+                  </Flex>
+                  <Flex direction="column" alignItems="flex-end">
+                    <Text fontSize="12px" fontFamily="montserrat">
+                      2 dias atrás
+                    </Text>
+                    <Text fontSize="12px" fontFamily="montserrat" color="purple">
+                      @username
+                    </Text>
+                  </Flex>
                 </HStack>
               </Card>
             </TabPanel>
+            <hr />
           </TabPanels>
         </Tabs>
       </Box>
-    </>
+    </>
   );
 }
