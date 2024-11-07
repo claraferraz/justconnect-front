@@ -31,13 +31,13 @@ export function HomePage() {
       color="purple"
       >
         <Tabs isFitted variant='enclosed' width="100%">
-          <TabList>
+          <TabList borderBottom={"1px solid purple"}>
             <Tab width="50%" fontSize="xl">Recentes</Tab>
             <Tab width="50%" fontSize="xl">Relevantes</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Card width="100%" shadow={"none"} bg={"gray.100"} >
+              <Card width="100%" shadow={"none"} bg="#fff" >
                 <CardHeader 
                   justifyContent ='space-between'                 
                   p={0}
@@ -87,7 +87,7 @@ export function HomePage() {
                   </Flex>
                   <Flex direction="column" alignItems="flex-end">
                     <Text fontSize="12px" fontFamily="montserrat">
-                      2 horas atrás
+                     4 horas atras
                     </Text>
                     <Text fontSize="12px" fontFamily="montserrat" color="purple">
                       @username
@@ -97,7 +97,7 @@ export function HomePage() {
               </Card>
             </TabPanel>
             <TabPanel>
-              <Card width="100%" shadow={"none"} bg={"gray.100"}>
+              <Card width="100%" shadow={"none"} bg={"#fff"}>
                 <CardHeader 
                   justifyContent ='space-between'
                   p={0}
@@ -157,7 +157,7 @@ export function HomePage() {
           
           <TabPanels>
             <TabPanel>
-              <Card width="100%" shadow={"none"} bg={"gray.100"}>
+              <Card width="100%" shadow={"none"} bg={"#fff"}>
                 <CardHeader 
                   justifyContent ='space-between'
                   flexWrap='wrap'
@@ -218,7 +218,7 @@ export function HomePage() {
               </Card>
             </TabPanel>
             <TabPanel>
-              <Card width="100%" shadow={"none"} bg={"gray.100"}>
+              <Card width="100%" shadow={"none"} bg={"#fff"}>
                 <CardHeader
                   justifyContent ='space-between'
                   flexWrap='wrap'
@@ -274,7 +274,6 @@ export function HomePage() {
                 </HStack>
               </Card>
             </TabPanel>
-            <hr />
           </TabPanels>
         </Tabs>
       </Box>
