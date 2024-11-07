@@ -60,9 +60,7 @@ export function LoginPage() {
       justifyContent="center"
       alignItems="center"
       height="100vh"
-      bg="gray.100"
       padding="16px"
-      fontFamily="Poppins, sans-serif"
     >
       <Box width="476px">
         <Image
@@ -80,13 +78,14 @@ export function LoginPage() {
                 Nome do usuário ou Email
               </FormLabel>
               <Input
+                bg="gray.50"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
-                bg="#fff"
+                _hover={{ bg: 'gray.200' }}
+                _focus={{ bg: 'white' }}
                 width="100%"
                 height="41px"
-                _hover="none"
                 id="usernameOrEmail"
                 placeholder="Digite seu nome de usuário ou email"
                 type="text"
@@ -98,11 +97,12 @@ export function LoginPage() {
             <FormControl mt="2">
               <FormLabel htmlFor="password">Senha</FormLabel>
               <Input
+                bg="gray.50"
                 border="2px solid"
                 borderColor="#805AD5"
                 focusBorderColor="#805AD5"
-                bg="#fff"
-                _hover="none"
+                _hover={{ bg: 'gray.200' }}
+                _focus={{ bg: 'white' }}
                 width="100%"
                 height="41px"
                 id="password"

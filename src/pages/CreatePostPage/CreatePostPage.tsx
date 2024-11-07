@@ -6,8 +6,10 @@ import {
   Input,
   Textarea,
   Tag,
-  Heading,
   useToast,
+  Tabs,
+  Tab,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { FormEvent, useState } from 'react';
 import { CreatePost } from '../../service/Post';
@@ -16,8 +18,10 @@ export function CreatePostPage() {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [tag, setTag] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const toast = useToast();
+  const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -45,66 +49,104 @@ export function CreatePostPage() {
       setLoading(false);
     }
   };
+
   return (
-    <Box
-      maxW="500px"
-      mx="auto"
-      p={3}
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      minHeight="70vh"
-    >
-      <Heading size="lg" mb={15} color="#000">
-        Criar Post
-      </Heading>
-      {error && (
-        <Box mb="4" color="red.500">
-          {error}
-        </Box>
-      )}
-      <form onSubmit={handleSubmit}>
-      <FormControl mb={5}>
-        <FormLabel>Título</FormLabel>
-        <Input
-          bg="#fff"
-          border="2px solid"
-          borderColor="#805AD5"
-          focusBorderColor="#805AD5"
-          _hover={{ borderColor: '#805AD5' }}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          width="400px"
-        />
-      </FormControl>
+    <>
+      <Tabs mt="4" width="100%">
+        <Tab pb="3" fontWeight="500" borderBottom="3px solid" width="100%" color="#281A45" cursor="zoom-in">
+          Criar Postagem
+        </Tab>
+      </Tabs>
 
-      <FormControl mb={5}>
-        <FormLabel>Descrição</FormLabel>
-        <Textarea
-          bg="#fff"
-          border="2px solid"
-          borderColor="#805AD5"
-          focusBorderColor="#805AD5"
-          _hover={{ borderColor: '#805AD5' }}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          height="301px"
-          width="400px"
-        />
-      </FormControl>
+      <Box
+        maxW="auto"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        {error && (
+          <Box mb="4" color="red.500">
+            {error}
+          </Box>
+        )}
 
-      <FormControl mb={5}>
-        <FormLabel>Tags:</FormLabel>
-        <Tag size="md" variant="solid" colorScheme="blue">
-          Tag
-        </Tag>
-      </FormControl>
+        <form onSubmit={handleSubmit}>
+          <FormControl width={isDesktop ? '550px' : '350px'} mb={5} mt={isDesktop ? 113 :50}>
+            <FormLabel fontWeight="600">Título</FormLabel>
+            <Input
+              placeholder="Escreva seu título"
+              bg="gray.50"
+              border="2px solid"
+              borderColor="#805AD5"
+              focusBorderColor="#805AD5"
+              _hover={{ bg: 'gray.200' }}
+              _focus={{ bg: 'white' }}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              h="40px"
+              
+            />
+          </FormControl>
 
-      <Button isLoading={loading} type='submit' color="#FFF" bg="#805AD5" width="full" mt={4}>
-        Postar
-      </Button>
-      </form>
-    </Box>
+          <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
+            <FormLabel fontWeight="600">Descrição</FormLabel>
+            <Textarea
+              placeholder="Descreva sua postagem"
+              bg="gray.50"
+              border="2px solid"
+              borderColor="#805AD5"
+              focusBorderColor="#805AD5"
+              _hover={{ bg: 'gray.100' }}
+              _focus={{ bg: 'white' }}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              height="86px"
+              
+            />
+          </FormControl>
+
+          <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
+            <FormLabel fontWeight="600">Adicionar Tag</FormLabel>
+            <Input
+              placeholder="Adicione sua(s) tag(s)"
+              bg="gray.50"
+              border="2px solid"
+              borderColor="#805AD5"
+              focusBorderColor="#805AD5"
+              _hover={{ bg: 'gray.200' }}
+              _focus={{ bg: 'white' }}
+              value={tag}
+              onChange={(e) => setTag(e.target.value)}
+              
+            />
+          </FormControl>
+
+          <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
+            <Tag
+              variant="solid"
+              size="md"
+              colorScheme="purple"
+              display="inline-flex"
+              h="24px"
+              backgroundColor="purple.500"
+            >
+              Tag X
+            </Tag>
+          </FormControl>
+
+          <Button
+            isLoading={loading}
+            type="submit"
+            color="#FFF"
+            bg="#805AD5"
+            width="full"
+            mt={4}
+          >
+            Postar
+          </Button>
+        </form>
+      </Box>
+    </>
   );
 }

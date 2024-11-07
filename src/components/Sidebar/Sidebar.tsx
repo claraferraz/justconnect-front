@@ -29,8 +29,9 @@ export default function SimpleSidebar({ children }: SidebarProps) {
 
   return (
     <Box
+      //se mexe aqui para tirar o bd gray.100
       minH="100vh"
-      bg={useColorModeValue('gray.100', 'gray.900')}
+      bg={useColorModeValue('gray.50', 'gray.900')}
       position="relative"
     >
       <SidebarContent
@@ -50,7 +51,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
 
       {!isDesktop && searchVisible && (
         <>
-          <Box px={4} zIndex={2} position="absolute" top={20} w={'full'}>
+          <Box px={4} zIndex={2} position="absolute" top="90px" w={'full'}>
             <InputGroup>
               <InputLeftElement children={<FiSearch color="#000" />} />
               <Input

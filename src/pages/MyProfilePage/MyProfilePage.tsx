@@ -1,20 +1,20 @@
-import { Box, Flex, Icon, Link } from '@chakra-ui/react';
+import { Box, Flex, Icon, Link, Text } from '@chakra-ui/react';
 import { UserProfile } from '../../components/UserProfile/UserProfile';
 import { MdEdit } from 'react-icons/md';
 import { useProfileStore } from '../../store/profileStore';
 import { useNavigate } from 'react-router-dom';
+import { UserPostInfo } from '../../interface/UserInterface';
 
 export function MyProfilePage() {
   const user = useProfileStore((state) => state.user);
   const navigate = useNavigate();
+  const posts: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[] | undefined =
+    user?.posts;
 
   const handleEdit = () => {
     navigate('/my-profile/edit');
   };
 
-  if (!user) {
-    return;
-  }
   return (
     <>
       <Flex width="100%" justifyContent="right">
@@ -32,15 +32,23 @@ export function MyProfilePage() {
         </Link>
       </Flex>
       <Box borderBottom="1px solid #B6B4BB">
-        <UserProfile
-          name={user.name}
-          username={user.username}
-          bio={user.bio}
-          insta={user.insta}
-          linkedin={user.linkedin}
-          github={user.github}
-          admin_user_block={false}
-        />
+        {user ? <UserProfile {...user} /> : <p> erro ao carregar usuário</p>}
+      </Box>
+      <Box mt="30px">
+        {posts && posts.length > 0 ? (
+          posts.map((p) => {
+            return (
+              <Box>
+                <Text>{p.title}</Text>
+                <Text>{p.description}</Text>
+              </Box>
+            );
+          })
+        ) : (
+          <Text textAlign="center" color="gray.500">
+            Usuário não possui postagens
+          </Text>
+        )}
       </Box>
     </>
   );
