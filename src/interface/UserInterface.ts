@@ -69,4 +69,5 @@ export interface UserPostInfo {
   createdAt: string;
   updatedAt: string;
   admin_post_block: boolean;
+  tags: string[];
 }

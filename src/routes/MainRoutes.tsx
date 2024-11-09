@@ -27,7 +27,7 @@ export function MainRoutes() {
       <Route path="/users" element={<Users />} />
       <Route path="/post/:id" element={<Post />} />
       <Route path="/create-post" element={<CreatePost />} />
-      <Route path="/tags/:id" element={<Tags />} />
+      <Route path="/tags/:tag" element={<Tags />} />
       <Route path="/reported-posts" element={<ReportedPosts />} />
     </Routes>
   );
