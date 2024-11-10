@@ -50,7 +50,7 @@ export function CreatePostPage() {
       });
       setTitle('');
       setDescription('');
-      setTags([]); 
+      setTags([]);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -63,11 +63,14 @@ export function CreatePostPage() {
   };
 
   const handleAddTag = () => {
-    if (newTag.trim() && !tags.includes(newTag.trim())) {
-      setTags([...tags, newTag.trim()]);
-      setNewTag('');
-    }
-  };
+    const tagList = newTag
+      .split(/[\s,]+/)
+      .map((tag) => tag.trim()) 
+      .filter((tag) => tag && !tags.includes(tag));
+
+    setTags([...tags, ...tagList]);
+    setNewTag('');
+};
 
   const handleRemoveTag = (tagToRemove: string) => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
@@ -141,7 +144,7 @@ export function CreatePostPage() {
           <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
             <FormLabel fontWeight="600">Adicionar Tag</FormLabel>
             <Input
-              placeholder="Digite uma tag e pressione Enter"
+              placeholder="Digite tags separadas por vírgula e pressione Enter"
               bg="gray.50"
               border="2px solid"
               borderColor="#805AD5"
@@ -177,6 +180,7 @@ export function CreatePostPage() {
               ))}
             </Box>
           </FormControl>
+
           <Button
               w="100%"
               h="40px"
