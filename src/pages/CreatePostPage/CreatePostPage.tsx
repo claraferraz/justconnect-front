@@ -20,7 +20,7 @@ export function CreatePostPage() {
   const [description, setDescription] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
-  const [newTag, setNewTag] = useState<string>(''); // Estado para controlar o input da nova tag
+  const [newTag, setNewTag] = useState<string>(''); 
   const [error, setError] = useState<string | null>(null);
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -41,7 +41,7 @@ export function CreatePostPage() {
       });
       setTitle('');
       setDescription('');
-      setTags([]); // Limpar tags após o envio
+      setTags([]); 
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
