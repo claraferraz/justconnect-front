@@ -58,7 +58,9 @@ export enum Role {
 export interface UserCreatePost {
   title: string;
   description: string;
+  tags: string[];  
 }
+
 export interface UserPostInfo {
   id: string;
   user_id: UUID;
