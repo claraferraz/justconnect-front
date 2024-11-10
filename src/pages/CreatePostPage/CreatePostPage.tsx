@@ -13,6 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { FormEvent, useState } from 'react';
 import { CreatePost } from '../../service/Post';
+import { usePostStore } from '../../store/postStore';
+import { useAuthStore } from '../../store/authStore';
 
 export function CreatePostPage() {
   const [title, setTitle] = useState<string>('');
@@ -23,6 +25,12 @@ export function CreatePostPage() {
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
+  const setPosts = usePostStore((state) => state.setPosts);
+  const id = useAuthStore((state) => state.id);
+  if (!id) {
+    return;
+  }
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -30,6 +38,7 @@ export function CreatePostPage() {
 
     try {
       await CreatePost({ title, description });
+      await setPosts(id);
       toast({
         title: 'Post created.',
         description: 'Your post has been successfully created!',
@@ -53,7 +62,14 @@ export function CreatePostPage() {
   return (
     <>
       <Tabs mt="4" width="100%">
-        <Tab pb="3" fontWeight="500" borderBottom="3px solid" width="100%" color="#281A45" cursor="zoom-in">
+        <Tab
+          pb="3"
+          fontWeight="500"
+          borderBottom="3px solid"
+          width="100%"
+          color="#281A45"
+          cursor="zoom-in"
+        >
           Criar Postagem
         </Tab>
       </Tabs>
@@ -72,7 +88,11 @@ export function CreatePostPage() {
         )}
 
         <form onSubmit={handleSubmit}>
-          <FormControl width={isDesktop ? '550px' : '350px'} mb={5} mt={isDesktop ? 113 :50}>
+          <FormControl
+            width={isDesktop ? '550px' : '350px'}
+            mb={5}
+            mt={isDesktop ? 113 : 50}
+          >
             <FormLabel fontWeight="600">Título</FormLabel>
             <Input
               placeholder="Escreva seu título"
@@ -85,7 +105,6 @@ export function CreatePostPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               h="40px"
-              
             />
           </FormControl>
 
@@ -102,7 +121,6 @@ export function CreatePostPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               height="86px"
-              
             />
           </FormControl>
 
@@ -118,7 +136,6 @@ export function CreatePostPage() {
               _focus={{ bg: 'white' }}
               value={tag}
               onChange={(e) => setTag(e.target.value)}
-              
             />
           </FormControl>
 
