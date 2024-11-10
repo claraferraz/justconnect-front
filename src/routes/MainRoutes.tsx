@@ -13,6 +13,7 @@ import {
   Tags,
   Users,
 } from './index';
+import { ResetPasswordPage } from '../pages/ResetPassword/ResetPasswordPage';
 
 export function MainRoutes() {
   return (
@@ -21,6 +22,7 @@ export function MainRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/my-profile" element={<MyProfile />} />
       <Route path="/my-profile/edit" element={<EditProfile />} />
       <Route path="/profile/:id" element={<Profile />} />

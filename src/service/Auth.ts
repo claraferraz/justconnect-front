@@ -1,4 +1,4 @@
-import { UserForgot, UserSignIn, UserSingUp } from '../interface/UserInterface';
+import { UserForgotPassword, UserResetPassword, UserSignIn, UserSingUp } from '../interface/UserInterface';
 import api from '../service/api';
 
 const signUp = async (data: UserSingUp) => {
@@ -11,9 +11,13 @@ const signIn = async (data: UserSignIn) => {
   return response;
 };
 
-const forgot = async (data: UserForgot) => {
-  const response = await api.post(`/forgot`, data);
+const forgotPassword = async (data: UserForgotPassword) => {
+  const response = await api.post(`public/auth/forgot-password`, data);
+  return response;
+};
+const resetPassword = async (data: UserResetPassword) => {
+  const response = await api.post(`public/auth/reset-password`, data);
   return response;
 };
 
-export { signUp, signIn, forgot };
+export { signUp, signIn, forgotPassword,resetPassword };
