@@ -39,7 +39,6 @@ export function CreatePostPage() {
     setError(null);
 
     try {
-      // Enviando as tags no formato correto para o backend
       await CreatePost({ title, description, tags });
       await setPosts(id);
       toast({
@@ -51,7 +50,7 @@ export function CreatePostPage() {
       });
       setTitle('');
       setDescription('');
-      setTags([]); // Reset tags after successful post creation
+      setTags([]); 
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
