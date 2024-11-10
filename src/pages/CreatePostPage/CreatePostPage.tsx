@@ -39,7 +39,8 @@ export function CreatePostPage() {
     setError(null);
 
     try {
-      await CreatePost({ title, description });
+      // Enviando as tags no formato correto para o backend
+      await CreatePost({ title, description, tags });
       await setPosts(id);
       toast({
         title: 'Post created.',
@@ -50,7 +51,7 @@ export function CreatePostPage() {
       });
       setTitle('');
       setDescription('');
-      setTags([]); 
+      setTags([]); // Reset tags after successful post creation
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -141,15 +142,21 @@ export function CreatePostPage() {
           <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
             <FormLabel fontWeight="600">Adicionar Tag</FormLabel>
             <Input
-              placeholder="Adicione sua(s) tag(s)"
+              placeholder="Digite uma tag e pressione Enter"
               bg="gray.50"
               border="2px solid"
               borderColor="#805AD5"
               focusBorderColor="#805AD5"
               _hover={{ bg: 'gray.200' }}
               _focus={{ bg: 'white' }}
-              value={tag}
-              onChange={(e) => setTag(e.target.value)}
+              value={newTag}
+              onChange={(e) => setNewTag(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddTag();
+                }
+              }}
             />
           </FormControl>
 
@@ -171,16 +178,19 @@ export function CreatePostPage() {
               ))}
             </Box>
           </FormControl>
-
           <Button
-            isLoading={loading}
-            type="submit"
-            color="#FFF"
-            bg="#805AD5"
-            width="full"
-            mt={4}
-          >
-            Postar
+              w="100%"
+              h="40px"
+              mt={5}
+              type="submit"
+              bg="#805AD5"
+              _hover={{ bg: '#9B71E6' }}
+              color="#FFF"
+              borderRadius="6px"
+              isLoading={loading}
+              isDisabled={loading}
+            >
+              Postar
           </Button>
         </form>
       </Box>
