@@ -38,6 +38,15 @@ export interface ProfileInfos {
   admin_user_block: boolean;
   posts?: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[];
 }
+export interface UpdateProfileInfos {
+  name: string;
+  username: string;
+  email: string;
+  bio_description?: string;
+  instagram: string | null;
+  linkedin: string | null;
+  github: string | null;
+}
 
 export interface UserCardData {
   id: UUID;

@@ -58,7 +58,9 @@ export function ProfilePage() {
                 );
               })
             ) : (
-              <Text> Usuário possui postagens </Text>
+              <Text textAlign="center" color="gray.500">
+                {user.name} ainda não possui postagens
+              </Text>
             )}
           </Box>
         </>

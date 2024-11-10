@@ -3,13 +3,12 @@ import { UserProfile } from '../../components/UserProfile/UserProfile';
 import { MdEdit } from 'react-icons/md';
 import { useProfileStore } from '../../store/profileStore';
 import { useNavigate } from 'react-router-dom';
-import { UserPostInfo } from '../../interface/UserInterface';
+import { usePostStore } from '../../store/postStore';
 
 export function MyProfilePage() {
   const user = useProfileStore((state) => state.user);
   const navigate = useNavigate();
-  const posts: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[] | undefined =
-    user?.posts;
+  const posts = usePostStore((state) => state.posts);
 
   const handleEdit = () => {
     navigate('/my-profile/edit');
@@ -45,7 +44,9 @@ export function MyProfilePage() {
             );
           })
         ) : (
-          <Text> Usuário possui postagens </Text>
+          <Text textAlign="center" color="gray.500">
+            Você ainda não possui postagens
+          </Text>
         )}
       </Box>
     </>
