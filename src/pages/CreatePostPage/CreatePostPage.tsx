@@ -6,6 +6,7 @@ import {
   Input,
   Textarea,
   Tag,
+  TagCloseButton,
   useToast,
   Tabs,
   Tab,
@@ -18,7 +19,8 @@ export function CreatePostPage() {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [tag, setTag] = useState<string>('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [newTag, setNewTag] = useState<string>(''); // Estado para controlar o input da nova tag
   const [error, setError] = useState<string | null>(null);
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -29,7 +31,7 @@ export function CreatePostPage() {
     setError(null);
 
     try {
-      await CreatePost({ title, description });
+      await CreatePost({ title, description, tags });
       toast({
         title: 'Post created.',
         description: 'Your post has been successfully created!',
@@ -39,6 +41,7 @@ export function CreatePostPage() {
       });
       setTitle('');
       setDescription('');
+      setTags([]); // Limpar tags após o envio
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -48,6 +51,17 @@ export function CreatePostPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddTag = () => {
+    if (newTag.trim() && !tags.includes(newTag.trim())) {
+      setTags([...tags, newTag.trim()]);
+      setNewTag('');
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
   return (
@@ -72,7 +86,7 @@ export function CreatePostPage() {
         )}
 
         <form onSubmit={handleSubmit}>
-          <FormControl width={isDesktop ? '550px' : '350px'} mb={5} mt={isDesktop ? 113 :50}>
+          <FormControl width={isDesktop ? '550px' : '350px'} mb={5} mt={isDesktop ? 113 : 50}>
             <FormLabel fontWeight="600">Título</FormLabel>
             <Input
               placeholder="Escreva seu título"
@@ -85,7 +99,6 @@ export function CreatePostPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               h="40px"
-              
             />
           </FormControl>
 
@@ -102,7 +115,6 @@ export function CreatePostPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               height="86px"
-              
             />
           </FormControl>
 
@@ -116,23 +128,29 @@ export function CreatePostPage() {
               focusBorderColor="#805AD5"
               _hover={{ bg: 'gray.200' }}
               _focus={{ bg: 'white' }}
-              value={tag}
-              onChange={(e) => setTag(e.target.value)}
-              
+              value={newTag}
+              onChange={(e) => setNewTag(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleAddTag()} // Adicionar tag ao pressionar "Enter"
             />
           </FormControl>
 
           <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
-            <Tag
-              variant="solid"
-              size="md"
-              colorScheme="purple"
-              display="inline-flex"
-              h="24px"
-              backgroundColor="purple.500"
-            >
-              Tag X
-            </Tag>
+            <Box display="flex" flexWrap="wrap" gap="2">
+              {tags.map((tag, index) => (
+                <Tag
+                  key={index}
+                  variant="solid"
+                  size="md"
+                  colorScheme="purple"
+                  display="inline-flex"
+                  h="24px"
+                  backgroundColor="purple.500"
+                >
+                  {tag}
+                  <TagCloseButton onClick={() => handleRemoveTag(tag)} />
+                </Tag>
+              ))}
+            </Box>
           </FormControl>
 
           <Button
