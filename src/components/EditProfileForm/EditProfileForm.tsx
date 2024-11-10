@@ -1,4 +1,7 @@
-import { ProfileInfos } from '../../interface/UserInterface';
+import {
+  ProfileInfos,
+  UpdateProfileInfos,
+} from '../../interface/UserInterface';
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -34,14 +37,14 @@ export function EditProfileForm({ user }: Props) {
   const id = useAuthStore((state) => state.id);
 
   const setProfile = useProfileStore((state) => state.setProfile);
-  const data: Omit<ProfileInfos, 'id' | 'role' | 'admin_user_block'> = {
+  const data: UpdateProfileInfos = {
     name: name,
     username: username,
     email: email,
     bio_description: bio,
-    instagram: insta,
-    linkedin: linkedin,
-    github: github,
+    instagram: insta || null,
+    linkedin: linkedin || null,
+    github: github || null,
   };
   if (!id) {
     return;

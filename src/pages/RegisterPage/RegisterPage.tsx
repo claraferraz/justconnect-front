@@ -87,14 +87,14 @@ export function RegisterPage() {
     if (token) {
       navigate('/my-profile');
     }
-  }, [token, navigate]); 
+  }, [token, navigate]);
 
   return (
     <Box
       display="flex"
       alignItems="center"
       justifyContent="center"
-      height={isDesktop? "135vh": "110vh"}
+      height={isDesktop ? '135vh' : '110vh'}
       padding="16px"
     >
       <Box width="476px">
