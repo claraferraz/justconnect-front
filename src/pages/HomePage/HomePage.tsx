@@ -14,15 +14,18 @@ export function HomePage() {
   //função de listagem de posts
   //função map para exibit os PostCard
   const post = {
-    user_id: "6fcddbcb-d48f-4f6c-b7ad-0bfd44b99ac5",
-    title: "teste titulo",
-    description: "teste descrição",
-    score: 6,
-    statusOpen: true,
-    updatedAt: '2024-11-08T21:54:36.849Z',
-    createdAt: '2024-11-08T21:54:36.849Z',
-    id: "6fcddbcb-d48f-4f6c-b7ad-0bfd44b99ac5",
-    admin_post_block: false
+    "id": "8bafbbb8-2f52-446d-a891-a909b2987822",
+    "title": "fqawdfqaw",
+    "description": "qwddqwawdqawfda",
+    "score": 0,
+    "status_open": true,
+    "created_at": "2024-11-12T19:45:34.344Z",
+    "updated_at": "2024-11-12T19:45:34.344Z",
+    "tags": [
+      "wqdwqd"
+    ],
+    "username": "claraadm",
+    "commentCount": 0
   }
 
   return (
@@ -46,15 +49,15 @@ export function HomePage() {
           <TabPanels>
             <TabPanel>
               <Flex direction="column" gap="15px">
-              <PostCard  id={post.id} user_id={post.user_id} updatedAt={post.updatedAt}
-                      admin_post_block={post.admin_post_block} title={post.title} description={post.description} score={post.score} statusOpen={post.statusOpen} createdAt={post.createdAt}/>
+              <PostCard id={post.id} username={post.username} updated_at={post.updated_at}
+                      tags={post.tags} title={post.title} description={post.description} score={post.score} created_at={post.created_at} status_open={post.status_open} commentCount={post.commentCount}/>
               </Flex>
             </TabPanel>
 
             <TabPanel>
               <Flex direction="column" gap="15px">
-                <PostCard  id={post.id} user_id={post.user_id} updatedAt={post.updatedAt}
-                      admin_post_block={post.admin_post_block} title={post.title} description={post.description} score={post.score} statusOpen={post.statusOpen} createdAt={post.createdAt}/>
+                <PostCard id={post.id} username={post.username} updated_at={post.updated_at}
+                      tags={post.tags} title={post.title} description={post.description} score={post.score} created_at={post.created_at} status_open={post.status_open} commentCount={post.commentCount}/>
               </Flex>
             </TabPanel>
           </TabPanels>

@@ -77,12 +77,13 @@ export interface UserCreatePost {
 
 export interface UserPostInfo {
   id: string;
-  user_id: UUID | string; 
+  username: string; 
   title: string;
   description: string;
   score: number;
-  statusOpen: boolean;
-  createdAt: string | number;
-  updatedAt: string;
-  admin_post_block: boolean;
+  status_open: boolean;
+  created_at: string | number;
+  updated_at: string;
+  tags: string[];
+  commentCount: number;
 }

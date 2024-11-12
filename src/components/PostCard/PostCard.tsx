@@ -18,14 +18,15 @@ import { Link } from 'react-router-dom';
 import { UserPostInfo } from '../../interface/UserInterface';
 
 
-export function PostCard({id, user_id, title, description, score, statusOpen, updatedAt, admin_post_block,createdAt }: UserPostInfo) {
+export function PostCard({id, username, title, description, score, status_open, updated_at, tags ,created_at,commentCount }: UserPostInfo) {
   
   const parametros = {
     id : id,
-    user_id: user_id, 
-    updatedAt: updatedAt, 
-    admin_post_block: admin_post_block,
-    createdAt: createdAt
+    username:username, 
+    updated_at: updated_at, 
+    tags: tags,
+    created_at: created_at,
+    commentCount: commentCount
   }
   console.log(parametros)
 
@@ -62,7 +63,7 @@ export function PostCard({id, user_id, title, description, score, statusOpen, up
                 4 comentários
               </Text>
             </Flex>
-            {statusOpen ? (<Icon as={UnlockIcon} color={"#515151"}/>) : (<CiLock color={"#515151"} />)}
+            {status_open ? (<Icon as={UnlockIcon} color={"#515151"}/>) : (<CiLock color={"#515151"} />)}
           </Flex>
         </CardHeader>
         <CardBody>
