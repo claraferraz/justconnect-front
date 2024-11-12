@@ -6,37 +6,46 @@ import {
   FormLabel,
   Box,
   Text,
-  Link,
   Flex,
   useToast,
   Image,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { forgotPassword } from '../../service/Auth';
-import { ChevronLeftIcon } from '@chakra-ui/icons';
+import { resetPassword } from '../../service/Auth';
 import logoAuth from '../../assets/logoAuth.svg';
+import { useNavigate } from 'react-router-dom';
 
-export function ForgotPasswordPage() {
-  const [email, setEmail] = useState<string>('');
+export function ResetPasswordPage() {
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const toast = useToast();
+  const navigate = useNavigate();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    
+   
+    if (newPassword !== confirmPassword) {
+      setError('As senhas não coincidem');
+      setLoading(false);
+      return;
+    }
+
     try {
-      await forgotPassword({ email });
+      await resetPassword({ newPassword});
       toast({
-        title: 'Recuperação enviada',
-        description: `Um e-mail de recuperação foi enviado. Por favor, verifique sua caixa de entrada.`,
+        title: 'Senha alterada com sucesso',
+        description: `Sua senha foi alterada com sucesso! Você já pode acessar sua conta.`,
         status: 'success',
         duration: 5000,
         isClosable: true,
         position: 'bottom',
       });
-      
+      navigate('/login');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -56,13 +65,7 @@ export function ForgotPasswordPage() {
       height="100vh"
       padding="16px"
     >
-      <Box position="absolute" top="100" left="3">
-        <Flex alignItems="center" mb="4">
-          <Link href="/login" display="flex" alignItems="center">
-            <ChevronLeftIcon boxSize={9} color="#000" />
-          </Link>
-        </Flex>
-      </Box>
+      
       <Box width="476px">
         <Image
           src={logoAuth}
@@ -73,10 +76,10 @@ export function ForgotPasswordPage() {
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
             <FormControl mb="4">
-              <FormLabel htmlFor="email">Email</FormLabel>
+              <FormLabel htmlFor="newPassword">Nova Senha</FormLabel>
               <Input
                 display="flex"
-                placeholder="Digite seu email"
+                placeholder="Digite sua nova senha"
                 bg="gray.50"
                 border="2px solid"
                 borderColor="#805AD5"
@@ -85,10 +88,31 @@ export function ForgotPasswordPage() {
                 _focus={{ bg: 'white' }}
                 width="100%"
                 height="41px"
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="newPassword"
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                isDisabled={loading}
+              />
+            </FormControl>
+
+            <FormControl mb="4">
+              <FormLabel htmlFor="confirmPassword">Confirmar Nova Senha</FormLabel>
+              <Input
+                display="flex"
+                placeholder="Confirme sua nova senha"
+                bg="gray.50"
+                border="2px solid"
+                borderColor="#805AD5"
+                focusBorderColor="#805AD5"
+                _hover={{ bg: 'gray.200' }}
+                _focus={{ bg: 'white' }}
+                width="100%"
+                height="41px"
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 isDisabled={loading}
               />
             </FormControl>
@@ -111,14 +135,8 @@ export function ForgotPasswordPage() {
               isLoading={loading}
               isDisabled={loading}
             >
-              Recuperar senha
+              Alterar senha
             </Button>
-            <Box mb="2" mt={8}>
-              Ainda não possui uma conta?{' '}
-              <Link href="/register" color="#2F00FF">
-                Registrar-se
-              </Link>
-            </Box>
           </Flex>
         </form>
       </Box>

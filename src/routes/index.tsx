@@ -13,6 +13,7 @@ import { EditProfilePage } from '../pages/EditProfilePage/EditProfilePage';
 import { Section } from '../components/Section/Section';
 import { ProtectedRoute } from './ProtectedRoute';
 import { AdminRoute } from './AdminRoutes';
+import { ResetPasswordPage } from '../pages/ResetPassword/ResetPasswordPage';
 
 export function Home() {
   return (
@@ -41,6 +42,13 @@ export function ForgotPassword() {
   return (
     <>
       <ForgotPasswordPage />
+    </>
+  );
+}
+export function ResetPassword() {
+  return (
+    <>
+      <ResetPasswordPage/>
     </>
   );
 }
