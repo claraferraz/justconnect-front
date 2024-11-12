@@ -15,12 +15,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useProfileStore } from '../../store/profileStore';
 import { useEffect, useState } from 'react';
 import { Role } from '../../interface/UserInterface';
-
-interface SidebarContentProps {
-  isOpen: boolean;
-  onClose: () => void;
-  isUserLoggedIn: boolean;
-}
+import { SidebarContentProps } from '../../interface/SideBarInterface';
 
 const SidebarContent = ({
   isOpen,

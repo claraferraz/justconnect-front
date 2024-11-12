@@ -3,13 +3,14 @@ import { create, StateCreator } from 'zustand';
 import { signIn } from '../service/Auth';
 import { devtools, persist } from 'zustand/middleware';
 import { useProfileStore } from './profileStore';
+import { usePostStore } from './postStore';
 
 const { getProfile, resetUser } = useProfileStore.getState();
+const { resetPosts } = usePostStore.getState();
 
 export interface AuthState {
   token?: string;
   id?: UUID;
- 
 
   loginUser: (usernameOrEmail: string, password: string) => Promise<void>;
   logoutUser: () => void;
@@ -45,6 +46,7 @@ const storeApi: StateCreator<AuthState> = (set) => ({
     //chamar reset user aqui
     set({ token: undefined, id: undefined });
     resetUser();
+    resetPosts();
   },
 });
 export const useAuthStore = create<AuthState>()(

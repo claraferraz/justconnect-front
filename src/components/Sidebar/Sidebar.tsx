@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import {useState } from 'react';
 import {
   Box,
   useColorModeValue,
@@ -9,13 +9,10 @@ import {
   InputLeftElement,
 } from '@chakra-ui/react';
 import SidebarContent from './SidebarContent';
-import MobileNav from './SidebarHeader';
+import SidebarHeader from './SidebarHeader';
 import { FiSearch } from 'react-icons/fi';
 import { useProfileStore } from '../../store/profileStore';
-
-interface SidebarProps {
-  children: ReactNode;
-}
+import { SidebarProps } from '../../interface/SideBarInterface';
 
 export default function SimpleSidebar({ children }: SidebarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,7 +36,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
         isOpen={isOpen}
         onClose={onClose}
       />
-      <MobileNav
+      <SidebarHeader
         onOpen={onOpen}
         toggleSearch={toggleSearch}
         showSearchInput={showSearchInput}

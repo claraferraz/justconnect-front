@@ -12,8 +12,13 @@ export interface UserSingUp {
   password: string;
   confirmPassword: string;
 }
-export interface UserForgot {
+export interface UserForgotPassword {
   email: string;
+}
+export interface UserResetPassword {
+  token?:string;
+  newPassword: string;
+  ConfirmNewPassword?:string;
 }
 export interface User {
   name: string;
@@ -38,6 +43,15 @@ export interface ProfileInfos {
   admin_user_block: boolean;
   posts?: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[];
 }
+export interface UpdateProfileInfos {
+  name: string;
+  username: string;
+  email: string;
+  bio_description?: string;
+  instagram: string | null;
+  linkedin: string | null;
+  github: string | null;
+}
 
 export interface UserCardData {
   id: UUID;
@@ -58,7 +72,9 @@ export enum Role {
 export interface UserCreatePost {
   title: string;
   description: string;
+  tags: string[];  
 }
+
 export interface UserPostInfo {
   id: string;
   user_id: UUID;

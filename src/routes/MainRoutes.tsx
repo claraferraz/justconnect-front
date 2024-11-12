@@ -3,6 +3,7 @@ import {
   CreatePost,
   EditProfile,
   ForgotPassword,
+  ResetPassword,
   Home,
   Login,
   MyProfile,
@@ -14,6 +15,7 @@ import {
   Users,
 } from './index';
 
+
 export function MainRoutes() {
   return (
     <Routes>
@@ -21,6 +23,7 @@ export function MainRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/my-profile" element={<MyProfile />} />
       <Route path="/my-profile/edit" element={<EditProfile />} />
       <Route path="/profile/:id" element={<Profile />} />
