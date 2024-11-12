@@ -145,7 +145,7 @@ export function CreatePostPage() {
           <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
             <FormLabel fontWeight="600">Adicionar Tag</FormLabel>
             <Input
-              placeholder="Digite tags separadas por vírgula e pressione Enter"
+              placeholder="Digite as tags"
               bg="gray.50"
               border="2px solid"
               borderColor="#805AD5"
