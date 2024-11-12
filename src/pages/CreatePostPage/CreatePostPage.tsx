@@ -12,7 +12,6 @@ import {
   Tabs,
   Tab,
   useBreakpointValue,
-  Flex,
 } from '@chakra-ui/react';
 import { FormEvent, useState } from 'react';
 import { CreatePost } from '../../service/Post';
@@ -162,12 +161,18 @@ export function CreatePostPage() {
                 }
               }}
             />
-            <Box margin="5px" color="gray.500" fontSize="14px">
-              <Text>- Para criar uma tag precione Enter</Text>
-              <Text>
-                - Para tags com mais de uma palavra, separe-as com um -
-              </Text>
-              <Text margin="0px 10px">ex: back-end</Text>
+            <Box margin="10px 20px" color="gray.500" fontSize="14px">
+              <ul>
+                <li>
+                  <Text>Para criar uma tag precione Enter</Text>
+                </li>
+                <li>
+                  <Text>
+                    Para tags com mais de uma palavra, separe-as com um -
+                  </Text>
+                  <Text>ex: back-end</Text>
+                </li>
+              </ul>
             </Box>
           </FormControl>
 
