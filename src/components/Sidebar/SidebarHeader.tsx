@@ -12,22 +12,15 @@ import {
   Image,
 } from '@chakra-ui/react';
 import { FiBell, FiMenu, FiSearch } from 'react-icons/fi';
-import { ProfileInfos } from '../../interface/UserInterface';
 import logoBot from '../../assets/logoBot.svg';
+import {SidebarHeaderProps } from '../../interface/SideBarInterface';
 
-interface MobileNavProps {
-  onOpen: () => void;
-  toggleSearch: () => void;
-  showSearchInput: boolean;
-  user?: ProfileInfos;
-}
-
-const MobileNav = ({
+const SidebarHeader = ({
   onOpen,
   toggleSearch,
   showSearchInput,
   user,
-}: MobileNavProps) => {
+}: SidebarHeaderProps) => {
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   return (
@@ -138,4 +131,4 @@ const MobileNav = ({
   );
 };
 
-export default MobileNav;
+export default SidebarHeader;

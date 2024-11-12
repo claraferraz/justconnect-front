@@ -7,12 +7,7 @@ import {
   FiTag,
 } from 'react-icons/fi';
 import { MdOutlineSmsFailed } from 'react-icons/md';
-
-export interface LinkItemProps {
-  name: string;
-  icon: React.ElementType;
-  path: string;
-}
+import { LinkItemProps } from '../../interface/SideBarInterface';
 
 export const LinkItems: Array<LinkItemProps> = [
   { name: 'Página Inicial', icon: FiHome, path: '/' },
