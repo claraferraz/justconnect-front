@@ -6,6 +6,7 @@ import {
   Input,
   Textarea,
   Tag,
+  TagCloseButton,
   useToast,
   Tabs,
   Tab,
@@ -20,7 +21,8 @@ export function CreatePostPage() {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [tag, setTag] = useState<string>('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [newTag, setNewTag] = useState<string>(''); 
   const [error, setError] = useState<string | null>(null);
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -37,7 +39,7 @@ export function CreatePostPage() {
     setError(null);
 
     try {
-      await CreatePost({ title, description });
+      await CreatePost({ title, description, tags });
       await setPosts(id);
       toast({
         title: 'Post created.',
@@ -48,6 +50,7 @@ export function CreatePostPage() {
       });
       setTitle('');
       setDescription('');
+      setTags([]);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -57,6 +60,20 @@ export function CreatePostPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddTag = () => {
+    const tagList = newTag
+      .split(/[\s,]+/)
+      .map((tag) => tag.trim()) 
+      .filter((tag) => tag && !tags.includes(tag));
+
+    setTags([...tags, ...tagList]);
+    setNewTag('');
+};
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
   return (
@@ -127,40 +144,56 @@ export function CreatePostPage() {
           <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
             <FormLabel fontWeight="600">Adicionar Tag</FormLabel>
             <Input
-              placeholder="Adicione sua(s) tag(s)"
+              placeholder="Digite tags separadas por vírgula e pressione Enter"
               bg="gray.50"
               border="2px solid"
               borderColor="#805AD5"
               focusBorderColor="#805AD5"
               _hover={{ bg: 'gray.200' }}
               _focus={{ bg: 'white' }}
-              value={tag}
-              onChange={(e) => setTag(e.target.value)}
+              value={newTag}
+              onChange={(e) => setNewTag(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddTag();
+                }
+              }}
             />
           </FormControl>
 
           <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
-            <Tag
-              variant="solid"
-              size="md"
-              colorScheme="purple"
-              display="inline-flex"
-              h="24px"
-              backgroundColor="purple.500"
-            >
-              Tag X
-            </Tag>
+            <Box display="flex" flexWrap="wrap" gap="2">
+              {tags.map((tag, index) => (
+                <Tag
+                  key={index}
+                  variant="solid"
+                  size="md"
+                  colorScheme="purple"
+                  display="inline-flex"
+                  h="24px"
+                  backgroundColor="purple.500"
+                >
+                  {tag}
+                  <TagCloseButton onClick={() => handleRemoveTag(tag)} />
+                </Tag>
+              ))}
+            </Box>
           </FormControl>
 
           <Button
-            isLoading={loading}
-            type="submit"
-            color="#FFF"
-            bg="#805AD5"
-            width="full"
-            mt={4}
-          >
-            Postar
+              w="100%"
+              h="40px"
+              mt={5}
+              type="submit"
+              bg="#805AD5"
+              _hover={{ bg: '#9B71E6' }}
+              color="#FFF"
+              borderRadius="6px"
+              isLoading={loading}
+              isDisabled={loading}
+            >
+              Postar
           </Button>
         </form>
       </Box>

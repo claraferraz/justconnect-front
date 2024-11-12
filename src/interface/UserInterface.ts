@@ -12,8 +12,11 @@ export interface UserSingUp {
   password: string;
   confirmPassword: string;
 }
-export interface UserForgot {
+export interface UserForgotPassword {
   email: string;
+}
+export interface UserResetPassword {
+  newPassword: string;
 }
 export interface User {
   name: string;
@@ -67,7 +70,9 @@ export enum Role {
 export interface UserCreatePost {
   title: string;
   description: string;
+  tags: string[];  
 }
+
 export interface UserPostInfo {
   id: string;
   user_id: UUID;
