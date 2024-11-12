@@ -153,7 +153,7 @@ export function CreatePostPage() {
               _focus={{ bg: 'white' }}
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
-              onKeyPress={(e) => {
+              onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   e.preventDefault();
                   handleAddTag();
