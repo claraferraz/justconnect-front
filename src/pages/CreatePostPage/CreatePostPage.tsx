@@ -1,5 +1,6 @@
 import {
   Box,
+  Text,
   Button,
   FormControl,
   FormLabel,
@@ -22,7 +23,7 @@ export function CreatePostPage() {
   const [description, setDescription] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
-  const [newTag, setNewTag] = useState<string>(''); 
+  const [newTag, setNewTag] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -65,12 +66,12 @@ export function CreatePostPage() {
   const handleAddTag = () => {
     const tagList = newTag
       .split(/[\s,]+/)
-      .map((tag) => tag.trim()) 
+      .map((tag) => tag.trim())
       .filter((tag) => tag && !tags.includes(tag));
 
     setTags([...tags, ...tagList]);
     setNewTag('');
-};
+  };
 
   const handleRemoveTag = (tagToRemove: string) => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
@@ -144,7 +145,7 @@ export function CreatePostPage() {
           <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
             <FormLabel fontWeight="600">Adicionar Tag</FormLabel>
             <Input
-              placeholder="Digite tags separadas por vírgula e pressione Enter"
+              placeholder="Digite as tags"
               bg="gray.50"
               border="2px solid"
               borderColor="#805AD5"
@@ -160,6 +161,19 @@ export function CreatePostPage() {
                 }
               }}
             />
+            <Box margin="10px 20px" color="gray.500" fontSize="14px">
+              <ul>
+                <li>
+                  <Text>Para criar uma tag precione Enter</Text>
+                </li>
+                <li>
+                  <Text>
+                    Para tags com mais de uma palavra, separe-as com um -
+                  </Text>
+                  <Text>ex: back-end</Text>
+                </li>
+              </ul>
+            </Box>
           </FormControl>
 
           <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
@@ -182,18 +196,18 @@ export function CreatePostPage() {
           </FormControl>
 
           <Button
-              w="100%"
-              h="40px"
-              mt={5}
-              type="submit"
-              bg="#805AD5"
-              _hover={{ bg: '#9B71E6' }}
-              color="#FFF"
-              borderRadius="6px"
-              isLoading={loading}
-              isDisabled={loading}
-            >
-              Postar
+            w="100%"
+            h="40px"
+            mt={5}
+            type="submit"
+            bg="#805AD5"
+            _hover={{ bg: '#9B71E6' }}
+            color="#FFF"
+            borderRadius="6px"
+            isLoading={loading}
+            isDisabled={loading}
+          >
+            Postar
           </Button>
         </form>
       </Box>
