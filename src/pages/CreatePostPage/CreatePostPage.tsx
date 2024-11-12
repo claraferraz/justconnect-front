@@ -1,5 +1,6 @@
 import {
   Box,
+  Text,
   Button,
   FormControl,
   FormLabel,
@@ -11,6 +12,7 @@ import {
   Tabs,
   Tab,
   useBreakpointValue,
+  Flex,
 } from '@chakra-ui/react';
 import { FormEvent, useState } from 'react';
 import { CreatePost } from '../../service/Post';
@@ -22,7 +24,7 @@ export function CreatePostPage() {
   const [description, setDescription] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
-  const [newTag, setNewTag] = useState<string>(''); 
+  const [newTag, setNewTag] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -65,12 +67,12 @@ export function CreatePostPage() {
   const handleAddTag = () => {
     const tagList = newTag
       .split(/[\s,]+/)
-      .map((tag) => tag.trim()) 
+      .map((tag) => tag.trim())
       .filter((tag) => tag && !tags.includes(tag));
 
     setTags([...tags, ...tagList]);
     setNewTag('');
-};
+  };
 
   const handleRemoveTag = (tagToRemove: string) => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
@@ -153,13 +155,20 @@ export function CreatePostPage() {
               _focus={{ bg: 'white' }}
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
-              onKeyPress={(e) => {
+              onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   e.preventDefault();
                   handleAddTag();
                 }
               }}
             />
+            <Box margin="5px" color="gray.500" fontSize="14px">
+              <Text>- Para criar uma tag precione Enter</Text>
+              <Text>
+                - Para tags com mais de uma palavra, separe-as com um -
+              </Text>
+              <Text margin="0px 10px">ex: back-end</Text>
+            </Box>
           </FormControl>
 
           <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
@@ -182,18 +191,18 @@ export function CreatePostPage() {
           </FormControl>
 
           <Button
-              w="100%"
-              h="40px"
-              mt={5}
-              type="submit"
-              bg="#805AD5"
-              _hover={{ bg: '#9B71E6' }}
-              color="#FFF"
-              borderRadius="6px"
-              isLoading={loading}
-              isDisabled={loading}
-            >
-              Postar
+            w="100%"
+            h="40px"
+            mt={5}
+            type="submit"
+            bg="#805AD5"
+            _hover={{ bg: '#9B71E6' }}
+            color="#FFF"
+            borderRadius="6px"
+            isLoading={loading}
+            isDisabled={loading}
+          >
+            Postar
           </Button>
         </form>
       </Box>
