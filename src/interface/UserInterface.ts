@@ -16,7 +16,9 @@ export interface UserForgotPassword {
   email: string;
 }
 export interface UserResetPassword {
+  token?:string;
   newPassword: string;
+  ConfirmNewPassword?:string;
 }
 export interface User {
   name: string;
