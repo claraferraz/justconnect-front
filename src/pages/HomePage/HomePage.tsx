@@ -10,12 +10,13 @@ import {
 import { PostCard } from '../../components/PostCard/PostCard';
 import { useState, useEffect } from 'react';
 import { UserPostInfo } from '../../interface/UserInterface';
+import { fetchPosts } from '../../service/Post';
 
 export function HomePage() {
   //ajustar cores das tabs
   //função de listagem de posts
-  
-  const [posts, setPosts] = useState<UserPostInfo[]>([]); 
+
+  const [posts, setPosts] = useState<UserPostInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const getPostsList = async () => {
@@ -29,25 +30,10 @@ export function HomePage() {
       setLoading(false);
     }
   };
-  
-  useEffect(() => {
-    getPostsList(); 
-  }, []);
 
-  const post = {
-    "id": "8bafbbb8-2f52-446d-a891-a909b2987822",
-    "title": "Teste de titulo",
-    "description": "teste de descrição kjwfhidsjfbwhebfiuw ajwbfqjbwedlwfjrpg ",
-    "score": 0,
-    "status_open": true,
-    "created_at": "2024-11-12T19:45:34.344Z",
-    "updated_at": "2024-11-12T19:45:34.344Z",
-    "tags": [
-      "wqdwqd"
-    ],
-    "username": "claraadm",
-    "commentCount": 0
-  }
+  useEffect(() => {
+    getPostsList();
+  }, []);
 
   return (
     <>
@@ -69,17 +55,16 @@ export function HomePage() {
 
           <TabPanels>
             <TabPanel>
-              <Flex direction="column" gap="15px">
-              <PostCard id={post.id} username={post.username} updated_at={post.updated_at}
-                      tags={post.tags} title={post.title} description={post.description} score={post.score} created_at={post.created_at} status_open={post.status_open} commentCount={post.commentCount}/>
-              </Flex>
-            </TabPanel>
+              {loading && <p>carregando...</p>}
 
-            <TabPanel>
-              <Flex direction="column" gap="15px">
-                <PostCard id={post.id} username={post.username} updated_at={post.updated_at}
-                      tags={post.tags} title={post.title} description={post.description} score={post.score} created_at={post.created_at} status_open={post.status_open} commentCount={post.commentCount}/>
-              </Flex>
+              {posts.length > 0 &&
+                posts.map((post) => (
+                  <Flex direction="column" gap="15px" key={post.id}>
+                    <PostCard post={post} />
+                  </Flex>
+                ))}
+
+              {!loading && posts.length === 0 && <p>Nenhum post encontrado</p>}
             </TabPanel>
           </TabPanels>
         </Tabs>
