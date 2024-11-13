@@ -5,12 +5,10 @@ import {
   CardHeader,
   Flex,
   HStack,
-  Icon,
   Tag,
 } from '@chakra-ui/react';
 
-import { CiLock } from "react-icons/ci";
-import { UnlockIcon } from '@chakra-ui/icons';
+import { FaUnlockAlt, FaLock } from "react-icons/fa";
 import { useEffect, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -63,7 +61,7 @@ export function PostCard({id, username, title, description, score, status_open, 
                 4 comentários
               </Text>
             </Flex>
-            {status_open ? (<Icon as={UnlockIcon} color={"#515151"}/>) : (<CiLock color={"#515151"} />)}
+            {status_open ? (<FaUnlockAlt color={"#515151"} />) : (<FaLock  color={"#515151"} />)}
           </Flex>
         </CardHeader>
         <CardBody>

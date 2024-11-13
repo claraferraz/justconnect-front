@@ -15,8 +15,8 @@ export function HomePage() {
   //função map para exibit os PostCard
   const post = {
     "id": "8bafbbb8-2f52-446d-a891-a909b2987822",
-    "title": "fqawdfqaw",
-    "description": "qwddqwawdqawfda",
+    "title": "Teste de titulo",
+    "description": "teste de descrição kjwfhidsjfbwhebfiuw ajwbfqjbwedlwfjrpg ",
     "score": 0,
     "status_open": true,
     "created_at": "2024-11-12T19:45:34.344Z",
