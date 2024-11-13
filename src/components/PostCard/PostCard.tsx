@@ -31,12 +31,17 @@ export function PostCard() {
 
   const [dateText, setDateText] = useState('');
 
+  const getPostDate = () => {
+    const date = new Date('2024-11-13T15:09:16.607Z');
+    setDateText(formatDistanceToNow(date, { locale: ptBR, addSuffix: true }));
+  };
+
   //atualiza automaticamente o tempo da postagem a cada 1 min
   useEffect(() => {
-    const date = new Date('2024-11-08T21:54:36.849Z');
+    getPostDate();
     const id = setInterval(() => {
-      setDateText(formatDistanceToNow(date, { locale: ptBR, addSuffix: true }));
-    }, 60000);
+      getPostDate();
+    }, 30000);
 
     return () => clearInterval(id);
   }, []);
@@ -122,7 +127,7 @@ export function PostCard() {
             ))}
           </Flex>
           <Flex direction="column" alignItems="flex-end">
-            <Text fontSize="12px" fontFamily="montserrat">
+            <Text fontSize="12px" fontFamily="montserrat" color="gray.600">
               {dateText}
             </Text>
             <Text fontSize="12px" fontFamily="montserrat" color="purple">
