@@ -44,9 +44,9 @@ export function EditProfileForm({ user }: Props) {
     username: username,
     email: email,
     bio_description: bio,
-    instagram: insta ? insta : null,
-    github: github ? github : null,
-    linkedin: linkedin ? linkedin : null,
+    instagram: insta || null,
+    github: github || null,
+    linkedin: linkedin || null,
   };
 
   if (!id) {
