@@ -1,26 +1,21 @@
-import { ReactNode } from 'react';
 import { Flex, Link as ChakraLink, Icon } from '@chakra-ui/react';
-import {useNavigate } from 'react-router-dom';
-
-interface NavItemProps {
-  icon: React.ElementType;
-  children: ReactNode;
-  path?: string;
-  mt?: number;
-  onClick?: () => void;
-}
+import { useNavigate, useLocation } from 'react-router-dom'; // 1. Import useLocation
+import { NavItemProps } from '../../interface/SideBarInterface';
 
 const NavItem = ({ icon, children, path, mt, onClick }: NavItemProps) => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const location = useLocation(); 
   
   const handleClick = () => {
     if (onClick) {
       onClick();
     }
     if (path) {
-      navigate(path); 
+      navigate(path);
     }
   };
+
+  const isActive = location.pathname === path; 
 
   return (
     <ChakraLink style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }} onClick={handleClick}>
@@ -32,6 +27,8 @@ const NavItem = ({ icon, children, path, mt, onClick }: NavItemProps) => {
         borderRadius="lg"
         role="group"
         cursor="pointer"
+        bg={isActive ? '#805AD5' : 'transparent'} 
+        color={isActive ? 'white' : 'inherit'} 
         _hover={{
           bg: '#805AD5',
           color: 'white',
