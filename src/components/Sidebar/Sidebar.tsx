@@ -7,6 +7,7 @@ import {
   InputGroup,
   Input,
   InputLeftElement,
+  Flex,
 } from '@chakra-ui/react';
 import SidebarContent from './SidebarContent';
 import SidebarHeader from './SidebarHeader';
@@ -90,9 +91,16 @@ export default function SimpleSidebar({ children }: SidebarProps) {
       )}
       {notificationsVisible && (
         <>
-          <Box px={4} zIndex={2} position="absolute" top="0px" w={'full'}>
-            <NotificationsBox />
-          </Box>
+          <Flex
+            zIndex={2}
+            position="absolute"
+            top="0px"
+            w={'full'}
+            justify={isDesktop ? 'right' : 'center'}
+            paddingRight={isDesktop ? '5%' : 0}
+          >
+            <NotificationsBox toggleNotifications={toggleNotifications} />
+          </Flex>
           <Box
             position="fixed"
             top="0"
