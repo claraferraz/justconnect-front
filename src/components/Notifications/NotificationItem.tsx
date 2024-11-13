@@ -6,10 +6,10 @@ import { ptBR } from 'date-fns/locale';
 
 interface Props {
   username: string;
-  user_id: UUID;
+  user_id: UUID | string;
   created_at: string | Date;
   content: string;
-  post_id: UUID;
+  post_id: UUID | string;
 }
 
 export function NotificationItem({
