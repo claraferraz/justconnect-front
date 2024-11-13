@@ -14,7 +14,7 @@ import SidebarHeader from './SidebarHeader';
 import { FiSearch } from 'react-icons/fi';
 import { useProfileStore } from '../../store/profileStore';
 import { SidebarProps } from '../../interface/SideBarInterface';
-import { NotificationsBox } from '../NotificationsBox/NotificationsBox';
+import { NotificationsBox } from '../Notifications/NotificationsBox';
 
 export default function SimpleSidebar({ children }: SidebarProps) {
   //quando a barra de pesquisa está aberta, a de notificações fica fechada e virse versa
