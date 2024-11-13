@@ -8,11 +8,32 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { PostCard } from '../../components/PostCard/PostCard';
+import { useState, useEffect } from 'react';
+import { UserPostInfo } from '../../interface/UserInterface';
 
 export function HomePage() {
   //ajustar cores das tabs
   //função de listagem de posts
-  //função map para exibit os PostCard
+  
+  const [posts, setPosts] = useState<UserPostInfo[]>([]); 
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const getPostsList = async () => {
+    setLoading(true);
+    try {
+      const postsList = await fetchPosts();
+      setPosts(postsList);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    getPostsList(); 
+  }, []);
+
   const post = {
     "id": "8bafbbb8-2f52-446d-a891-a909b2987822",
     "title": "Teste de titulo",
