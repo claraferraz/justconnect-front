@@ -85,3 +85,17 @@ export interface UserPostInfo {
   updatedAt: string;
   admin_post_block: boolean;
 }
+export interface UserPostById{
+  id: string;
+  user_id: string;
+  title: string;
+  description: string;
+  score: number;
+  status_open: boolean;
+  created_at: string;
+  updated_at: string;
+  admin_post_block: boolean;
+  comment: Comment[];
+  tags: string[];
+  username: string;
+}
