@@ -23,6 +23,7 @@ export function NotificationsBox({ toggleNotifications }: Props) {
       created_at: '2024-11-13T15:09:16.607Z',
       content: 'respondeu seu post',
       post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: true,
     },
     {
       username: 'juninhoplayboy',
@@ -30,6 +31,7 @@ export function NotificationsBox({ toggleNotifications }: Props) {
       created_at: '2024-11-13T17:27:51.745Z',
       content: 'curtiu seu comentário',
       post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: true,
     },
     {
       username: 'juninhoplayboy',
@@ -37,6 +39,7 @@ export function NotificationsBox({ toggleNotifications }: Props) {
       created_at: '2024-11-13T17:27:51.745Z',
       content: 'curtiu seu comentário',
       post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: false,
     },
     {
       username: 'juninhoplayboy',
@@ -44,6 +47,7 @@ export function NotificationsBox({ toggleNotifications }: Props) {
       created_at: '2024-11-13T17:27:51.745Z',
       content: 'curtiu seu comentário',
       post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: false,
     },
     {
       username: 'juninhoplayboy',
@@ -51,6 +55,7 @@ export function NotificationsBox({ toggleNotifications }: Props) {
       created_at: '2024-11-13T17:27:51.745Z',
       content: 'curtiu seu comentário',
       post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: false,
     },
     {
       username: 'juninhoplayboy',
@@ -58,6 +63,7 @@ export function NotificationsBox({ toggleNotifications }: Props) {
       created_at: '2024-11-13T17:27:51.745Z',
       content: 'curtiu seu comentário',
       post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: false,
     },
   ];
   return (
@@ -77,16 +83,23 @@ export function NotificationsBox({ toggleNotifications }: Props) {
         <CardBody>
           {notifications.map((n) => {
             return (
-              <>
+              <Box
+                borderBottom="1px solid #DEDEDE"
+                paddingY="15px"
+                _hover={{
+                  background:
+                    'hsl(258.5365853658536, 70.42028985507248%, 95.411764705882355%)',
+                }}
+              >
                 <NotificationItem
                   username={n.username}
                   user_id={n.user_id}
                   created_at={n.created_at}
                   content={n.content}
                   post_id={n.post_id}
+                  isNew={n.isNew}
                 />
-                <Box borderBottom="1px solid #DEDEDE" marginY="15px"></Box>
-              </>
+              </Box>
             );
           })}
         </CardBody>

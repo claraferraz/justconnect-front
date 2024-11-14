@@ -1,7 +1,8 @@
-import { Grid, GridItem, Link, Text } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Link, Text } from '@chakra-ui/react';
 import { UUID } from 'crypto';
 
 import { DataText } from '../DataText/DataText';
+import { useState } from 'react';
 
 interface Props {
   username: string;
@@ -9,6 +10,7 @@ interface Props {
   created_at: string | Date;
   content: string;
   post_id: UUID | string;
+  isNew: boolean;
 }
 
 export function NotificationItem({
@@ -17,15 +19,28 @@ export function NotificationItem({
   created_at,
   content,
   post_id,
+  isNew,
 }: Props) {
+  const [n, setN] = useState(isNew);
   return (
     <>
       <Grid
+        onMouseOver={() => setN(false)}
         alignItems="center"
         minH="20px"
-        gridTemplateColumns="11fr 1fr"
+        gridTemplateColumns="1fr 13fr 1fr"
         overflow="scroll"
       >
+        <GridItem>
+          {n && (
+            <Center
+              background="#805AD5"
+              height={'8px'}
+              width={'8px'}
+              rounded={'100px'}
+            ></Center>
+          )}
+        </GridItem>
         <GridItem>
           <Text fontSize="14px" fontWeight="500">
             <Link href={`/profile/${user_id}`} color="#805AD5">
