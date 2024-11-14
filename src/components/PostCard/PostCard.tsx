@@ -80,7 +80,7 @@ export function PostCard({
           </Flex>
         </CardHeader>
         <CardBody>
-          <Link to={'/post/:id'}>
+          <Link to={`/post/${id}`}>
             <Text
               fontSize={'16px'}
               bg="transparent"

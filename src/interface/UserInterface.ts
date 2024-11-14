@@ -1,4 +1,5 @@
 import { UUID } from 'crypto';
+import { Comment } from './CommentsInterface';
 
 export interface UserSignIn {
   email?: string;
@@ -87,7 +88,7 @@ export interface UserPostInfo {
   commentCount: number;
 }
 export interface UserPostById{
-  id: string;
+  id: UUID;
   user_id: string;
   title: string;
   description: string;
