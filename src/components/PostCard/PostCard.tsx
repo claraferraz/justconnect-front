@@ -34,7 +34,7 @@ export function PostCard({
   //falar com o back pra retornar o user_id de volta
   return (
     <>
-      <Card width="100%" shadow={'none'} bg="transparent">
+      <Card paddingRight="20px" width="100%" shadow={'none'} bg="transparent">
         <CardHeader
           justifyContent="space-between"
           p={0}
