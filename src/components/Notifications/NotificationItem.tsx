@@ -48,7 +48,12 @@ export function NotificationItem({
   }, [created_at]);
   return (
     <>
-      <Grid alignItems="center" minH="20px" gridTemplateColumns="7fr 1fr">
+      <Grid
+        alignItems="center"
+        minH="20px"
+        gridTemplateColumns="7fr 1fr"
+        overflow="scroll"
+      >
         <GridItem>
           <Text fontSize="14px" fontWeight="500">
             <Link href={`/profile/${user_id}`} color="#805AD5">
