@@ -1,4 +1,5 @@
 import { UUID } from 'crypto';
+import { Comment } from './CommentsInterface';
 
 export interface UserSignIn {
   email?: string;
@@ -16,9 +17,8 @@ export interface UserForgotPassword {
   email: string;
 }
 export interface UserResetPassword {
-  token?:string;
+  token: string;
   newPassword: string;
-  ConfirmNewPassword?:string;
 }
 export interface User {
   name: string;
@@ -28,7 +28,7 @@ export interface User {
   linkedin?: string;
   github?: string;
   admin_user_block: boolean;
-  posts?: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[];
+  posts?: UserPostInfo[];
 }
 export interface ProfileInfos {
   id: UUID;
@@ -41,7 +41,7 @@ export interface ProfileInfos {
   github?: string;
   role: Role;
   admin_user_block: boolean;
-  posts?: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[];
+  posts?: UserPostInfo[];
 }
 export interface UpdateProfileInfos {
   name: string;
@@ -72,17 +72,32 @@ export enum Role {
 export interface UserCreatePost {
   title: string;
   description: string;
-  tags: string[];  
+  tags: string[];
 }
 
 export interface UserPostInfo {
   id: string;
-  user_id: UUID;
+  username: string;
   title: string;
   description: string;
   score: number;
-  statusOpen: boolean;
-  createdAt: string;
-  updatedAt: string;
+  status_open: boolean;
+  created_at: string | number;
+  updated_at: string;
+  tags: string[];
+  commentCount: number;
+}
+export interface UserPostById {
+  id: string | UUID;
+  user_id: string;
+  title: string;
+  description: string;
+  score: number;
+  status_open: boolean;
+  created_at: string;
+  updated_at: string;
   admin_post_block: boolean;
+  comment: Comment[];
+  tags: string[];
+  username: string;
 }
