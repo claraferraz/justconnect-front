@@ -170,7 +170,7 @@ export function PostPage() {
           mx="auto"
           maxWidth="85%"
         />
-        <Box mt="30px">
+        <Box paddingLeft="20px" mt="30px">
           <Text color="#281A45" fontSize="18px" fontWeight="500">
             Responder
           </Text>
@@ -196,6 +196,7 @@ export function PostPage() {
             Responder
           </Button>
         </Box>
+        <Divider mt="61px" background="#DEDEDE" height="1px" />
       </Box>
     </>
   );
