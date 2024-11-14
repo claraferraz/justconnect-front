@@ -8,11 +8,32 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { PostCard } from '../../components/PostCard/PostCard';
+import { useState, useEffect } from 'react';
+import { UserPostInfo } from '../../interface/UserInterface';
+import { fetchPosts } from '../../service/Post';
 
 export function HomePage() {
   //ajustar cores das tabs
   //função de listagem de posts
-  //função map para exibit os PostCard
+
+  const [posts, setPosts] = useState<UserPostInfo[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const getPostsList = async () => {
+    setLoading(true);
+    try {
+      const postsList = await fetchPosts();
+      setPosts(postsList);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getPostsList();
+  }, []);
 
   return (
     <>
@@ -34,19 +55,16 @@ export function HomePage() {
 
           <TabPanels>
             <TabPanel>
-              <Flex direction="column" gap="15px">
-                <PostCard />
-                <hr />
-                <PostCard />
-              </Flex>
-            </TabPanel>
+              {loading && <p>carregando...</p>}
 
-            <TabPanel>
-              <Flex direction="column" gap="15px">
-                <PostCard />
-                <hr />
-                <PostCard />
-              </Flex>
+              {posts.length > 0 &&
+                posts.map((post) => (
+                  <Flex direction="column" gap="15px" key={post.id}>
+                    <PostCard post={post} />
+                  </Flex>
+                ))}
+
+              {!loading && posts.length === 0 && <p>Nenhum post encontrado</p>}
             </TabPanel>
           </TabPanels>
         </Tabs>

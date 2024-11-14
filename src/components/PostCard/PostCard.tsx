@@ -1,50 +1,56 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Text,
-  Button,
   Card,
   CardBody,
   CardHeader,
   Flex,
-  Heading,
   HStack,
-  Icon,
   Tag,
 } from '@chakra-ui/react';
 
-import { UnlockIcon } from '@chakra-ui/icons';
+import { FaUnlockAlt, FaLock } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-//import { UserPostInfo } from '../../interface/UserInterface';
+import { Link } from 'react-router-dom';
+import { UserPostInfo } from '../../interface/UserInterface';
 
-export function PostCard() {
-  //npm install date-fns
-  //adicionar props para auto popular o componente
-  //número de curtidas e comentários não precisam ser um botão ou ter um hover
-  //ao clicar no título, abre o post
-  //ajustar tamanho da fonte do título
-  //ao clicar em uma tag, abre a tag
-  //ao clicar num username, abre o username
-  //cadeado cinza
-  //hover somente nos clicáveis
-  //ajustar margem da direta
+interface Props {
+  post: UserPostInfo;
+}
 
+export function PostCard({
+  post: {
+    id,
+    username,
+    title,
+    description,
+    score,
+    status_open,
+    updated_at,
+    tags,
+    created_at,
+    commentCount,
+  },
+}: Props) {
+  //atualiza automaticamente o tempo da postagem a cada 1 min
   const [dateText, setDateText] = useState('');
 
-  const getPostDate = () => {
-    const date = new Date('2024-11-13T15:09:16.607Z');
+  const getPostDate = (d: string | number | Date) => {
+    const date = new Date(d);
     setDateText(formatDistanceToNow(date, { locale: ptBR, addSuffix: true }));
   };
 
   //atualiza automaticamente o tempo da postagem a cada 1 min
   useEffect(() => {
-    getPostDate();
+    getPostDate(created_at);
     const id = setInterval(() => {
-      getPostDate();
+      getPostDate(created_at);
     }, 30000);
 
     return () => clearInterval(id);
-  }, []);
+  }, [created_at]);
 
   return (
     <>
@@ -58,81 +64,94 @@ export function PostCard() {
             },
           }}
         >
-          <Flex justifyContent={'space-between'} alignItems={'center'}>
-            <Flex>
-              <Button
-                flex="1"
-                fontSize="12px"
-                fontFamily="montserrat"
-                color="#515151"
-                variant="ghost"
-              >
-                2 curtidas
-              </Button>
-              <Button
-                flex="1"
-                fontSize="12px"
-                fontFamily="montserrat"
-                color="#515151"
-                variant="ghost"
-              >
-                4 comentários
-              </Button>
+          <Flex
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            marginTop={'10px'}
+          >
+            <Flex
+              gap={'15px'}
+              fontSize={'12px'}
+              marginLeft={'20px'}
+              color={'#515151'}
+            >
+              <Text>{score} curtidas</Text>
+              <Text>4 comentários</Text>
             </Flex>
-            <Icon as={UnlockIcon} />
+            {status_open ? (
+              <FaUnlockAlt color={'#515151'} />
+            ) : (
+              <FaLock color={'#515151'} />
+            )}
           </Flex>
         </CardHeader>
         <CardBody>
-          <Heading size="lg">Titulo</Heading> <br />
-          <p>
-            With Chakra UI, I wanted to sync the speed of development with the
-            speed of design. I wanted the developer to be just as excited as the
-            designer to create a screen.
-          </p>
+          <Link to={'/post/:id'}>
+            <Text
+              fontSize={'16px'}
+              bg="transparent"
+              color={'#000000'}
+              fontFamily="montserrat"
+              fontWeight={'500'}
+            >
+              {title}
+            </Text>
+          </Link>
+          <Text fontSize={'14px'} color={'#111111'} marginTop={'5px'}>
+            {description}
+          </Text>
         </CardBody>
         <HStack spacing={4} width="100%" justifyContent="space-between">
           <Flex>
             {['md'].map((size) => (
-              <Tag
-                margin={'15px'}
-                size={size}
-                key={`${size}-1`}
-                variant="solid"
-                colorScheme="blue"
-              >
-                +Tag
-              </Tag>
+              <Link to={'/tags/:id'}>
+                <Tag
+                  margin={'15px'}
+                  size={size}
+                  key={`${size}-1`}
+                  variant="solid"
+                  colorScheme="blue"
+                >
+                  +Tag
+                </Tag>
+              </Link>
             ))}
             {['md'].map((size) => (
-              <Tag
-                margin={'15px'}
-                size={size}
-                key={`${size}-2`}
-                variant="solid"
-                colorScheme="yellow"
-              >
-                +Tag
-              </Tag>
+              <Link to={'/tags/:id'}>
+                <Tag
+                  margin={'15px'}
+                  size={size}
+                  key={`${size}-1`}
+                  variant="solid"
+                  colorScheme="yellow"
+                >
+                  +Tag
+                </Tag>
+              </Link>
             ))}
             {['md'].map((size) => (
-              <Tag
-                margin={'15px'}
-                size={size}
-                key={`${size}-3`}
-                variant="solid"
-                colorScheme="green"
-              >
-                +Tag
-              </Tag>
+              <Link to={'/tags/:id'}>
+                <Tag
+                  margin={'15px'}
+                  size={size}
+                  key={`${size}-1`}
+                  variant="solid"
+                  colorScheme="green"
+                >
+                  +Tag
+                </Tag>
+              </Link>
             ))}
           </Flex>
           <Flex direction="column" alignItems="flex-end">
-            <Text fontSize="12px" fontFamily="montserrat" color="gray.600">
+            <Text fontSize="12px" fontFamily="montserrat" color={'#515151'}>
               {dateText}
             </Text>
-            <Text fontSize="12px" fontFamily="montserrat" color="purple">
-              @username
-            </Text>
+            <Link to={'/profile/:id'}>
+              <Text fontSize="12px" fontFamily="montserrat" color="purple">
+                @username
+              </Text>
+            </Link>
           </Flex>
         </HStack>
       </Card>

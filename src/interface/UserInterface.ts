@@ -16,9 +16,8 @@ export interface UserForgotPassword {
   email: string;
 }
 export interface UserResetPassword {
-  token?:string;
+  token: string;
   newPassword: string;
-  ConfirmNewPassword?:string;
 }
 export interface User {
   name: string;
@@ -72,18 +71,18 @@ export enum Role {
 export interface UserCreatePost {
   title: string;
   description: string;
-  tags: string[];  
+  tags: string[];
 }
 
 export interface UserPostInfo {
   id: string;
-  user_id: UUID;
+  username: string;
   title: string;
   description: string;
   score: number;
-  statusOpen: boolean;
-  createdAt: string;
-  updatedAt: string;
-  admin_post_block: boolean;
+  status_open: boolean;
+  created_at: string | number;
+  updated_at: string;
   tags: string[];
+  commentCount: number;
 }
