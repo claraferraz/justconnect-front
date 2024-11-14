@@ -1,8 +1,7 @@
 import { Grid, GridItem, Link, Text } from '@chakra-ui/react';
 import { UUID } from 'crypto';
-import { useEffect, useState } from 'react';
-import { formatDistanceToNowStrict } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+
+import { DataText } from '../DataText/DataText';
 
 interface Props {
   username: string;
@@ -19,39 +18,12 @@ export function NotificationItem({
   content,
   post_id,
 }: Props) {
-  const [dateText, setDateText] = useState('');
-
-  const getPostDate = (d: string | Date) => {
-    const date = new Date(d);
-    setDateText(
-      formatDistanceToNowStrict(date, { locale: ptBR })
-        .replace('segundos', 's')
-        .replace('segundo', 's')
-        .replace('minutos', 'min')
-        .replace('minuto', 'min')
-        .replace('horas', 'h')
-        .replace('hora', 'h')
-        .replace('dias', 'd')
-        .replace('dia', 'd')
-        .replace('anos', 'a')
-        .replace('ano', 'a')
-    );
-  };
-
-  useEffect(() => {
-    getPostDate(created_at);
-    const id = setInterval(() => {
-      getPostDate(created_at);
-    }, 30000);
-
-    return () => clearInterval(id);
-  }, [created_at]);
   return (
     <>
       <Grid
         alignItems="center"
         minH="20px"
-        gridTemplateColumns="7fr 1fr"
+        gridTemplateColumns="11fr 1fr"
         overflow="scroll"
       >
         <GridItem>
@@ -62,7 +34,7 @@ export function NotificationItem({
             <Link href={`/post/${post_id}`}> {content}</Link>
           </Text>
         </GridItem>
-        <Text fontSize="12px">{dateText}</Text>
+        <DataText created={created_at} updated={created_at} sufix={false} />
       </Grid>
     </>
   );
