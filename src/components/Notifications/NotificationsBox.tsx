@@ -65,7 +65,8 @@ export function NotificationsBox({ toggleNotifications }: Props) {
       <Card
         bg="gray.50"
         width={isDesktop ? '400px' : '330px'}
-        height={isDesktop ? '450px' : '400px'}
+        maxHeight={isDesktop ? '450px' : '400px'}
+        overflow={'auto'}
       >
         <CardHeader>
           <Flex justify="space-between">
