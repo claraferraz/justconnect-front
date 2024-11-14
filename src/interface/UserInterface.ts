@@ -88,7 +88,7 @@ export interface UserPostInfo {
   commentCount: number;
 }
 export interface UserPostById{
-  id: string;
+  id: string | UUID;
   user_id: string;
   title: string;
   description: string;
