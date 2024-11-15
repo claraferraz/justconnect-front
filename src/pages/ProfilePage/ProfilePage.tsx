@@ -23,7 +23,7 @@ export function ProfilePage() {
       const response = await fetchUserData(id);
       setUser(response);
       if (response.posts) {
-        setPosts(response.posts);
+        setPosts(response.posts.reverse());
       }
     } catch (error) {
       console.error(error);
