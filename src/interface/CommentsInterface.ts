@@ -1,10 +1,14 @@
 import { UUID } from 'crypto';
 
 export interface Comment {
-    id: UUID; 
+    id: string | UUID; 
     username: string; 
-    content: string; 
+    comment: string; 
     score: number; 
     created_at: string; 
+    updated_at: string;
   }
-  
+export interface CreateComment{
+  id: string | UUID;
+  comment: string;
+}
