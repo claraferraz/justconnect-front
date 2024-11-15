@@ -1,6 +1,8 @@
 import { Box, Flex, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { NotificationsBox } from './NotificationsBox';
-import { FiBell } from 'react-icons/fi';
+import { LuBellDot, LuBell } from 'react-icons/lu';
+import { UserNotifications } from '../../interface/UserInterface';
+import { useEffect, useState } from 'react';
 
 interface Props {
   notificationsVisible: boolean;
@@ -11,8 +13,11 @@ export function NotificationsWrapper({
   notificationsVisible,
   toggleNotifications,
 }: Props) {
+  const [hasNew, setHasNew] = useState(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  const notificationsList = [
+  const [notificationsList, setNotificationsList] = useState<
+    UserNotifications[]
+  >([
     {
       username: 'teste',
       created_at: '2024-11-13T15:09:16.607Z',
@@ -55,7 +60,17 @@ export function NotificationsWrapper({
       post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
       isNew: false,
     },
-  ];
+  ]);
+  const handleClose = () => {
+    toggleNotifications();
+    setNotificationsList((prev: UserNotifications[]) =>
+      prev.map((notification) => ({ ...notification, isNew: false }))
+    );
+  };
+
+  useEffect(() => {
+    setHasNew(notificationsList.some((notification) => notification.isNew));
+  }, [notificationsList]);
 
   return (
     <>
@@ -64,11 +79,17 @@ export function NotificationsWrapper({
         bg={notificationsVisible ? '#805AD5' : 'transparent'}
         border="none"
         aria-label="notifications"
-        icon={<FiBell color="#fff" size={24} />}
+        icon={
+          hasNew ? (
+            <LuBellDot color="#fff" size={24} />
+          ) : (
+            <LuBell color="#fff" size={24} />
+          )
+        }
         _hover={{ color: '#fff', bg: '#805AD5' }}
         marginRight="4"
-        onClick={toggleNotifications}
-      />
+        onClick={notificationsVisible ? handleClose : toggleNotifications}
+      ></IconButton>
       {notificationsVisible && (
         <>
           <Flex
@@ -81,7 +102,7 @@ export function NotificationsWrapper({
             paddingRight={isDesktop ? '5%' : 0}
           >
             <NotificationsBox
-              toggleNotifications={toggleNotifications}
+              handleClose={handleClose}
               notifications={notificationsList}
             />
           </Flex>

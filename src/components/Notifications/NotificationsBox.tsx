@@ -12,13 +12,10 @@ import { NotificationItem } from './NotificationItem';
 import { UserNotifications } from '../../interface/UserInterface';
 
 interface Props {
-  toggleNotifications: () => void;
+  handleClose: () => void;
   notifications: UserNotifications[];
 }
-export function NotificationsBox({
-  toggleNotifications,
-  notifications,
-}: Props) {
+export function NotificationsBox({ handleClose, notifications }: Props) {
   const isDesktop = useBreakpointValue({ base: false, md: true });
   //alterar aqui com a integração do backend
 
@@ -33,7 +30,7 @@ export function NotificationsBox({
         <CardHeader>
           <Flex justify="space-between">
             <Heading size="lg">Notificações</Heading>
-            <CloseButton onClick={toggleNotifications} />
+            <CloseButton onClick={handleClose} />
           </Flex>
         </CardHeader>
         <CardBody>
