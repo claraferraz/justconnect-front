@@ -10,7 +10,6 @@ import { useProfileStore } from '../../store/profileStore';
 import { SidebarProps } from '../../interface/SideBarInterface';
 
 export default function SimpleSidebar({ children }: SidebarProps) {
-  //quando a barra de pesquisa está aberta, a de notificações fica fechada e virse versa
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const isDesktop = useBreakpointValue({ base: false, md: true });

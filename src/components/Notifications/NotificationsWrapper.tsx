@@ -17,7 +17,7 @@ export function NotificationsWrapper({
     <>
       <IconButton
         variant="outline"
-        bg="none"
+        bg={notificationsVisible ? '#805AD5' : 'transparent'}
         border="none"
         aria-label="notifications"
         icon={<FiBell color="#fff" size={24} />}

@@ -33,13 +33,13 @@ export function SearchBar({ searchVisible, toggleSearch }: Props) {
       ) : (
         <IconButton
           variant="outline"
-          bg="none"
           border="none"
           aria-label="search"
           icon={<FiSearch color="#fff" size={24} />}
           onClick={toggleSearch}
           _hover={{ color: '#fff', bg: '#805AD5' }}
           marginRight="4"
+          bg={searchVisible ? '#805AD5' : 'transparent'}
         />
       )}
       {!isDesktop && searchVisible && (
