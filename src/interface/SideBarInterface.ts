@@ -25,8 +25,5 @@ export interface SidebarContentProps {
 }
 export interface SidebarHeaderProps {
   onOpen: () => void;
-  toggleSearch: () => void;
-  toggleNotifications: () => void;
-  showSearchInput: boolean;
   user?: ProfileInfos;
 }
