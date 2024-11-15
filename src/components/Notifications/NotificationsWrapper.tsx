@@ -12,6 +12,50 @@ export function NotificationsWrapper({
   toggleNotifications,
 }: Props) {
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const notificationsList = [
+    {
+      username: 'teste',
+      created_at: '2024-11-13T15:09:16.607Z',
+      content: 'respondeu seu post',
+      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: true,
+    },
+    {
+      username: 'claraadm',
+      created_at: '2024-11-13T17:27:51.745Z',
+      content: 'curtiu seu comentário',
+      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: true,
+    },
+    {
+      username: 'juninhoplayboy',
+      created_at: '2024-11-13T17:27:51.745Z',
+      content: 'curtiu seu comentário',
+      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: false,
+    },
+    {
+      username: 'juninhoplayboy',
+      created_at: '2024-11-13T17:27:51.745Z',
+      content: 'curtiu seu comentário',
+      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: false,
+    },
+    {
+      username: 'juninhoplayboy',
+      created_at: '2024-11-13T17:27:51.745Z',
+      content: 'curtiu seu comentário',
+      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: false,
+    },
+    {
+      username: 'juninhoplayboy',
+      created_at: '2024-11-13T17:27:51.745Z',
+      content: 'curtiu seu comentário',
+      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
+      isNew: false,
+    },
+  ];
 
   return (
     <>
@@ -36,7 +80,10 @@ export function NotificationsWrapper({
             justify={isDesktop ? 'right' : 'center'}
             paddingRight={isDesktop ? '5%' : 0}
           >
-            <NotificationsBox toggleNotifications={toggleNotifications} />
+            <NotificationsBox
+              toggleNotifications={toggleNotifications}
+              notifications={notificationsList}
+            />
           </Flex>
           <Box
             position="fixed"

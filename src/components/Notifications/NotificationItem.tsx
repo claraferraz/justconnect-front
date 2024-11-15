@@ -6,7 +6,6 @@ import { useState } from 'react';
 
 interface Props {
   username: string;
-  user_id: UUID | string;
   created_at: string | Date;
   content: string;
   post_id: UUID | string;
@@ -15,7 +14,6 @@ interface Props {
 
 export function NotificationItem({
   username,
-  user_id,
   created_at,
   content,
   post_id,
@@ -43,7 +41,7 @@ export function NotificationItem({
         </GridItem>
         <GridItem>
           <Text fontSize="14px" fontWeight="500">
-            <Link href={`/profile/${user_id}`} color="#805AD5">
+            <Link href={`/profile/${username}`} color="#805AD5">
               @{username}
             </Link>
             <Link href={`/post/${post_id}`}> {content}</Link>

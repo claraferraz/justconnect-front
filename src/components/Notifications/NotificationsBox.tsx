@@ -9,63 +9,19 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { NotificationItem } from './NotificationItem';
+import { UserNotifications } from '../../interface/UserInterface';
 
 interface Props {
   toggleNotifications: () => void;
+  notifications: UserNotifications[];
 }
-export function NotificationsBox({ toggleNotifications }: Props) {
+export function NotificationsBox({
+  toggleNotifications,
+  notifications,
+}: Props) {
   const isDesktop = useBreakpointValue({ base: false, md: true });
   //alterar aqui com a integração do backend
-  const notifications = [
-    {
-      username: 'Teste',
-      user_id: '6fcddbcb-d48f-4f6c-b7ad-0bfd44b99ac5',
-      created_at: '2024-11-13T15:09:16.607Z',
-      content: 'respondeu seu post',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: true,
-    },
-    {
-      username: 'juninhoplayboy',
-      user_id: '6fcddbcb-d48f-4f6c-b7ad-0bfd44b99ac5',
-      created_at: '2024-11-13T17:27:51.745Z',
-      content: 'curtiu seu comentário',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: true,
-    },
-    {
-      username: 'juninhoplayboy',
-      user_id: '6fcddbcb-d48f-4f6c-b7ad-0bfd44b99ac5',
-      created_at: '2024-11-13T17:27:51.745Z',
-      content: 'curtiu seu comentário',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: false,
-    },
-    {
-      username: 'juninhoplayboy',
-      user_id: '6fcddbcb-d48f-4f6c-b7ad-0bfd44b99ac5',
-      created_at: '2024-11-13T17:27:51.745Z',
-      content: 'curtiu seu comentário',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: false,
-    },
-    {
-      username: 'juninhoplayboy',
-      user_id: '6fcddbcb-d48f-4f6c-b7ad-0bfd44b99ac5',
-      created_at: '2024-11-13T17:27:51.745Z',
-      content: 'curtiu seu comentário',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: false,
-    },
-    {
-      username: 'juninhoplayboy',
-      user_id: '6fcddbcb-d48f-4f6c-b7ad-0bfd44b99ac5',
-      created_at: '2024-11-13T17:27:51.745Z',
-      content: 'curtiu seu comentário',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: false,
-    },
-  ];
+
   return (
     <>
       <Card
@@ -81,7 +37,7 @@ export function NotificationsBox({ toggleNotifications }: Props) {
           </Flex>
         </CardHeader>
         <CardBody>
-          {notifications.map((n) => {
+          {notifications.map((n: UserNotifications) => {
             return (
               <Box
                 borderBottom="1px solid #DEDEDE"
@@ -93,7 +49,6 @@ export function NotificationsBox({ toggleNotifications }: Props) {
               >
                 <NotificationItem
                   username={n.username}
-                  user_id={n.user_id}
                   created_at={n.created_at}
                   content={n.content}
                   post_id={n.post_id}
