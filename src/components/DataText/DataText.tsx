@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNowStrict } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Text } from '@chakra-ui/react';
 
@@ -23,7 +23,7 @@ export function DataText({ created, updated, sufix }: Props) {
       date = new Date(created);
     }
     setDateText(
-      formatDistanceToNow(date, { locale: ptBR, addSuffix: sufix })
+      formatDistanceToNowStrict(date, { locale: ptBR, addSuffix: sufix })
         .replace('segundos', 's')
         .replace('segundo', 's')
         .replace('minutos', 'min')
