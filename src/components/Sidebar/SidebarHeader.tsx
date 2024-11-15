@@ -13,12 +13,13 @@ import {
 } from '@chakra-ui/react';
 import { FiBell, FiMenu, FiSearch } from 'react-icons/fi';
 import logoBot from '../../assets/logoBot.svg';
-import {SidebarHeaderProps } from '../../interface/SideBarInterface';
+import { SidebarHeaderProps } from '../../interface/SideBarInterface';
 
 const SidebarHeader = ({
   onOpen,
   toggleSearch,
   showSearchInput,
+  toggleNotifications,
   user,
 }: SidebarHeaderProps) => {
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -90,6 +91,7 @@ const SidebarHeader = ({
               icon={<FiBell color="#fff" size={24} />}
               _hover={{ color: '#fff', bg: '#805AD5' }}
               marginRight="4"
+              onClick={toggleNotifications}
             />
             <Avatar name={user.name} color="#fff" marginRight="4">
               <AvatarBadge bg="green.500" boxSize="1.25em" />
