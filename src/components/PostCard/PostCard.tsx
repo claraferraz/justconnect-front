@@ -103,7 +103,7 @@ export function PostCard({
           </Flex>
           <Flex direction="column" alignItems="flex-end">
             <DataText created={created_at} updated={updated_at} sufix={true} />
-            <Link to={'/profile/:id'}>
+            <Link to={`/profile/${username}`}>
               <Text fontSize="12px" fontFamily="montserrat" color="purple">
                 @{username}
               </Text>

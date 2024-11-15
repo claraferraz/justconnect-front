@@ -12,15 +12,15 @@ export function ProfilePage() {
   const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<UserPostInfo[]>([]);
   const url = useParams();
-  const id = url.id;
+  const username = url.username;
 
-  const getUser = async (id?: UUID | string) => {
-    if (!id) {
+  const getUser = async (username?: UUID | string) => {
+    if (!username) {
       return;
     }
     setLoading(true);
     try {
-      const response = await fetchUserData(id);
+      const response = await fetchUserData(username);
       setUser(response);
       if (response.posts) {
         setPosts(response.posts.reverse());
@@ -33,8 +33,8 @@ export function ProfilePage() {
   };
 
   useEffect(() => {
-    getUser(id);
-  }, [url, id]);
+    getUser(username);
+  }, [url, username]);
 
   if (!user) {
     return;

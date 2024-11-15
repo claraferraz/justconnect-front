@@ -15,7 +15,6 @@ import {
   Users,
 } from './index';
 
-
 export function MainRoutes() {
   return (
     <Routes>
@@ -26,7 +25,7 @@ export function MainRoutes() {
       <Route path="public/auth/reset-password" element={<ResetPassword />} />
       <Route path="/my-profile" element={<MyProfile />} />
       <Route path="/my-profile/edit" element={<EditProfile />} />
-      <Route path="/profile/:id" element={<Profile />} />
+      <Route path="/profile/:username" element={<Profile />} />
       <Route path="/users" element={<Users />} />
       <Route path="/post/:id" element={<Post />} />
       <Route path="/create-post" element={<CreatePost />} />
