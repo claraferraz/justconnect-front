@@ -17,7 +17,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 export function ResetPasswordPage() {
   const [newPassword, setNewPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -43,14 +43,14 @@ export function ResetPasswordPage() {
       return;
     }
 
-    if (newPassword !== confirmPassword) {
+    if (newPassword !== confirmNewPassword) {
       setError('As senhas não coincidem');
       setLoading(false);
       return;
     }
 
     try {
-      await resetPassword({ newPassword, token });
+      await resetPassword({ newPassword, confirmNewPassword,token });
       toast({
         title: 'Senha alterada com sucesso',
         description: `Sua senha foi alterada com sucesso!! Você já pode acessar sua conta.`,
@@ -124,8 +124,8 @@ export function ResetPasswordPage() {
                 height="41px"
                 id="confirmPassword"
                 type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
                 isDisabled={loading}
               />
             </FormControl>

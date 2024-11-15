@@ -5,12 +5,14 @@ import {
   FormControl,
   FormLabel,
   Box,
-  Text,
   Link,
   Flex,
   useToast,
   Image,
   useBreakpointValue,
+  Alert,
+  AlertIcon,
+  CloseButton,
 } from '@chakra-ui/react';
 import { forgotPassword } from '../../service/Auth';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
@@ -18,7 +20,7 @@ import logoAuth from '../../assets/logoAuth.svg';
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null | boolean>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const toast = useToast();
@@ -70,6 +72,18 @@ export function ForgotPasswordPage() {
           alt="Logo"
           width={isDesktop ? '170px' : '140px'}
         />
+        {error &&(
+          <Alert status="error" mb="10px" borderRadius="md" position="relative">
+          <AlertIcon />
+              {typeof error === "string" ? error : "Ajuste os campos em vermelho."}
+                <CloseButton
+                  position="absolute"
+                  right="8px"
+                  top="8px"
+                  onClick={() => setError(false)}
+                />
+        </Alert>
+        )}
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
             <FormControl mb="4">
@@ -92,12 +106,6 @@ export function ForgotPasswordPage() {
                 isDisabled={loading}
               />
             </FormControl>
-
-            {error && (
-              <Text color="red.500" mb="4">
-                {error}
-              </Text>
-            )}
 
             <Button
               w="100%"

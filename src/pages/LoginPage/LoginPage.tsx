@@ -6,12 +6,14 @@ import {
   FormControl,
   FormLabel,
   Box,
-  Text,
   Link,
   Flex,
   useToast,
   useBreakpointValue,
   Image,
+  Alert,
+  AlertIcon,
+  CloseButton,
 } from '@chakra-ui/react';
 import { useAuthStore } from '../../store/authStore';
 import logo from '../../assets/logoAuth.svg';
@@ -19,7 +21,7 @@ import logo from '../../assets/logoAuth.svg';
 export function LoginPage() {
   const [usernameOrEmail, setUsernameOrEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null | boolean>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const toast = useToast();
@@ -32,7 +34,7 @@ export function LoginPage() {
     setError(null);
 
     try {
-      //tratar error após o tratamento de erro da API
+
       await loginUser(usernameOrEmail, password);
       toast({
         title: 'Login realizado com sucesso!',
@@ -71,6 +73,18 @@ export function LoginPage() {
           // width={isDesktop ? '150px' : '120px'}
           mb="5"
         />
+        {error &&(
+          <Alert status="error" mb="10px" borderRadius="md" position="relative">
+          <AlertIcon />
+              {typeof error === "string" ? error : "Ajuste os campos em vermelho."}
+                <CloseButton
+                  position="absolute"
+                  right="8px"
+                  top="8px"
+                  onClick={() => setError(false)}
+                />
+        </Alert>
+        )}
         <form onSubmit={handleSubmit}>
           <Flex flexDirection="column" alignItems="center">
             <FormControl mt="4" mb="4">
@@ -119,12 +133,6 @@ export function LoginPage() {
                 Esqueceu a senha?
               </Link>
             </Box>
-
-            {error && (
-              <Text color="red.500" mb="4">
-                {error}
-              </Text>
-            )}
 
             <Button
               w="100%"

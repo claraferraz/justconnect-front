@@ -19,6 +19,7 @@ export interface UserForgotPassword {
 export interface UserResetPassword {
   token: string;
   newPassword: string;
+  confirmNewPassword: string;
 }
 export interface User {
   name: string;
