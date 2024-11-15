@@ -27,7 +27,7 @@ export function NotificationsBox({ handleClose, notifications }: Props) {
         maxHeight={isDesktop ? '450px' : '400px'}
         overflow={'auto'}
       >
-        <CardHeader>
+        <CardHeader paddingBottom={0}>
           <Flex justify="space-between">
             <Heading size="lg">Notificações</Heading>
             <CloseButton onClick={handleClose} />

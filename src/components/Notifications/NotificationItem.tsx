@@ -26,7 +26,7 @@ export function NotificationItem({
         onMouseOver={() => setN(false)}
         alignItems="center"
         minH="20px"
-        gridTemplateColumns="1fr 13fr 1fr"
+        gridTemplateColumns="1fr 13fr 2fr"
         overflow="scroll"
       >
         <GridItem>
