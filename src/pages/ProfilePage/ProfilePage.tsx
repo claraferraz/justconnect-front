@@ -4,7 +4,6 @@ import { User, UserPostInfo } from '../../interface/UserInterface';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchUserData } from '../../service/Users';
-import { UUID } from 'crypto';
 import { PostCard } from '../../components/PostCard/PostCard';
 
 export function ProfilePage() {
@@ -14,7 +13,7 @@ export function ProfilePage() {
   const url = useParams();
   const username = url.username;
 
-  const getUser = async (username?: UUID | string) => {
+  const getUser = async (username?: string) => {
     if (!username) {
       return;
     }

@@ -5,7 +5,7 @@ const fetchUserData = async (username?: string): Promise<User> => {
   if (!username) {
     throw new Error('username não foi encontrado');
   }
-  const response = await api.get<User>(`/public/users/users/${username}`);
+  const response = await api.get<User>(`/public/users/user/${username}`);
 
   return response.data;
 };
