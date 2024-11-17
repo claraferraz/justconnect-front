@@ -34,7 +34,7 @@ export function PostCard({
   //falar com o back pra retornar o user_id de volta
   return (
     <>
-      <Card width="100%" shadow={'none'} bg="transparent">
+      <Card paddingRight="20px" width="100%" shadow={'none'} bg="transparent">
         <CardHeader
           justifyContent="space-between"
           p={0}
@@ -70,9 +70,8 @@ export function PostCard({
             <Text
               fontSize={'16px'}
               bg="transparent"
-              color={'#000000'}
-              fontFamily="montserrat"
               fontWeight={'500'}
+              _hover={{ color: '#805AD5' }}
             >
               {title}
             </Text>
@@ -93,6 +92,7 @@ export function PostCard({
                       key={`${size}-1`}
                       variant="solid"
                       background="#805AD5"
+                      _hover={{ background: '#815ad5d8' }}
                     >
                       {t}
                     </Tag>
@@ -103,8 +103,13 @@ export function PostCard({
           </Flex>
           <Flex direction="column" alignItems="flex-end">
             <DataText created={created_at} updated={updated_at} sufix={true} />
-            <Link to={'/profile/:id'}>
-              <Text fontSize="12px" fontFamily="montserrat" color="purple">
+            <Link to={`/profile/${username}`}>
+              <Text
+                fontSize="12px"
+                fontFamily="montserrat"
+                color="#805AD5"
+                _hover={{ color: '#281A45' }}
+              >
                 @{username}
               </Text>
             </Link>

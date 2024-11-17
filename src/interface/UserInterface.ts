@@ -28,7 +28,7 @@ export interface User {
   linkedin?: string;
   github?: string;
   admin_user_block: boolean;
-  posts?: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[];
+  posts?: UserPostInfo[];
 }
 export interface ProfileInfos {
   id: UUID;
@@ -41,7 +41,7 @@ export interface ProfileInfos {
   github?: string;
   role: Role;
   admin_user_block: boolean;
-  posts?: Omit<UserPostInfo, 'user_id' | 'updatedAt'>[];
+  posts?: UserPostInfo[];
 }
 export interface UpdateProfileInfos {
   name: string;
@@ -72,12 +72,12 @@ export enum Role {
 export interface UserCreatePost {
   title: string;
   description: string;
-  tags: string[];  
+  tags: string[];
 }
 
 export interface UserPostInfo {
   id: string;
-  username: string; 
+  username: string;
   title: string;
   description: string;
   score: number;
@@ -87,7 +87,7 @@ export interface UserPostInfo {
   tags: string[];
   commentCount: number;
 }
-export interface UserPostById{
+export interface UserPostById {
   id: string | UUID;
   user_id: string;
   title: string;
@@ -100,4 +100,12 @@ export interface UserPostById{
   comment: Comment[];
   tags: string[];
   username: string;
+}
+
+export interface UserNotifications {
+  username: string;
+  created_at: string | Date;
+  content: string;
+  post_id: UUID | string;
+  isNew: boolean;
 }
