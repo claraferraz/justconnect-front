@@ -66,20 +66,16 @@ export function RegisterPage() {
       });
       navigate('/my-profile');
     } catch (error: any) {
-      const errorMessages: string[] = []; // Array para armazenar todas as mensagens de erro
+      const errorMessages: string[] = []; 
 
       if (error.response && error.response.status >= 400) {
         const backendMessages = error.response.data?.message;
-
         if (backendMessages) {
-          // Se a resposta for um objeto com mensagens para campos específicos
           if (typeof backendMessages === 'object') {
             for (const [field, messages] of Object.entries(backendMessages)) {
               if (Array.isArray(messages)) {
-                // Adiciona as mensagens ao array de mensagens gerais
                 messages.forEach((msg: string) => {
-                  errorMessages.push(msg); // Adiciona ao array global de erros
-                  // Marca o campo como inválido para exibir a borda vermelha
+                  errorMessages.push(msg);
                   setError(field as keyof FormData, {
                     type: 'manual',
                     message: msg,
@@ -88,24 +84,20 @@ export function RegisterPage() {
               }
             }
           } else {
-            // Se a resposta for uma mensagem simples, como 'Username already exists'
             errorMessages.push(backendMessages || 'Erro ao processar o cadastro.');
           }
         } else {
-          // Caso o backend não retorne mensagens de erro
           errorMessages.push('Erro inesperado no servidor.');
         }
       } else if (error.request) {
-        // Caso haja erro de requisição (ex: sem conexão com o servidor)
         errorMessages.push('Não foi possível conectar ao servidor. Verifique sua conexão.');
       } else {
-        // Qualquer outro erro inesperado
         errorMessages.push(error.message || 'Erro inesperado.');
       }
 
       // Exibe todas as mensagens de erro no alerta
       if (errorMessages.length > 0) {
-        setGlobalError(errorMessages.join(' ')); // Junta todas as mensagens
+        setGlobalError(errorMessages.join(' '));
       }
 
       setLoading(false);
@@ -145,7 +137,7 @@ export function RegisterPage() {
               position="absolute"
               right="8px"
               top="8px"
-              onClick={() => setGlobalError(null)} // Limpa o erro ao clicar no botão
+              onClick={() => setGlobalError(null)}
             />
           </Alert>
         )}
