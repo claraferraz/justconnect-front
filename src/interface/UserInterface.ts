@@ -102,3 +102,11 @@ export interface UserPostById {
   tags: string[];
   username: string;
 }
+
+export interface UserNotifications {
+  username: string;
+  created_at: string | Date;
+  content: string;
+  post_id: UUID | string;
+  isNew: boolean;
+}
