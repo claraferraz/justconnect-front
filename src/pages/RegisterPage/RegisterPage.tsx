@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
+
 import {
   Button,
   Input,
@@ -35,7 +37,7 @@ export function RegisterPage() {
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setGlobalError] = useState<string | null>(null); // Estado global para exibir no Alert
+  const [error, setGlobalError] = useState<string | null>(null);
 
   const { loginUser, token } = useAuthStore();
 
@@ -45,7 +47,7 @@ export function RegisterPage() {
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
-    setGlobalError(null); // Limpa erros anteriores
+    setGlobalError(null);
 
     if (password !== confirmPassword) {
       setGlobalError("As senhas não conferem!");
@@ -65,41 +67,48 @@ export function RegisterPage() {
         position: 'bottom',
       });
       navigate('/my-profile');
-    } catch (error: any) {
-      const errorMessages: string[] = []; 
-
-      if (error.response && error.response.status >= 400) {
-        const backendMessages = error.response.data?.message;
-        if (backendMessages) {
-          if (typeof backendMessages === 'object') {
-            for (const [field, messages] of Object.entries(backendMessages)) {
-              if (Array.isArray(messages)) {
-                messages.forEach((msg: string) => {
-                  errorMessages.push(msg);
-                  setError(field as keyof FormData, {
-                    type: 'manual',
-                    message: msg,
+    } catch (error: unknown) {
+      const errorMessages: string[] = [];
+    
+      if (error instanceof AxiosError) {
+        if (error.response && error.response.status >= 400) {
+          const backendMessages = error.response.data?.message;
+          if (backendMessages) {
+            if (typeof backendMessages === 'object') {
+              for (const [field, messages] of Object.entries(backendMessages)) {
+                if (Array.isArray(messages)) {
+                  messages.forEach((msg: string) => {
+                    errorMessages.push(msg);
+                    setError(field as keyof FormData, {
+                      type: 'manual',
+                      message: msg,
+                    });
                   });
-                });
+                }
               }
+            } else {
+              errorMessages.push(backendMessages || 'Erro ao processar o cadastro.');
             }
           } else {
-            errorMessages.push(backendMessages || 'Erro ao processar o cadastro.');
+            errorMessages.push('Erro inesperado no servidor.');
           }
+        } else if (error.request) {
+          errorMessages.push('Não foi possível conectar ao servidor. Verifique sua conexão.');
         } else {
-          errorMessages.push('Erro inesperado no servidor.');
+          errorMessages.push(error.message || 'Erro inesperado.');
         }
-      } else if (error.request) {
-        errorMessages.push('Não foi possível conectar ao servidor. Verifique sua conexão.');
+      } else if (typeof error === 'string') {
+        // Caso o erro seja uma string simples
+        errorMessages.push(error);
       } else {
-        errorMessages.push(error.message || 'Erro inesperado.');
+        // Para outros tipos de erro
+        errorMessages.push('Erro inesperado.');
       }
-
-      // Exibe todas as mensagens de erro no alerta
+    
       if (errorMessages.length > 0) {
         setGlobalError(errorMessages.join(' '));
       }
-
+    
       setLoading(false);
     } finally {
       setLoading(false);
