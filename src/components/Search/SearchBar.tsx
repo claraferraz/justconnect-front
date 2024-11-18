@@ -1,7 +1,7 @@
 import { Box, Flex, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 import { SearchInput } from './SearchInput';
-import { SearchTypeSelector } from './SearchTypeSelector';
+
 interface Props {
   searchVisible: boolean;
   toggleSearch: () => void;
@@ -13,7 +13,7 @@ export function SearchBar({ searchVisible, toggleSearch }: Props) {
   return (
     <>
       {isDesktop ? (
-        <Flex mr={4} gap="10px" bg="white" rounded={6}>
+        <Flex mr={4} gap="1px" bg="white" rounded={6}>
           <SearchInput />
         </Flex>
       ) : (
@@ -49,7 +49,6 @@ export function SearchBar({ searchVisible, toggleSearch }: Props) {
               {!isDesktop && (
                 <Flex direction={'column'} gap="5px">
                   <SearchInput />
-                  <SearchTypeSelector />
                 </Flex>
               )}
             </Flex>
