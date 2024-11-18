@@ -1,15 +1,7 @@
-import {
-  Box,
-  Flex,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { Box, Flex, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
-import { InstructionsCard } from './InstructionsCard';
-
+import { SearchInput } from './SearchInput';
+import { SearchTypeSelector } from './SearchTypeSelector';
 interface Props {
   searchVisible: boolean;
   toggleSearch: () => void;
@@ -21,17 +13,9 @@ export function SearchBar({ searchVisible, toggleSearch }: Props) {
   return (
     <>
       {isDesktop ? (
-        <InputGroup mr={4}>
-          <InputLeftElement children={<FiSearch color="#000" />} />
-          <Input
-            w={{ base: '100%', md: '400px' }}
-            bg="white"
-            borderRadius={6}
-            focusBorderColor="#fff"
-            placeholder="Buscar"
-            _placeholder={{ color: '#A0AEC0' }}
-          />
-        </InputGroup>
+        <Flex mr={4} gap="10px" bg="white" rounded={6}>
+          <SearchInput />
+        </Flex>
       ) : (
         <IconButton
           variant="outline"
@@ -44,46 +28,45 @@ export function SearchBar({ searchVisible, toggleSearch }: Props) {
           bg={searchVisible ? '#805AD5' : 'transparent'}
         />
       )}
-      {!isDesktop && searchVisible && (
+      {searchVisible && (
         <>
           <Box
             px={4}
             zIndex={2}
             position="fixed"
             top="90px"
-            left={0}
-            w={'full'}
+            right={isDesktop ? '40px' : 0}
+            left={isDesktop ? 'auto' : 0}
+            maxWidth={isDesktop ? '50%' : '100%'}
           >
             <Flex
               direction="column"
               bg="white"
               gap="15px"
-              paddingBottom={'10px'}
-              roundedBottom={'10px'}
+              padding={'10px'}
+              rounded={'10px'}
             >
-              <InputGroup>
-                <InputLeftElement children={<FiSearch color="#000" />} />
-                <Input
-                  borderRadius={6}
-                  focusBorderColor="#fff"
-                  placeholder="Buscar"
-                  _placeholder={{ color: '#A0AEC0' }}
-                />
-              </InputGroup>
-              <InstructionsCard />
+              {!isDesktop && (
+                <Flex direction={'column'} gap="5px">
+                  <SearchInput />
+                  <SearchTypeSelector />
+                </Flex>
+              )}
             </Flex>
           </Box>
-          <Box
-            position="fixed"
-            top="90px"
-            left="0"
-            width="100%"
-            height="100%"
-            bg="black"
-            opacity="0.5"
-            zIndex={1}
-            onClick={toggleSearch}
-          />
+          {!isDesktop && (
+            <Box
+              position="fixed"
+              top="90px"
+              left="0"
+              width="100%"
+              height="100%"
+              bg="black"
+              opacity="0.5"
+              zIndex={1}
+              onClick={toggleSearch}
+            />
+          )}
         </>
       )}
     </>
