@@ -13,6 +13,7 @@ import { SearchTypes } from '../../interface/SideBarInterface';
 export function SearchInput() {
   const [query, setQuery] = useState<string>('');
   const [debouncedQuery, setDebouncedQuery] = useState<string>('');
+  const [type, setType] = useState<SearchTypes | string>(SearchTypes.posts);
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   useEffect(() => {
@@ -28,8 +29,9 @@ export function SearchInput() {
   useEffect(() => {
     if (debouncedQuery) {
       console.log(debouncedQuery);
+      console.log(type);
     }
-  }, [debouncedQuery]);
+  }, [debouncedQuery, type]);
   return (
     <>
       <InputGroup>
@@ -47,7 +49,14 @@ export function SearchInput() {
       </InputGroup>
 
       <Box maxW={isDesktop ? '150px' : '100%'}>
-        <Select bg="white" fontSize={'md'} onChange={() => {}}>
+        <Select
+          bg="white"
+          fontSize={'md'}
+          value={type}
+          onChange={(e) => {
+            setType(e.target.value);
+          }}
+        >
           <option value={SearchTypes.posts}>Post</option>
           <option value={SearchTypes.comments}>Comentário</option>
           <option value={SearchTypes.users}>Usuário</option>
