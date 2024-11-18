@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   IconButton,
   Input,
   InputGroup,
@@ -7,6 +8,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
+import { InstructionsCard } from './InstructionsCard';
 
 interface Props {
   searchVisible: boolean;
@@ -52,16 +54,18 @@ export function SearchBar({ searchVisible, toggleSearch }: Props) {
             left={0}
             w={'full'}
           >
-            <InputGroup>
-              <InputLeftElement children={<FiSearch color="#000" />} />
-              <Input
-                bg="white"
-                borderRadius={6}
-                focusBorderColor="#fff"
-                placeholder="Buscar"
-                _placeholder={{ color: '#A0AEC0' }}
-              />
-            </InputGroup>
+            <Flex direction="column" bg="white" gap="15px">
+              <InputGroup>
+                <InputLeftElement children={<FiSearch color="#000" />} />
+                <Input
+                  borderRadius={6}
+                  focusBorderColor="#fff"
+                  placeholder="Buscar"
+                  _placeholder={{ color: '#A0AEC0' }}
+                />
+              </InputGroup>
+              <InstructionsCard />
+            </Flex>
           </Box>
           <Box
             position="fixed"
