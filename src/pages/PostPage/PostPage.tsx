@@ -1,4 +1,12 @@
-import { Divider, Tag, Box, Text, Textarea, Button } from '@chakra-ui/react';
+import {
+  Divider,
+  Tag,
+  Box,
+  Text,
+  Textarea,
+  Button,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 import { MdArrowUpward, MdMoreVert } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -10,19 +18,20 @@ export function PostPage() {
   const { id } = useParams<{ id: string | UUID }>();
   const [post, setPost] = useState<UserPostById | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const getPost = async (id?: string | UUID) => {
     if (!id) {
       return;
     }
-    setLoading(true); 
+    setLoading(true);
     try {
       const response = await fetchPostById(id);
-      setPost(response); 
+      setPost(response);
     } catch (error) {
       console.error('Erro ao buscar post:', error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -39,34 +48,61 @@ export function PostPage() {
   return (
     <Box>
       <Box mt="39px" display="flex" gap="35px">
-        <Text color="#805AD5" fontSize="14px" fontWeight="500" lineHeight="20px">
+        <Text
+          color="#805AD5"
+          fontSize="14px"
+          fontWeight="500"
+          lineHeight="20px"
+        >
           @{post.username}
         </Text>
-        <Text fontSize="12px" fontWeight="500" color="#515151">
+        <Text
+          marginRight={isDesktop ? '350px' : '100px'}
+          fontSize="12px"
+          fontWeight="500"
+          color="#515151"
+        >
           {new Date(post.created_at).toLocaleDateString()}
         </Text>
-        <MdMoreVert style={{ marginLeft: '100px' }} />
+        <MdMoreVert />
       </Box>
 
-      <Text mt="9px" color="#000" fontSize="16px" fontWeight="600">
+      <Text
+        mt={isDesktop ? '24px' : '9px'}
+        color="#000"
+        fontSize="16px"
+        fontWeight="600"
+      >
         {post.title}
       </Text>
 
-      <Box mt="8px" display="flex" alignItems="center">
+      <Box mt={isDesktop ? '24px' : '8px'} display="flex" alignItems="center">
         <Box display="flex" flexDirection="column" alignItems="center">
           <MdArrowUpward style={{ width: '20px', height: '24px' }} />
           <Text fontSize="16px" fontWeight="600" color="#000">
             {post.score}
           </Text>
         </Box>
-        <Text marginLeft="37px" mt="8px" color="#111" fontSize="14px" fontWeight="500">
+        <Text
+          marginLeft="37px"
+          mt="8px"
+          color="#111"
+          fontSize="14px"
+          fontWeight="500"
+        >
           {post.description}
         </Text>
       </Box>
 
-      <Box marginLeft="126px" mt="28px" display="flex">
+      <Box marginLeft={isDesktop ? '440px' : '126px'} mt="28px" display="flex">
         {post.tags.map((tag, index) => (
-          <Tag key={index} size="md" variant="solid" colorScheme="purple" marginLeft={index > 0 ? '14px' : '0'}>
+          <Tag
+            key={index}
+            size="md"
+            variant="solid"
+            colorScheme="purple"
+            marginLeft={index > 0 ? '14px' : '0'}
+          >
             {tag}
           </Tag>
         ))}
@@ -74,7 +110,13 @@ export function PostPage() {
 
       <Box>
         <Divider mt="15px" background="#DEDEDE" height="1px" />
-        <Text marginLeft="6px" mt="5px" color="#515151" fontSize="12px" fontWeight="500">
+        <Text
+          marginLeft="6px"
+          mt="5px"
+          color="#515151"
+          fontSize="12px"
+          fontWeight="500"
+        >
           {post.comment.length} comentário{post.comment.length !== 1 ? 's' : ''}
         </Text>
       </Box>
@@ -83,32 +125,79 @@ export function PostPage() {
         <Box key={comment.id} mt="20px">
           <MdMoreVert style={{ marginTop: '20px', marginLeft: '328px' }} />
           <Box mt="8px" display="flex" alignItems="center">
-            <Box marginLeft="30px" display="flex" flexDirection="column" alignItems="center">
+            <Box
+              marginLeft="30px"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+            >
               <MdArrowUpward style={{ width: '20px', height: '24px' }} />
               <Text fontSize="16px" fontWeight="600" color="#000">
                 {comment.score}
               </Text>
             </Box>
-            <Text marginLeft="26px" mt="8px" color="#111" fontSize="14px" fontWeight="400">
+            <Text
+              marginLeft="26px"
+              mt="8px"
+              color="#111"
+              fontSize="14px"
+              fontWeight="400"
+            >
               {comment.content}
             </Text>
           </Box>
-          <Text mt="14px" paddingLeft="278px" color="#515151" fontSize="12px" fontWeight="500" lineHeight="20px">
+          <Text
+            mt="14px"
+            paddingLeft="278px"
+            color="#515151"
+            fontSize="12px"
+            fontWeight="500"
+            lineHeight="20px"
+          >
             {new Date(comment.created_at).toLocaleDateString()}
           </Text>
-          <Text color="#805AD5" paddingLeft="274px" fontSize="12px" fontWeight="500" lineHeight="20px">
+          <Text
+            color="#805AD5"
+            paddingLeft="274px"
+            fontSize="12px"
+            fontWeight="500"
+            lineHeight="20px"
+          >
             @{comment.username}
           </Text>
-          <Divider mt="15px" background="#DEDEDE" height="1px" mx="auto" maxWidth="85%" />
+          <Divider
+            mt="15px"
+            background="#DEDEDE"
+            height="1px"
+            mx="auto"
+            maxWidth="85%"
+          />
         </Box>
       ))}
 
-      <Box mt="30px">
+      <Box paddingLeft="13px" mt="30px">
         <Text color="#281A45" fontSize="18px" fontWeight="500">
           Responder
         </Text>
-        <Textarea borderRadius="6px" border="2px solid #805AD5" mt="21px" placeholder="Descreva sua resposta" width="320px" height="84px" />
-        <Button padding="0px 24px" justifyContent="center" alignItems="center" mt="33px" size="lg" variant="solid" colorScheme="purple" width="320px" h="38px">
+        <Textarea
+          borderRadius="6px"
+          border="2px solid #805AD5"
+          mt="21px"
+          placeholder="Descreva sua resposta"
+          width={isDesktop ? '550px' : '320px'}
+          height="84px"
+        />
+        <Button
+          marginLeft="7px"
+          justifyContent="center"
+          alignItems="center"
+          mt="33px"
+          size="lg"
+          variant="solid"
+          colorScheme="purple"
+          width={isDesktop ? '550px' : '320px'}
+          h="38px"
+        >
           Responder
         </Button>
       </Box>
