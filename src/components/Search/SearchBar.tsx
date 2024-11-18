@@ -54,7 +54,13 @@ export function SearchBar({ searchVisible, toggleSearch }: Props) {
             left={0}
             w={'full'}
           >
-            <Flex direction="column" bg="white" gap="15px">
+            <Flex
+              direction="column"
+              bg="white"
+              gap="15px"
+              paddingBottom={'10px'}
+              roundedBottom={'10px'}
+            >
               <InputGroup>
                 <InputLeftElement children={<FiSearch color="#000" />} />
                 <Input
