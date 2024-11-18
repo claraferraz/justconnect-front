@@ -1,7 +1,6 @@
 import { Grid, GridItem, Text, useBreakpointValue } from '@chakra-ui/react';
 
-export function InstructionsCard() {
-  //const SearchTypes = ['posts', 'comments', 'users', 'tags'];
+export function InstructionsBox() {
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   return (
