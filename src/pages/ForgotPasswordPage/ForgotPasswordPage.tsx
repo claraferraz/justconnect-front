@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Input,
@@ -10,26 +10,30 @@ import {
   useToast,
   Image,
   useBreakpointValue,
-  Alert,
-  AlertIcon,
-  CloseButton,
+  FormErrorMessage,
 } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
 import { forgotPassword } from '../../service/Auth';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import logoAuth from '../../assets/logoAuth.svg';
+import { AxiosError } from 'axios';
+
+type FormData = {
+  email: string;
+};
 
 export function ForgotPasswordPage() {
-  const [email, setEmail] = useState<string>('');
-  const [error, setError] = useState<string | null | boolean>(null);
+  const { register, handleSubmit, setError, formState: { errors } } = useForm<FormData>();
   const [loading, setLoading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const toast = useToast();
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+
+  const onSubmit = async (data: FormData) => {
     setLoading(true);
-    setError(null);
+    
+    
     try {
-      await forgotPassword({ email });
+      await forgotPassword({ email: data.email });
       toast({
         title: 'Recuperação enviada',
         description: `Um e-mail de recuperação foi enviado. Por favor, verifique sua caixa de entrada.`,
@@ -38,13 +42,42 @@ export function ForgotPasswordPage() {
         isClosable: true,
         position: 'bottom',
       });
-      
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
+      const errorMessages: string[] = [];
+      if (error instanceof AxiosError) {
+        
+        if (error.response && error.response.status >= 400) {
+          const backendMessages = error.response.data?.message;
+          if (backendMessages) {
+            if (typeof backendMessages === 'object') {
+              for (const [field, messages] of Object.entries(backendMessages)) {
+                if (Array.isArray(messages)) {
+                  messages.forEach((msg: string) => {
+                    errorMessages.push(msg);
+                    setError(field as keyof FormData, {
+                      type: 'manual',
+                      message: msg,
+                    });
+                  });
+                }
+              }
+            } else {
+              errorMessages.push(backendMessages || 'Erro ao processar o cadastro.');
+            }
+          } else {
+            errorMessages.push('Erro inesperado no servidor.');
+          }
+        } else if (error.request) {
+          errorMessages.push('Não foi possível conectar ao servidor. Verifique sua conexão.');
+        } else {
+          errorMessages.push(error.message || 'Erro inesperado.');
+        }
+      } else if (typeof error === 'string') {
+        errorMessages.push(error);
       } else {
-        setError('Ocorreu um erro inesperado!');
+        errorMessages.push('Erro inesperado.');
       }
+
     } finally {
       setLoading(false);
     }
@@ -72,21 +105,9 @@ export function ForgotPasswordPage() {
           alt="Logo"
           width={isDesktop ? '170px' : '140px'}
         />
-        {error &&(
-          <Alert status="error" mb="10px" borderRadius="md" position="relative">
-          <AlertIcon />
-              {typeof error === "string" ? error : "Ajuste os campos em vermelho."}
-                <CloseButton
-                  position="absolute"
-                  right="8px"
-                  top="8px"
-                  onClick={() => setError(false)}
-                />
-        </Alert>
-        )}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" alignItems="center">
-            <FormControl mb="4">
+            <FormControl mb="4" isInvalid={!!errors.email}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
                 display="flex"
@@ -101,10 +122,16 @@ export function ForgotPasswordPage() {
                 height="41px"
                 id="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register('email', {
+                  required: 'O email é obrigatório.',
+                  pattern: {
+                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: 'Digite um email válido.',
+                  },
+                })}
                 isDisabled={loading}
               />
+              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
             <Button

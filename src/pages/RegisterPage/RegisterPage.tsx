@@ -98,17 +98,13 @@ export function RegisterPage() {
           errorMessages.push(error.message || 'Erro inesperado.');
         }
       } else if (typeof error === 'string') {
-        // Caso o erro seja uma string simples
+  
         errorMessages.push(error);
       } else {
-        // Para outros tipos de erro
+
         errorMessages.push('Erro inesperado.');
       }
-    
-      if (errorMessages.length > 0) {
-        setGlobalError(errorMessages.join(' '));
-      }
-    
+     
       setLoading(false);
     } finally {
       setLoading(false);
