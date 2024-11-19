@@ -101,8 +101,8 @@ export function LoginPage() {
                     {...field}
                     bg="gray.50"
                     border="2px solid"
-                    borderColor={errors.usernameOrEmail ? 'red.500' : '#805AD5'}
-                    focusBorderColor="#805AD5"
+                    borderColor={errors.usernameOrEmail ? "red.500" : "#805AD5"} 
+                    focusBorderColor={errors.usernameOrEmail ? "red.500" : "#805AD5"}
                     _hover={{ bg: 'gray.200' }}
                     _focus={{ bg: 'white' }}
                     width="100%"
@@ -138,8 +138,8 @@ export function LoginPage() {
                     {...field}
                     bg="gray.50"
                     border="2px solid"
-                    borderColor={errors.password ? 'red.500' : '#805AD5'}
-                    focusBorderColor="#805AD5"
+                    borderColor={errors.password ? "red.500" : "#805AD5"} 
+                    focusBorderColor={errors.password ? "red.500" : "#805AD5"}
                     _hover={{ bg: 'gray.200' }}
                     _focus={{ bg: 'white' }}
                     width="100%"

@@ -144,8 +144,8 @@ export function RegisterPage() {
                 placeholder="Digite seu nome completo"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.name ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.name ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 {...register('name', { required: 'O nome é obrigatório.' })}
@@ -161,8 +161,8 @@ export function RegisterPage() {
                 placeholder="Digite seu nome de usuário"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.username ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.username ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 {...register('username', { required: 'O nome de usuário é obrigatório.' })}
@@ -179,8 +179,8 @@ export function RegisterPage() {
                 type="email"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.email ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.email ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 {...register('email', {
@@ -203,8 +203,8 @@ export function RegisterPage() {
                 type="password"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.password ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.password ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 {...register('password', {
@@ -224,8 +224,8 @@ export function RegisterPage() {
                 type="password"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.confirmPassword ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.confirmPassword ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 {...register('confirmPassword', { required: 'A confirmação de senha é obrigatória.' })}

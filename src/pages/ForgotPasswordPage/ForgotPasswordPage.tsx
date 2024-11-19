@@ -107,15 +107,15 @@ export function ForgotPasswordPage() {
         />
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" alignItems="center">
-            <FormControl mb="4" isInvalid={!!errors.email}>
+          <FormControl mb="4" isInvalid={!!errors.email}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
                 display="flex"
                 placeholder="Digite seu email"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.email ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.email ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 width="100%"
@@ -130,6 +130,7 @@ export function ForgotPasswordPage() {
                   },
                 })}
                 isDisabled={loading}
+
               />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>

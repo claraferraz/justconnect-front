@@ -12,6 +12,7 @@ import {
   Tab,
   useBreakpointValue,
   FormErrorMessage,
+  Text,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -154,8 +155,8 @@ export function CreatePostPage() {
               placeholder="Escreva seu título"
               bg="gray.50"
               border="2px solid"
-              borderColor="#805AD5"
-              focusBorderColor="#805AD5"
+              borderColor={errors.title ? "red.500" : "#805AD5"} 
+              focusBorderColor={errors.title ? "red.500" : "#805AD5"}
               _hover={{ bg: 'gray.200' }}
               _focus={{ bg: 'white' }}
               h="40px"
@@ -174,8 +175,8 @@ export function CreatePostPage() {
               placeholder="Descreva sua postagem"
               bg="gray.50"
               border="2px solid"
-              borderColor="#805AD5"
-              focusBorderColor="#805AD5"
+              borderColor={errors.description ? "red.500" : "#805AD5"} 
+              focusBorderColor={errors.description ? "red.500" : "#805AD5"}
               _hover={{ bg: 'gray.100' }}
               _focus={{ bg: 'white' }}
               height="86px"
@@ -203,6 +204,19 @@ export function CreatePostPage() {
                 }
               }}
             />
+            <Box margin="10px 20px" color="gray.500" fontSize="14px">
+              <ul>
+                <li>
+                  <Text>Para criar uma tag pressione Enter</Text>
+                </li>
+                <li>
+                  <Text>
+                    Para tags com mais de uma palavra, separe-as com um hífen
+                  </Text>
+                  <Text>ex: back-end</Text>
+                </li>
+              </ul>
+            </Box>
           </FormControl>
 
           <Box display="flex" flexWrap="wrap" gap="2" mb={5}>

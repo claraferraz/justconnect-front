@@ -147,8 +147,8 @@ export function ResetPasswordPage() {
                 placeholder="Digite sua nova senha"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.newPassword ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.newPassword ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 width="100%"
@@ -174,8 +174,8 @@ export function ResetPasswordPage() {
                 placeholder="Confirme sua nova senha"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.confirmNewPassword ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.confirmNewPassword ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 width="100%"
