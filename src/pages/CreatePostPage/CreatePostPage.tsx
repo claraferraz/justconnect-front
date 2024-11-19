@@ -63,7 +63,6 @@ export function CreatePostPage() {
         isClosable: true,
       });
 
-      // Resetar o formulário e as tags após a criação
       reset();
       setTags([]);
     } catch (error: unknown) {

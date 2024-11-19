@@ -14,9 +14,6 @@ import {
   Image,
   useBreakpointValue,
   FormErrorMessage,
-  Alert,
-  AlertIcon,
-  CloseButton,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { signUp } from '../../service/Auth';
@@ -37,27 +34,35 @@ export function RegisterPage() {
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setGlobalError] = useState<string | null>(null);
+  
 
   const { loginUser, token } = useAuthStore();
 
-  // Monitora valores para validação customizada
+
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
-    setGlobalError(null);
+  
 
     if (password !== confirmPassword) {
-      setGlobalError("As senhas não conferem!");
+      setError('password', {
+        type: 'manual',
+        
+      });
+      setError('confirmPassword', {
+        type: 'manual',
+        message: 'As senhas não coincidem.',
+      });
       setLoading(false);
       return;
     }
-
+  
     try {
       await signUp(data);
       await loginUser(data.username, data.password);
+  
       toast({
         title: 'Cadastro realizado com sucesso!',
         description: `Bem-vindo, ${data.username}!`,
@@ -66,10 +71,11 @@ export function RegisterPage() {
         isClosable: true,
         position: 'bottom',
       });
+  
       navigate('/my-profile');
     } catch (error: unknown) {
       const errorMessages: string[] = [];
-    
+  
       if (error instanceof AxiosError) {
         if (error.response && error.response.status >= 400) {
           const backendMessages = error.response.data?.message;
@@ -98,14 +104,10 @@ export function RegisterPage() {
           errorMessages.push(error.message || 'Erro inesperado.');
         }
       } else if (typeof error === 'string') {
-  
         errorMessages.push(error);
       } else {
-
         errorMessages.push('Erro inesperado.');
       }
-     
-      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -133,20 +135,6 @@ export function RegisterPage() {
           width={isDesktop ? '170px' : '140px'}
           mt="60px"
         />
-
-        {error && (
-          <Alert status="error" mt="10px" borderRadius="md" position="relative">
-            <AlertIcon />
-            {error}
-            <CloseButton
-              position="absolute"
-              right="8px"
-              top="8px"
-              onClick={() => setGlobalError(null)}
-            />
-          </Alert>
-        )}
-
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" alignItems="center">
             <FormControl mt="4" mb="4" isInvalid={!!errors.name}>
