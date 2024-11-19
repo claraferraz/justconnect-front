@@ -15,33 +15,50 @@ import {
   fetchSearchUsers,
   fetchSearchTags,
 } from '../../service/Search';
+import { ResultsBox } from './ResultsBox';
+import { SearchComment } from '../../interface/CommentsInterface';
+import { TagsCardInfo } from '../../interface/TagsInterface';
+import { UserCardData, UserPostInfo } from '../../interface/UserInterface';
 
 export function SearchInput() {
   const [query, setQuery] = useState<string>('');
   const [debouncedQuery, setDebouncedQuery] = useState<string>('');
-  const [type, setType] = useState<SearchTypes | string>(SearchTypes.posts);
+  const [resultList, setResultList] = useState<
+    | UserCardData[]
+    | UserPostInfo[]
+    | TagsCardInfo[]
+    | SearchComment[]
+    | undefined
+  >();
+  const [type, setType] = useState<SearchTypes>(SearchTypes.posts);
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const handleSearch = async (type: SearchTypes | string, query: string) => {
-    let response;
+    let response:
+      | UserCardData[]
+      | UserPostInfo[]
+      | TagsCardInfo[]
+      | SearchComment[]
+      | undefined;
     try {
       switch (type) {
         case SearchTypes.posts:
           response = await fetchSearchPosts(query);
-          return response.data;
+          break;
         case SearchTypes.comments:
           response = await fetchSearchComments(query);
-          return response.data;
+          break;
         case SearchTypes.users:
           response = await fetchSearchUsers(query);
-          return response.data;
+          break;
         case SearchTypes.tags:
           response = await fetchSearchTags(query);
-          return response.data;
+          break;
 
         default:
           break;
       }
+      setResultList(response);
     } catch (error) {
       console.error(error);
     }
@@ -61,7 +78,7 @@ export function SearchInput() {
     if (debouncedQuery) {
       console.log(debouncedQuery);
       console.log(type);
-      console.log(handleSearch(type, debouncedQuery));
+      handleSearch(type, debouncedQuery);
     }
   }, [debouncedQuery, type]);
   return (
@@ -86,7 +103,7 @@ export function SearchInput() {
           fontSize={'md'}
           value={type}
           onChange={(e) => {
-            setType(e.target.value);
+            setType(e.target.value as SearchTypes);
           }}
         >
           <option value={SearchTypes.posts}>Post</option>
@@ -94,6 +111,9 @@ export function SearchInput() {
           <option value={SearchTypes.users}>Usuário</option>
           <option value={SearchTypes.tags}>Tags</option>
         </Select>
+      </Box>
+      <Box>
+        <ResultsBox type={type} list={resultList} />
       </Box>
     </>
   );

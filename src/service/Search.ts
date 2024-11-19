@@ -1,32 +1,32 @@
 import { SearchComment } from '../interface/CommentsInterface';
 import { SearchTypes } from '../interface/SideBarInterface';
-import { TagsCard } from '../interface/TagsInterface';
+import { TagsCardInfo } from '../interface/TagsInterface';
 import { UserCardData, UserPostInfo } from '../interface/UserInterface';
 import api from './api';
 
-const fetchSearchPosts = async (query: string) => {
+const fetchSearchPosts = async (query: string): Promise<UserPostInfo[]> => {
   const response = await api.get<UserPostInfo[]>(`/public/search`, {
     params: { type: SearchTypes.posts, query },
   });
-  return response;
+  return response.data;
 };
-const fetchSearchComments = async (query: string) => {
+const fetchSearchComments = async (query: string): Promise<SearchComment[]> => {
   const response = await api.get<SearchComment[]>(`/public/search`, {
     params: { type: SearchTypes.comments, query },
   });
-  return response;
+  return response.data;
 };
-const fetchSearchUsers = async (query: string) => {
+const fetchSearchUsers = async (query: string): Promise<UserCardData[]> => {
   const response = await api.get<UserCardData[]>(`/public/search`, {
     params: { type: SearchTypes.users, query },
   });
-  return response;
+  return response.data;
 };
-const fetchSearchTags = async (query: string) => {
-  const response = await api.get<TagsCard[]>(`/public/search`, {
+const fetchSearchTags = async (query: string): Promise<TagsCardInfo[]> => {
+  const response = await api.get<TagsCardInfo[]>(`/public/search`, {
     params: { type: SearchTypes.tags, query },
   });
-  return response;
+  return response.data;
 };
 export {
   fetchSearchPosts,
