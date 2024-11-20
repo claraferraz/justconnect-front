@@ -75,6 +75,11 @@ export interface UserCreatePost {
   description: string;
   tags: string[];
 }
+export interface UserUpdatePost{
+  title: string;
+  description: string;
+  tags: string[];
+}
 
 export interface UserPostInfo {
   id: string;
@@ -102,6 +107,7 @@ export interface UserPostById {
   tags: string[];
   username: string;
 }
+
 
 export interface UserNotifications {
   username: string;

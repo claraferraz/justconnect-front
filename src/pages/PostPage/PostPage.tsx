@@ -8,7 +8,7 @@ import { UserPostById } from '../../interface/UserInterface';
 import { UUID } from 'crypto';
 import { DataText } from '../../components/DataText/DataText';
 import { CreateComment } from '../../interface/CommentsInterface';
-import { CreateUserComment } from '../../service/Comments';
+import { createUserComment } from '../../service/Comments';
 import { CommentList } from '../../components/CommentList/CommentList';
 
 export function PostPage() {
@@ -39,7 +39,7 @@ export function PostPage() {
     };
 
     try {
-      await CreateUserComment(id, newComment); 
+      await createUserComment(id, newComment); 
       setCommentText(''); 
       await getPost(id);
     } catch (error) {

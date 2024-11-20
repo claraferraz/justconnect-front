@@ -12,3 +12,6 @@ export interface CreateComment{
   id: string | UUID;
   comment: string;
 }
+export interface UpdateComment{
+  comment: string;
+}

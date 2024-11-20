@@ -16,11 +16,10 @@ import { useForm } from 'react-hook-form';
 import { forgotPassword } from '../../service/Auth';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import logoAuth from '../../assets/logoAuth.svg';
-import { AxiosError } from 'axios';
 
-type FormData = {
-  email: string;
-};
+import { handleErrors } from '../../utils/error';
+
+
 
 export function ForgotPasswordPage() {
   const { register, handleSubmit, setError, formState: { errors } } = useForm<FormData>();
@@ -28,10 +27,12 @@ export function ForgotPasswordPage() {
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const toast = useToast();
 
+  type FormData = {
+    email: string;
+  };
+  
   const onSubmit = async (data: FormData) => {
     setLoading(true);
-    
-    
     try {
       await forgotPassword({ email: data.email });
       toast({
@@ -43,40 +44,7 @@ export function ForgotPasswordPage() {
         position: 'bottom',
       });
     } catch (error: unknown) {
-      const errorMessages: string[] = [];
-      if (error instanceof AxiosError) {
-        
-        if (error.response && error.response.status >= 400) {
-          const backendMessages = error.response.data?.message;
-          if (backendMessages) {
-            if (typeof backendMessages === 'object') {
-              for (const [field, messages] of Object.entries(backendMessages)) {
-                if (Array.isArray(messages)) {
-                  messages.forEach((msg: string) => {
-                    errorMessages.push(msg);
-                    setError(field as keyof FormData, {
-                      type: 'manual',
-                      message: msg,
-                    });
-                  });
-                }
-              }
-            } else {
-              errorMessages.push(backendMessages || 'Erro ao processar o cadastro.');
-            }
-          } else {
-            errorMessages.push('Erro inesperado no servidor.');
-          }
-        } else if (error.request) {
-          errorMessages.push('Não foi possível conectar ao servidor. Verifique sua conexão.');
-        } else {
-          errorMessages.push(error.message || 'Erro inesperado.');
-        }
-      } else if (typeof error === 'string') {
-        errorMessages.push(error);
-      } else {
-        errorMessages.push('Erro inesperado.');
-      }
+      handleErrors<FormData>(error, setError);
 
     } finally {
       setLoading(false);

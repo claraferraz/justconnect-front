@@ -35,19 +35,16 @@ const storeApi: StateCreator<AuthState> = (set) => ({
       getProfile();
       setPosts(id);
 
-    } catch (error: unknown) { // Usando `unknown` ao invés de `any`
+    } catch (error: unknown) { 
       console.error('Erro ao fazer login:', error);
 
       const errorMessages: string[] = [];
 
-      // Verifica se o erro é uma instância de AxiosError (ou o tipo que você espera)
       if (error instanceof AxiosError) {
         if (error.response) {
-          // Erro do servidor, com mensagens específicas
           const backendMessages = error.response.data?.message;
           if (backendMessages) {
             if (typeof backendMessages === 'object') {
-              // Itera sobre as mensagens de erro associadas aos campos
               Object.values(backendMessages).forEach((messages) => {
                 if (Array.isArray(messages)) {
                   messages.forEach((msg: string) => {
@@ -62,7 +59,6 @@ const storeApi: StateCreator<AuthState> = (set) => ({
             errorMessages.push('Erro inesperado no servidor.');
           }
         } else if (error.request) {
-          // Erro ao tentar se conectar ao servidor
           errorMessages.push('Não foi possível conectar ao servidor. Verifique sua conexão.');
         } else {
           errorMessages.push(error.message || 'Erro inesperado.');
@@ -72,8 +68,6 @@ const storeApi: StateCreator<AuthState> = (set) => ({
       } else {
         errorMessages.push('Erro inesperado.');
       }
-
-      // Lançar o erro com todas as mensagens capturadas
       throw new Error(errorMessages.join(', '));
     }
   },

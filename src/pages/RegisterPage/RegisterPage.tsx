@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
 
 import {
   Button,
@@ -19,6 +18,7 @@ import { useForm } from 'react-hook-form';
 import { signUp } from '../../service/Auth';
 import logoAuth from '../../assets/logoAuth.svg';
 import { useAuthStore } from '../../store/authStore';
+import { handleErrors } from '../../utils/error';
 
 type FormData = {
   name: string;
@@ -74,40 +74,7 @@ export function RegisterPage() {
   
       navigate('/my-profile');
     } catch (error: unknown) {
-      const errorMessages: string[] = [];
-  
-      if (error instanceof AxiosError) {
-        if (error.response && error.response.status >= 400) {
-          const backendMessages = error.response.data?.message;
-          if (backendMessages) {
-            if (typeof backendMessages === 'object') {
-              for (const [field, messages] of Object.entries(backendMessages)) {
-                if (Array.isArray(messages)) {
-                  messages.forEach((msg: string) => {
-                    errorMessages.push(msg);
-                    setError(field as keyof FormData, {
-                      type: 'manual',
-                      message: msg,
-                    });
-                  });
-                }
-              }
-            } else {
-              errorMessages.push(backendMessages || 'Erro ao processar o cadastro.');
-            }
-          } else {
-            errorMessages.push('Erro inesperado no servidor.');
-          }
-        } else if (error.request) {
-          errorMessages.push('Não foi possível conectar ao servidor. Verifique sua conexão.');
-        } else {
-          errorMessages.push(error.message || 'Erro inesperado.');
-        }
-      } else if (typeof error === 'string') {
-        errorMessages.push(error);
-      } else {
-        errorMessages.push('Erro inesperado.');
-      }
+      handleErrors<FormData>(error, setError);
     } finally {
       setLoading(false);
     }

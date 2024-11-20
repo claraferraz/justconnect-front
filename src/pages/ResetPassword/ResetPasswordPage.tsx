@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form';
 import { resetPassword } from '../../service/Auth';
 import logoAuth from '../../assets/logoAuth.svg';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AxiosError } from 'axios';
+import { handleErrors } from '../../utils/error';
 
 type FormData = {
   newPassword: string;
@@ -54,6 +54,10 @@ export function ResetPasswordPage() {
     }
 
     if (data.newPassword !== data.confirmNewPassword) {
+      setError('newPassword', {
+        type: 'manual',
+        
+      });
       setError('confirmNewPassword', {
         type: 'manual',
         message: 'As senhas não coincidem.',
@@ -76,48 +80,7 @@ export function ResetPasswordPage() {
 
       navigate('/login');
     } catch (error: unknown) {
-      const errorMessages: string[] = [];
-      if (error instanceof AxiosError) {
-        if (error.response && error.response.status >= 400) {
-          const backendMessages = error.response.data?.message;
-          if (backendMessages) {
-            if (typeof backendMessages === 'object') {
-              for (const [field, messages] of Object.entries(backendMessages)) {
-                if (Array.isArray(messages)) {
-                  messages.forEach((msg: string) => {
-                    errorMessages.push(msg);
-                    setError(field as keyof FormData, {
-                      type: 'manual',
-                      message: msg,
-                    });
-                  });
-                }
-              }
-            } else {
-              errorMessages.push(backendMessages || 'Erro ao processar a solicitação.');
-            }
-          } else {
-            errorMessages.push('Erro inesperado no servidor.');
-          }
-        } else if (error.request) {
-          errorMessages.push('Não foi possível conectar ao servidor. Verifique sua conexão.');
-        } else {
-          errorMessages.push(error.message || 'Erro inesperado.');
-        }
-      } else if (typeof error === 'string') {
-        errorMessages.push(error);
-      } else {
-        errorMessages.push('Erro inesperado.');
-      }
-
-      toast({
-        title: 'Erro ao alterar senha',
-        description: errorMessages.join(' '),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'bottom',
-      });
+      handleErrors<FormData>(error, setError);
     } finally {
       setLoading(false);
     }
