@@ -3,7 +3,7 @@ import { UseFormSetError, FieldValues, Path } from 'react-hook-form';
 
 export function handleErrors<T extends FieldValues>(
   error: unknown,
-  setError: UseFormSetError<T>
+  setError?: UseFormSetError<T> // Agora é opcional
 ): string[] {
   const errorMessages: string[] = [];
 
@@ -17,10 +17,13 @@ export function handleErrors<T extends FieldValues>(
             if (Array.isArray(messages)) {
               messages.forEach((msg: string) => {
                 errorMessages.push(msg);
-                setError(field as Path<T>, {
-                  type: 'manual',
-                  message: msg,
-                });
+                // Apenas chama setError se ele estiver disponível
+                if (setError) {
+                  setError(field as Path<T>, {
+                    type: 'manual',
+                    message: msg,
+                  });
+                }
               });
             }
           }

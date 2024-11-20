@@ -47,10 +47,6 @@ export function RegisterPage() {
   
 
     if (password !== confirmPassword) {
-      setError('password', {
-        type: 'manual',
-        
-      });
       setError('confirmPassword', {
         type: 'manual',
         message: 'As senhas não coincidem.',

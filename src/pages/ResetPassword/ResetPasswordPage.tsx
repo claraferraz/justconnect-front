@@ -54,10 +54,6 @@ export function ResetPasswordPage() {
     }
 
     if (data.newPassword !== data.confirmNewPassword) {
-      setError('newPassword', {
-        type: 'manual',
-        
-      });
       setError('confirmNewPassword', {
         type: 'manual',
         message: 'As senhas não coincidem.',

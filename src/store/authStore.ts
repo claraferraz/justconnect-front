@@ -4,7 +4,8 @@ import { signIn } from '../service/Auth';
 import { devtools, persist } from 'zustand/middleware';
 import { useProfileStore } from './profileStore';
 import { usePostStore } from './postStore';
-import { AxiosError } from 'axios'; // Importando o tipo AxiosError (caso esteja usando Axios)
+
+import { handleErrors } from '../utils/error';
 
 const { getProfile, resetUser } = useProfileStore.getState();
 const { resetPosts, setPosts } = usePostStore.getState();
@@ -36,38 +37,8 @@ const storeApi: StateCreator<AuthState> = (set) => ({
       setPosts(id);
 
     } catch (error: unknown) { 
-      console.error('Erro ao fazer login:', error);
+      const errorMessages = handleErrors(error);
 
-      const errorMessages: string[] = [];
-
-      if (error instanceof AxiosError) {
-        if (error.response) {
-          const backendMessages = error.response.data?.message;
-          if (backendMessages) {
-            if (typeof backendMessages === 'object') {
-              Object.values(backendMessages).forEach((messages) => {
-                if (Array.isArray(messages)) {
-                  messages.forEach((msg: string) => {
-                    errorMessages.push(msg);
-                  });
-                }
-              });
-            } else {
-              errorMessages.push(backendMessages || 'Erro ao processar o login.');
-            }
-          } else {
-            errorMessages.push('Erro inesperado no servidor.');
-          }
-        } else if (error.request) {
-          errorMessages.push('Não foi possível conectar ao servidor. Verifique sua conexão.');
-        } else {
-          errorMessages.push(error.message || 'Erro inesperado.');
-        }
-      } else if (typeof error === 'string') {
-        errorMessages.push(error);
-      } else {
-        errorMessages.push('Erro inesperado.');
-      }
       throw new Error(errorMessages.join(', '));
     }
   },
