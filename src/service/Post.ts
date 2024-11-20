@@ -16,9 +16,16 @@ const fetchPostsByUserId = async (id: UUID): Promise<UserPostInfo[]> => {
   const response = await api.get<UserPostInfo[]>(`/public/posts/user/${id}`);
   return response.data;
 };
+
 const fetchPostById = async (id: string | UUID): Promise<UserPostById> => {
   const response = await api.get<UserPostById>(`/public/posts/${id}`);
   return response.data;
-}
+};
 
-export { CreatePost, fetchPosts, fetchPostsByUserId, fetchPostById };
+// Função para buscar posts por tag
+const fetchPostsByTag = async (tag: string): Promise<UserPostInfo[]> => {
+  const response = await api.get<UserPostInfo[]>(`/public/posts/tagged-with/${tag}`);
+  return response.data;
+};
+
+export { CreatePost, fetchPosts, fetchPostsByUserId, fetchPostById, fetchPostsByTag };
