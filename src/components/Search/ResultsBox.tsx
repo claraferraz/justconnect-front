@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { SearchComment } from '../../interface/CommentsInterface';
 import { SearchTypes } from '../../interface/SideBarInterface';
 import { TagsCardInfo } from '../../interface/TagsInterface';
@@ -21,7 +21,7 @@ export type ResultsBoxProps = {
 export function ResultsBox({ type, list }: ResultsBoxProps) {
   return (
     <>
-      <Flex direction={'column'} paddingY="20px" align={'center'}>
+      <Flex direction={'column'} paddingY="20px" m={'auto'} align={'center'}>
         {!list ||
           (list.length < 1 && (
             <Text textAlign="center" color="gray.500">
@@ -31,7 +31,9 @@ export function ResultsBox({ type, list }: ResultsBoxProps) {
         {type === SearchTypes.posts &&
           list &&
           (list as UserPostInfo[]).map((l: UserPostInfo) => (
-            <PostCard post={l} />
+            <Box borderBottom="1px solid #DEDEDE">
+              <PostCard post={l} />
+            </Box>
           ))}
         {type === SearchTypes.users &&
           list &&

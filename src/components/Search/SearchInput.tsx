@@ -112,9 +112,27 @@ export function SearchInput() {
           <option value={SearchTypes.tags}>Tags</option>
         </Select>
       </Box>
-      <Box>
-        <ResultsBox type={type} list={resultList} />
-      </Box>
+      {isDesktop ? (
+        <Box
+          position={'fixed'}
+          padding={'0 10px 10px 10px '}
+          rounded={'10px'}
+          top="90px"
+          right="50px"
+          bg="white"
+          m={'auto'}
+          width={'550px'}
+          boxShadow={'0px 10px 29px 6px rgba(0,0,0,0.25)'}
+          maxHeight={'70vh'}
+          overflowY={'scroll'}
+        >
+          <ResultsBox type={type} list={resultList} />
+        </Box>
+      ) : (
+        <Box maxHeight={'70vh'} overflowY={'scroll'} overflowX={'hidden'}>
+          <ResultsBox type={type} list={resultList} />
+        </Box>
+      )}
     </>
   );
 }
