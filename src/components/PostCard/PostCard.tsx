@@ -31,10 +31,14 @@ export function PostCard({
     commentCount,
   },
 }: Props) {
-  //falar com o back pra retornar o user_id de volta
   return (
     <>
-      <Card paddingRight="20px" width="100%" shadow={'none'} bg="transparent">
+      <Card
+        padding="0 20px 20px 0"
+        width={'100%'}
+        shadow={'none'}
+        bg="transparent"
+      >
         <CardHeader
           justifyContent="space-between"
           p={0}
@@ -81,13 +85,12 @@ export function PostCard({
           </Text>
         </CardBody>
         <HStack spacing={4} width="100%" justifyContent="space-between">
-          <Flex>
+          <Flex flexWrap={'wrap'} marginLeft={'15px'} gap="15px">
             {['md'].map((size) =>
               tags.map((t) => {
                 return (
                   <Link to={`/tags/${t}`}>
                     <Tag
-                      margin={'15px'}
                       size={size}
                       key={`${size}-1`}
                       variant="solid"
