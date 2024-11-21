@@ -6,7 +6,9 @@ import {
   Textarea,
   Button,
   useBreakpointValue,
+  Tabs,
 } from '@chakra-ui/react';
+import { AiOutlineUnlock, AiOutlineLock } from 'react-icons/ai';
 import { MdArrowUpward, MdMoreVert } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -84,6 +86,7 @@ export function PostPage() {
           </Text>
         </Box>
         <Text
+          width="296px"
           marginLeft="37px"
           mt="8px"
           color="#111"
@@ -201,6 +204,196 @@ export function PostPage() {
           Responder
         </Button>
       </Box>
+      <Divider mt="40px"></Divider>
+      <Tabs
+        borderBottom="2px solid #281A45 "
+        mt="16px"
+        variant="line"
+        display="flex"
+        width={isDesktop ? '600px' : '100%'}
+        height="54px"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Text
+          color="#281A45"
+          textAlign="center"
+          fontSize="18px"
+          fontWeight="500"
+        >
+          Relacionados
+        </Text>
+      </Tabs>
+      <Box>
+        <Box
+          mt="62px"
+          color="#515151"
+          fontSize="12px"
+          fontWeight="500"
+          lineHeight="24px"
+          display="flex"
+        >
+          <Text paddingRight="26px">7 curtidas</Text>
+          <Text paddingRight={isDesktop ? '450px' : '135px'}>
+            4 comentários
+          </Text>
+          <AiOutlineUnlock style={{ width: '20px', height: '20px' }} />
+        </Box>
+        <Text
+          width="327px"
+          color="#000"
+          mt="9px"
+          fontSize="16px"
+          fontStyle="normal"
+          fontWeight="600"
+          lineHeight="24px"
+        >
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </Text>
+        <Text
+          width="339px"
+          height="85px"
+          flexDirection="column"
+          justifyContent="center"
+          display="flex"
+          color="#111"
+          fontSize="14px"
+          fontWeight="500"
+          lineHeight="24px"
+        >
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          nisi ut aliquip ex ea commodo consequat.
+        </Text>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Box flexDirection="column" display="flex" gap="8px">
+            <Tag
+              mt="6px"
+              size="md"
+              variant="solid"
+              colorScheme="purple"
+              display="inline-flex"
+              height="24px"
+              padding="0px 8px"
+              alignItems="center"
+              gap="8px"
+              borderRadius="6px"
+            >
+              Tag name
+            </Tag>
+            <Tag
+              size="md"
+              variant="solid"
+              colorScheme="purple"
+              display="inline-flex"
+              height="24px"
+              padding="0px 8px"
+              alignItems="center"
+              gap="8px"
+              borderRadius="6px"
+              background="#4B6820"
+            >
+              Tag number 2
+            </Tag>
+          </Box>
+          <Box alignItems="flex-end" flexDirection="column" display="flex">
+            <Text
+              color="#515151"
+              fontSize="12px"
+              fontWeight="500"
+              lineHeight="20px"
+            >
+              3 dias atrás
+            </Text>
+            <Text
+              color="#805AD5"
+              fontSize="12px"
+              fontWeight="500"
+              lineHeight="20px"
+            >
+              @username
+            </Text>
+          </Box>
+        </Box>
+      </Box>
+      <Divider mt="19px"></Divider>
+      <Box>
+        <Box
+          mt="32px"
+          color="#515151"
+          fontSize="12px"
+          fontWeight="500"
+          lineHeight="24px"
+          display="flex"
+        >
+          <Text paddingRight="26px">21 curtidas</Text>
+          <Text paddingRight={isDesktop ? '450px' : '135px'}>
+            12 comentários
+          </Text>
+          <AiOutlineLock style={{ width: '20px', height: '20px' }} />
+        </Box>
+        <Text
+          width="327px"
+          color="#000"
+          mt="9px"
+          fontSize="16px"
+          fontStyle="normal"
+          fontWeight="600"
+          lineHeight="24px"
+        >
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </Text>
+        <Text
+          width="339px"
+          height="85px"
+          flexDirection="column"
+          justifyContent="center"
+          display="flex"
+          color="#111"
+          fontSize="14px"
+          fontWeight="500"
+          lineHeight="24px"
+        >
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          nisi ut aliquip ex ea commodo consequat.
+        </Text>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Box flexDirection="column" display="flex" gap="8px">
+            <Tag
+              mt="6px"
+              size="md"
+              variant="solid"
+              colorScheme="purple"
+              display="inline-flex"
+              height="24px"
+              padding="0px 8px"
+              alignItems="center"
+              gap="8px"
+              borderRadius="6px"
+            >
+              Tag name
+            </Tag>
+          </Box>
+          <Box alignItems="flex-end" flexDirection="column" display="flex">
+            <Text
+              color="#515151"
+              fontSize="12px"
+              fontWeight="500"
+              lineHeight="20px"
+            >
+              1 mês atrás
+            </Text>
+            <Text
+              color="#805AD5"
+              fontSize="12px"
+              fontWeight="500"
+              lineHeight="20px"
+            >
+              @username
+            </Text>
+          </Box>
+        </Box>
+      </Box>
+      <Divider mb="37px" mt="37px"></Divider>
     </Box>
   );
 }
