@@ -6,6 +6,7 @@ import {
   Flex,
   HStack,
   Tag,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 
 import { FaUnlockAlt, FaLock } from 'react-icons/fa';
@@ -31,6 +32,13 @@ export function PostCard({
     commentCount,
   },
 }: Props) {
+  const isDesktop = useBreakpointValue({ base: false, md: true });
+  function truncateText(text: string, maxLength: number) {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + '...';
+    }
+    return text;
+  }
   return (
     <>
       <Card
@@ -80,9 +88,15 @@ export function PostCard({
               {title}
             </Text>
           </Link>
-          <Text fontSize={'14px'} color={'#111111'} marginTop={'5px'}>
-            {description}
-          </Text>
+          {isDesktop ? (
+            <Text fontSize={'14px'} color={'#111111'} marginTop={'5px'}>
+              {truncateText(description, 140)}
+            </Text>
+          ) : (
+            <Text fontSize={'14px'} color={'#111111'} marginTop={'5px'}>
+              {truncateText(description, 100)}
+            </Text>
+          )}
         </CardBody>
         <HStack spacing={4} width="100%" justifyContent="space-between">
           <Flex flexWrap={'wrap'} marginLeft={'15px'} gap="15px">
