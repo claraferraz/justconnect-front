@@ -17,7 +17,8 @@ const storeApi: StateCreator<PostState> = (set) => ({
   setPosts: async (id: UUID) => {
     try {
       const posts = await fetchPostsByUserId(id);
-      set({ posts });
+
+      set({ posts: posts.reverse() });
     } catch (error) {
       console.error(error);
     }
