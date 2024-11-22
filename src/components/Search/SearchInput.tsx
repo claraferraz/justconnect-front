@@ -20,7 +20,13 @@ import { SearchComment } from '../../interface/CommentsInterface';
 import { TagsCardInfo } from '../../interface/TagsInterface';
 import { UserCardData, UserPostInfo } from '../../interface/UserInterface';
 
-export function SearchInput() {
+interface Props {
+  searchVisible: boolean;
+  toggleSearch: () => void;
+}
+
+export function SearchInput({ searchVisible, toggleSearch }: Props) {
+  const [open, setOpen] = useState(searchVisible);
   const [query, setQuery] = useState<string>('');
   const [debouncedQuery, setDebouncedQuery] = useState<string>('');
   const [resultList, setResultList] = useState<
@@ -66,13 +72,14 @@ export function SearchInput() {
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      setOpen(true);
       setDebouncedQuery(query); // Atualiza o valor com debounce após o tempo
     }, 400);
 
     return () => {
       clearTimeout(handler);
     };
-  }, [query]);
+  }, [query, open]);
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -83,7 +90,7 @@ export function SearchInput() {
   }, [debouncedQuery, type]);
   return (
     <>
-      <InputGroup>
+      <InputGroup onClick={toggleSearch}>
         <InputLeftElement children={<FiSearch color="#000" />} />
         <Input
           bg={'white'}
@@ -112,7 +119,7 @@ export function SearchInput() {
           <option value={SearchTypes.tags}>Tags</option>
         </Select>
       </Box>
-      {isDesktop ? (
+      {isDesktop && open ? (
         <Box
           position={'fixed'}
           padding={'0 10px 10px 10px '}

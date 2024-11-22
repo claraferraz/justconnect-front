@@ -14,7 +14,7 @@ export function SearchBar({ searchVisible, toggleSearch }: Props) {
     <>
       {isDesktop ? (
         <Flex mr={4} gap="1px" bg="white" rounded={6}>
-          <SearchInput />
+          <SearchInput searchVisible={false} toggleSearch={toggleSearch} />
         </Flex>
       ) : (
         <IconButton
@@ -48,7 +48,10 @@ export function SearchBar({ searchVisible, toggleSearch }: Props) {
             >
               {!isDesktop && (
                 <Flex direction={'column'} gap="5px">
-                  <SearchInput />
+                  <SearchInput
+                    searchVisible={searchVisible}
+                    toggleSearch={toggleSearch}
+                  />
                 </Flex>
               )}
             </Flex>
