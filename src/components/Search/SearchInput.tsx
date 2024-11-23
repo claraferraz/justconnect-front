@@ -1,9 +1,12 @@
 import {
   Box,
+  CloseButton,
+  Flex,
   Input,
   InputLeftElement,
   Select,
   useBreakpointValue,
+  Heading,
 } from '@chakra-ui/react';
 import { InputGroup } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
@@ -114,7 +117,8 @@ export function SearchInput() {
           <option value={SearchTypes.tags}>Tags</option>
         </Select>
       </Box>
-      {isDesktop && open ? (
+
+      {open && isDesktop ? (
         <Box
           position={'fixed'}
           padding={'0 10px 10px 10px '}
@@ -128,11 +132,20 @@ export function SearchInput() {
           maxHeight={'70vh'}
           overflowY={'scroll'}
         >
-          <ResultsBox type={type} list={resultList} />
+          <Flex
+            width={'100%'}
+            justifyContent={'space-between'}
+            padding={'20px'}
+            align={'center'}
+          >
+            <Heading size={'md'}>Resultados</Heading>
+            <CloseButton onClick={() => setOpen(false)} />
+          </Flex>
+          <ResultsBox type={type} list={resultList} open={open} />
         </Box>
       ) : (
         <Box maxHeight={'70vh'} overflowY={'scroll'} overflowX={'hidden'}>
-          <ResultsBox type={type} list={resultList} />
+          <ResultsBox type={type} list={resultList} open={open} />
         </Box>
       )}
     </>
