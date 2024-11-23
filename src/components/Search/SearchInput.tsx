@@ -79,11 +79,11 @@ export function SearchInput() {
   }, [query]);
 
   useEffect(() => {
+    console.log(type);
     if (debouncedQuery) {
+      handleSearch(type, debouncedQuery);
       setOpen(true);
       console.log(debouncedQuery);
-      console.log(type);
-      handleSearch(type, debouncedQuery);
     }
   }, [debouncedQuery, type]);
   return (
@@ -106,7 +106,7 @@ export function SearchInput() {
         <Select
           bg="white"
           fontSize={'md'}
-          value={type}
+          value={type || SearchTypes.posts}
           onChange={(e) => {
             setType(e.target.value as SearchTypes);
           }}

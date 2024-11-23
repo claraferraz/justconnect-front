@@ -33,106 +33,115 @@ export function PostCard({
   },
 }: Props) {
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  function truncateText(text: string, maxLength: number) {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + '...';
+
+  function truncateText(maxLength: number, text?: string) {
+    if (text) {
+      if (text.length > maxLength) {
+        return text.slice(0, maxLength) + '...';
+      }
+      return text;
     }
-    return text;
   }
   return (
     <>
-      <Card
-        padding="0 20px 20px 0"
-        width={'100%'}
-        shadow={'none'}
-        bg="transparent"
-      >
-        <CardHeader
-          justifyContent="space-between"
-          p={0}
-          sx={{
-            '& > button': {
-              minW: '136px',
-            },
-          }}
+      {description && (
+        <Card
+          padding="0 20px 20px 0"
+          width={'100%'}
+          shadow={'none'}
+          bg="transparent"
         >
-          <Flex
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            marginTop={'10px'}
+          <CardHeader
+            justifyContent="space-between"
+            p={0}
+            sx={{
+              '& > button': {
+                minW: '136px',
+              },
+            }}
           >
             <Flex
-              gap={'15px'}
-              fontSize={'12px'}
-              marginLeft={'20px'}
-              color={'#515151'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              marginTop={'10px'}
             >
-              <Text>{score} curtidas</Text>
-              <Text>{commentCount} comentários</Text>
-            </Flex>
-            {status_open ? (
-              <FaUnlockAlt color={'#515151'} />
-            ) : (
-              <FaLock color={'#515151'} />
-            )}
-          </Flex>
-        </CardHeader>
-        <CardBody>
-          <Link to={`/post/${id}`}>
-            <Text
-              fontSize={'16px'}
-              bg="transparent"
-              fontWeight={'500'}
-              _hover={{ color: '#805AD5' }}
-            >
-              {title}
-            </Text>
-          </Link>
-          {isDesktop ? (
-            <Text fontSize={'14px'} color={'#111111'} marginTop={'5px'}>
-              {truncateText(description, 140)}
-            </Text>
-          ) : (
-            <Text fontSize={'14px'} color={'#111111'} marginTop={'5px'}>
-              {truncateText(description, 100)}
-            </Text>
-          )}
-        </CardBody>
-        <HStack spacing={4} width="100%" justifyContent="space-between">
-          <Flex flexWrap={'wrap'} marginLeft={'15px'} gap="15px">
-            {['md'].map((size) =>
-              tags.map((t) => {
-                return (
-                  <Link to={`/tags/${t}`}>
-                    <Tag
-                      size={size}
-                      key={`${size}-1`}
-                      variant="solid"
-                      background="#805AD5"
-                      _hover={{ background: '#815ad5d8' }}
-                    >
-                      {t}
-                    </Tag>
-                  </Link>
-                );
-              })
-            )}
-          </Flex>
-          <Flex direction="column" alignItems="flex-end">
-            <DataText created={created_at} updated={updated_at} sufix={true} />
-            <Link to={`/profile/${username}`}>
-              <Text
-                fontSize="12px"
-                fontFamily="montserrat"
-                color="#805AD5"
-                _hover={{ color: '#281A45' }}
+              <Flex
+                gap={'15px'}
+                fontSize={'12px'}
+                marginLeft={'20px'}
+                color={'#515151'}
               >
-                @{username}
+                <Text>{score} curtidas</Text>
+                <Text>{commentCount} comentários</Text>
+              </Flex>
+              {status_open ? (
+                <FaUnlockAlt color={'#515151'} />
+              ) : (
+                <FaLock color={'#515151'} />
+              )}
+            </Flex>
+          </CardHeader>
+          <CardBody>
+            <Link to={`/post/${id}`}>
+              <Text
+                fontSize={'16px'}
+                bg="transparent"
+                fontWeight={'500'}
+                _hover={{ color: '#805AD5' }}
+              >
+                {title}
               </Text>
             </Link>
-          </Flex>
-        </HStack>
-      </Card>
+            {isDesktop ? (
+              <Text fontSize={'14px'} color={'#111111'} marginTop={'5px'}>
+                {truncateText(140, description)}
+              </Text>
+            ) : (
+              <Text fontSize={'14px'} color={'#111111'} marginTop={'5px'}>
+                {truncateText(100, description)}
+              </Text>
+            )}
+          </CardBody>
+          <HStack spacing={4} width="100%" justifyContent="space-between">
+            <Flex flexWrap={'wrap'} marginLeft={'15px'} gap="15px">
+              {['md'].map((size) =>
+                tags.map((t) => {
+                  return (
+                    <Link to={`/tags/${t}`}>
+                      <Tag
+                        size={size}
+                        key={`${size}-1`}
+                        variant="solid"
+                        background="#805AD5"
+                        _hover={{ background: '#815ad5d8' }}
+                      >
+                        {t}
+                      </Tag>
+                    </Link>
+                  );
+                })
+              )}
+            </Flex>
+            <Flex direction="column" alignItems="flex-end">
+              <DataText
+                created={created_at}
+                updated={updated_at}
+                sufix={true}
+              />
+              <Link to={`/profile/${username}`}>
+                <Text
+                  fontSize="12px"
+                  fontFamily="montserrat"
+                  color="#805AD5"
+                  _hover={{ color: '#281A45' }}
+                >
+                  @{username}
+                </Text>
+              </Link>
+            </Flex>
+          </HStack>
+        </Card>
+      )}
     </>
   );
 }
