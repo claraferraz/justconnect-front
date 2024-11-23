@@ -31,7 +31,7 @@ export function ResultsBox({ type, list }: ResultsBoxProps) {
         {type === SearchTypes.posts &&
           list &&
           (list as UserPostInfo[]).map((l: UserPostInfo) => (
-            <Box borderBottom="1px solid #DEDEDE">
+            <Box width={'100%'} borderBottom="1px solid #DEDEDE">
               <PostCard post={l} />
             </Box>
           ))}
