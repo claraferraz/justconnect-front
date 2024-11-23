@@ -5,6 +5,7 @@ import { TagsCardInfo } from '../../interface/TagsInterface';
 import { UserCardData, UserPostInfo } from '../../interface/UserInterface';
 import { PostCard } from '../PostCard/PostCard';
 import { UserCard } from '../UserCard/UserCard';
+import { TagCard } from '../TagCard/TagCard';
 
 export type ResultSearchList = {
   [SearchTypes.comments]: SearchComment[];
@@ -20,6 +21,7 @@ export type ResultsBoxProps = {
 };
 
 export function ResultsBox({ type, list, open }: ResultsBoxProps) {
+  console.log(list);
   return (
     <>
       {open && (
@@ -42,6 +44,13 @@ export function ResultsBox({ type, list, open }: ResultsBoxProps) {
             (list as UserCardData[]).map((l: UserCardData) => (
               <Box marginBottom={'15px'}>
                 <UserCard {...l} />
+              </Box>
+            ))}
+          {type === SearchTypes.tags &&
+            list &&
+            (list as TagsCardInfo[]).map((l: TagsCardInfo) => (
+              <Box marginBottom={'15px'}>
+                <TagCard tag={l.tag} postCount={l.postCount} />
               </Box>
             ))}
         </Flex>

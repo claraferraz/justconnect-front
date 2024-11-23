@@ -1,7 +1,4 @@
-import { UUID } from 'crypto';
-
 export interface TagsCardInfo {
-  id: UUID;
-  name: string;
+  tag: string;
   postCount: number;
 }
