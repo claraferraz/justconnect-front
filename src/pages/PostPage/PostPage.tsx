@@ -7,6 +7,12 @@ import {
   Button,
   useBreakpointValue,
   Tabs,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
+  Switch,
 } from '@chakra-ui/react';
 import { AiOutlineUnlock, AiOutlineLock } from 'react-icons/ai';
 import { MdArrowUpward, MdMoreVert } from 'react-icons/md';
@@ -21,6 +27,60 @@ export function PostPage() {
   const [post, setPost] = useState<UserPostById | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
+
+  const MenuComponent = () => {
+    return (
+      <Menu>
+        <MenuButton
+          as={IconButton}
+          aria-label="Options"
+          icon={<MdMoreVert />}
+          variant="ghost"
+        />
+        <MenuList
+          display="flex"
+          width="261px"
+          padding="10px"
+          flexDirection="column"
+          alignItems="flex-start"
+          gap="10px"
+          borderRadius="12px"
+        >
+          <MenuItem>Editar</MenuItem>
+          <MenuItem>
+            Trancar
+            <Switch ml="auto" colorScheme="purple" />
+          </MenuItem>
+          <MenuItem>Deletar</MenuItem>
+        </MenuList>
+      </Menu>
+    );
+  };
+
+  const MenuComponent2 = () => {
+    return (
+      <Menu>
+        <MenuButton
+          as={IconButton}
+          aria-label="Options"
+          icon={<MdMoreVert />}
+          variant="ghost"
+        />
+        <MenuList
+          display="flex"
+          width="261px"
+          padding="10px"
+          flexDirection="column"
+          alignItems="flex-start"
+          gap="10px"
+          borderRadius="12px"
+        >
+          <MenuItem>Deletar</MenuItem>
+          <MenuItem>Denunciar</MenuItem>
+        </MenuList>
+      </Menu>
+    );
+  };
 
   const getPost = async (id?: string | UUID) => {
     if (!id) {
@@ -66,7 +126,7 @@ export function PostPage() {
         >
           {new Date(post.created_at).toLocaleDateString()}
         </Text>
-        <MdMoreVert />
+        <MenuComponent />
       </Box>
 
       <Text
@@ -126,7 +186,7 @@ export function PostPage() {
 
       {post.comment.map((comment) => (
         <Box key={comment.id} mt="20px">
-          <MdMoreVert style={{ marginTop: '20px', marginLeft: '328px' }} />
+          <MenuComponent2 />
           <Box mt="8px" display="flex" alignItems="center">
             <Box
               marginLeft="30px"
@@ -204,13 +264,18 @@ export function PostPage() {
           Responder
         </Button>
       </Box>
-      <Divider mt="40px"></Divider>
+      <Divider
+        mt="40px"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      ></Divider>
       <Tabs
         borderBottom="2px solid #281A45 "
         mt="16px"
         variant="line"
         display="flex"
-        width={isDesktop ? '600px' : '100%'}
+        width={isDesktop ? '655px' : '100%'}
         height="54px"
         justifyContent="center"
         alignItems="center"
