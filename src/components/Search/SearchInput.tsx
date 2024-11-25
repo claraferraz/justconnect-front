@@ -25,6 +25,7 @@ import { UserCardData, UserPostInfo } from '../../interface/UserInterface';
 
 export function SearchInput() {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState<string>('');
   const [debouncedQuery, setDebouncedQuery] = useState<string>('');
   const [resultList, setResultList] = useState<
@@ -47,15 +48,19 @@ export function SearchInput() {
     try {
       switch (type) {
         case SearchTypes.posts:
+          setLoading(true);
           response = await fetchSearchPosts(query);
           break;
         case SearchTypes.comments:
+          setLoading(true);
           response = await fetchSearchComments(query);
           break;
         case SearchTypes.users:
+          setLoading(true);
           response = await fetchSearchUsers(query);
           break;
         case SearchTypes.tags:
+          setLoading(true);
           response = await fetchSearchTags(query);
           break;
 
@@ -65,6 +70,8 @@ export function SearchInput() {
       setResultList(response);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -141,11 +148,21 @@ export function SearchInput() {
             <Heading size={'md'}>Resultados</Heading>
             <CloseButton onClick={() => setOpen(false)} />
           </Flex>
-          <ResultsBox type={type} list={resultList} open={open} />
+          <ResultsBox
+            loading={loading}
+            type={type}
+            list={resultList}
+            open={open}
+          />
         </Box>
       ) : (
         <Box maxHeight={'70vh'} overflowY={'scroll'} overflowX={'hidden'}>
-          <ResultsBox type={type} list={resultList} open={open} />
+          <ResultsBox
+            loading={loading}
+            type={type}
+            list={resultList}
+            open={open}
+          />
         </Box>
       )}
     </>
