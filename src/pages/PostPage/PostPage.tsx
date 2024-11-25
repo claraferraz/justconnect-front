@@ -21,6 +21,7 @@ import { useParams } from 'react-router-dom';
 import { fetchPostById } from '../../service/Post';
 import { UserPostById } from '../../interface/UserInterface';
 import { UUID } from 'crypto';
+import { DataText } from '../../components/DataText/DataText';
 
 export function PostPage() {
   const { id } = useParams<{ id: string | UUID }>();
@@ -124,7 +125,7 @@ export function PostPage() {
           fontWeight="500"
           color="#515151"
         >
-          {new Date(post.created_at).toLocaleDateString()}
+          <DataText created={post.created_at} updated={post.updated_at} sufix />
         </Text>
         <MenuComponent />
       </Box>
@@ -217,7 +218,7 @@ export function PostPage() {
             fontWeight="500"
             lineHeight="20px"
           >
-            {new Date(comment.created_at).toLocaleDateString()}
+            <DataText created={post.created_at} updated={post.updated_at} sufix />
           </Text>
           <Text
             color="#805AD5"
@@ -367,7 +368,7 @@ export function PostPage() {
               fontWeight="500"
               lineHeight="20px"
             >
-              3 dias atrás
+              <DataText created={post.created_at} updated={post.updated_at} sufix />
             </Text>
             <Text
               color="#805AD5"
@@ -445,7 +446,7 @@ export function PostPage() {
               fontWeight="500"
               lineHeight="20px"
             >
-              1 mês atrás
+              <DataText created={post.created_at} updated={post.updated_at} sufix />
             </Text>
             <Text
               color="#805AD5"
