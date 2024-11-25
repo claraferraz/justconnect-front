@@ -22,7 +22,7 @@ export function MainRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="public/auth/reset-password" element={<ResetPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/my-profile" element={<MyProfile />} />
       <Route path="/my-profile/edit" element={<EditProfile />} />
       <Route path="/profile/:username" element={<Profile />} />

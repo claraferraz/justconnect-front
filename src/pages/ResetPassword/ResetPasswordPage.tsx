@@ -1,24 +1,34 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Input,
   FormControl,
   FormLabel,
   Box,
-  Text,
   Flex,
   useToast,
   Image,
   useBreakpointValue,
+  FormErrorMessage,
 } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
 import { resetPassword } from '../../service/Auth';
 import logoAuth from '../../assets/logoAuth.svg';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { handleErrors } from '../../utils/error';
+
+type FormData = {
+  newPassword: string;
+  confirmNewPassword: string;
+};
 
 export function ResetPasswordPage() {
-  const [newPassword, setNewPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<FormData>();
   const [loading, setLoading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const toast = useToast();
@@ -30,42 +40,43 @@ export function ResetPasswordPage() {
     return params.get('token');
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: FormData) => {
     setLoading(true);
-    setError(null);
 
     const token = getTokenFromUrl();
-
     if (!token) {
-      setError('Token de autenticação ausente.');
+      setError('newPassword', {
+        type: 'manual',
+        message: 'Token de autenticação ausente.',
+      });
       setLoading(false);
       return;
     }
 
-    if (newPassword !== confirmPassword) {
-      setError('As senhas não coincidem');
+    if (data.newPassword !== data.confirmNewPassword) {
+      setError('confirmNewPassword', {
+        type: 'manual',
+        message: 'As senhas não coincidem.',
+      });
       setLoading(false);
       return;
     }
 
     try {
-      await resetPassword({ newPassword, token });
+      await resetPassword({ newPassword: data.newPassword, confirmNewPassword: data.confirmNewPassword, token });
+
       toast({
         title: 'Senha alterada com sucesso',
-        description: `Sua senha foi alterada com sucesso!! Você já pode acessar sua conta.`,
+        description: 'Sua senha foi alterada com sucesso! Você já pode acessar sua conta.',
         status: 'success',
         duration: 5000,
         isClosable: true,
         position: 'bottom',
       });
+
       navigate('/login');
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Ocorreu um erro inesperado!');
-      }
+      handleErrors<FormData>(error, setError);
     } finally {
       setLoading(false);
     }
@@ -82,59 +93,61 @@ export function ResetPasswordPage() {
       <Box width="476px">
         <Image
           src={logoAuth}
-          margin={'10px auto'}
+          margin="10px auto"
           alt="Logo"
           width={isDesktop ? '170px' : '140px'}
         />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" alignItems="center">
-            <FormControl mb="4">
+            <FormControl isInvalid={!!errors.newPassword} mb="4">
               <FormLabel htmlFor="newPassword">Nova Senha</FormLabel>
               <Input
                 display="flex"
                 placeholder="Digite sua nova senha"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.newPassword ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.newPassword ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 width="100%"
                 height="41px"
                 id="newPassword"
                 type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
                 isDisabled={loading}
+                {...register('newPassword', {
+                  required: 'A nova senha é obrigatória.',
+                  minLength: {
+                    value: 8,
+                    message: 'A senha deve ter pelo menos 8 caracteres.',
+                  },
+                })}
               />
+              <FormErrorMessage>{errors.newPassword?.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl mb="4">
+            <FormControl isInvalid={!!errors.confirmNewPassword} mb="4">
               <FormLabel htmlFor="confirmPassword">Confirmar Nova Senha</FormLabel>
               <Input
                 display="flex"
                 placeholder="Confirme sua nova senha"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.confirmNewPassword ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.confirmNewPassword ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 width="100%"
                 height="41px"
                 id="confirmPassword"
                 type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
                 isDisabled={loading}
+                {...register('confirmNewPassword', {
+                  required: 'A confirmação da senha é obrigatória.',
+                })}
               />
+              <FormErrorMessage>{errors.confirmNewPassword?.message}</FormErrorMessage>
             </FormControl>
-
-            {error && (
-              <Text color="red.500" mb="4">
-                {error}
-              </Text>
-            )}
 
             <Button
               w="100%"

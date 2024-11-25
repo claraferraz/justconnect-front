@@ -1,27 +1,15 @@
-import {
-  Divider,
-  Tag,
-  Box,
-  Text,
-  Textarea,
-  Button,
-  useBreakpointValue,
-} from '@chakra-ui/react';
-import { MdArrowUpward } from 'react-icons/md';
+import { Divider, Tag, Box, Text, Textarea, Button } from '@chakra-ui/react';
+import { MdArrowUpward, MdMoreVert } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchPostById } from '../../service/Post';
 import { UserPostById } from '../../interface/UserInterface';
 import { UUID } from 'crypto';
-import { DataText } from '../../components/DataText/DataText';
-import MenuComponent from '../../components/MenuButton/MenuComponent';
-import { RelatedPosts } from '../../components/RelatedPosts/RelatedPosts';
 
 export function PostPage() {
   const { id } = useParams<{ id: string | UUID }>();
   const [post, setPost] = useState<UserPostById | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const getPost = async (id?: string | UUID) => {
     if (!id) {
@@ -59,27 +47,17 @@ export function PostPage() {
         >
           @{post.username}
         </Text>
-        <Text
-          marginRight={isDesktop ? '350px' : '100px'}
-          fontSize="12px"
-          fontWeight="500"
-          color="#515151"
-        >
-          <DataText created={post.created_at} updated={post.updated_at} sufix />
+        <Text fontSize="12px" fontWeight="500" color="#515151">
+          {new Date(post.created_at).toLocaleDateString()}
         </Text>
-        <MenuComponent />
+        <MdMoreVert style={{ marginLeft: '100px' }} />
       </Box>
 
-      <Text
-        mt={isDesktop ? '24px' : '9px'}
-        color="#000"
-        fontSize="16px"
-        fontWeight="600"
-      >
+      <Text mt="9px" color="#000" fontSize="16px" fontWeight="600">
         {post.title}
       </Text>
 
-      <Box mt={isDesktop ? '24px' : '8px'} display="flex" alignItems="center">
+      <Box mt="8px" display="flex" alignItems="center">
         <Box display="flex" flexDirection="column" alignItems="center">
           <MdArrowUpward style={{ width: '20px', height: '24px' }} />
           <Text fontSize="16px" fontWeight="600" color="#000">
@@ -87,7 +65,6 @@ export function PostPage() {
           </Text>
         </Box>
         <Text
-          width="296px"
           marginLeft="37px"
           mt="8px"
           color="#111"
@@ -98,7 +75,7 @@ export function PostPage() {
         </Text>
       </Box>
 
-      <Box marginLeft={isDesktop ? '440px' : '126px'} mt="28px" display="flex">
+      <Box marginLeft="126px" mt="28px" display="flex">
         {post.tags.map((tag, index) => (
           <Tag
             key={index}
@@ -127,7 +104,7 @@ export function PostPage() {
 
       {post.comment.map((comment) => (
         <Box key={comment.id} mt="20px">
-          <MenuComponent />
+          <MdMoreVert style={{ marginTop: '20px', marginLeft: '328px' }} />
           <Box mt="8px" display="flex" alignItems="center">
             <Box
               marginLeft="30px"
@@ -158,11 +135,7 @@ export function PostPage() {
             fontWeight="500"
             lineHeight="20px"
           >
-            <DataText
-              created={post.created_at}
-              updated={post.updated_at}
-              sufix
-            />
+            {new Date(comment.created_at).toLocaleDateString()}
           </Text>
           <Text
             color="#805AD5"
@@ -183,7 +156,7 @@ export function PostPage() {
         </Box>
       ))}
 
-      <Box paddingLeft="13px" mt="30px">
+      <Box mt="30px">
         <Text color="#281A45" fontSize="18px" fontWeight="500">
           Responder
         </Text>
@@ -192,33 +165,23 @@ export function PostPage() {
           border="2px solid #805AD5"
           mt="21px"
           placeholder="Descreva sua resposta"
-          width={isDesktop ? '550px' : '320px'}
+          width="320px"
           height="84px"
         />
         <Button
-          marginLeft="7px"
+          padding="0px 24px"
           justifyContent="center"
           alignItems="center"
           mt="33px"
           size="lg"
           variant="solid"
           colorScheme="purple"
-          width={isDesktop ? '550px' : '320px'}
+          width="320px"
           h="38px"
         >
           Responder
         </Button>
       </Box>
-      <Divider
-        mt="40px"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      ></Divider>
-      <Box>
-        <RelatedPosts tags={post.tags} />
-      </Box>
-      <Divider mb="37px" mt="37px"></Divider>
     </Box>
   );
 }
