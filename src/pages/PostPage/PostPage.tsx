@@ -454,7 +454,7 @@ export function PostPage() {
               fontWeight="500"
               lineHeight="20px"
             >
-              @username
+              @usernam
             </Text>
           </Box>
         </Box>
