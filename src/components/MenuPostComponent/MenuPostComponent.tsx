@@ -6,7 +6,6 @@ import {
   MenuList,
   IconButton,
   Switch,
-  useToast,
 } from "@chakra-ui/react";
 import { UUID } from "crypto";
 import { useState } from "react";
@@ -16,37 +15,25 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useProfileStore } from "../../store/profileStore";
 import { useAuthStore } from "../../store/authStore";
 import EditPostModal from "../EditPostModal/EditPostModal";
+import ConfirmDeletePost from "../ConfirmDeletePost/ConfirmDeletePost"; 
 
 const MenuPostComponent = () => {
   const { id } = useParams<{ id: string | UUID }>();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); 
   const { post, removePost, updatePost } = usePostStore();
   const navigate = useNavigate();
   const currentUserId = useAuthStore((state) => state.id);
   const role = useProfileStore((state) => state.role);
-  const toast = useToast();
-
-  const handleDeletePost = async (id: string | UUID) => {
-    if (!id) return;
-    try {
-      await removePost(id);
-      toast({
-        title: "Postagem excluída com sucesso!",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-      navigate("/my-profile");
-    } catch (error) {
-      console.error("Erro ao excluir post:", error);
-    }
-  };
 
   const handleOpenEditModal = () => {
     setIsEditModalOpen(true);
     setIsMenuOpen(false); 
+  };
+
+  const handlePostDeleted = () => {
+    navigate("/my-profile"); 
   };
 
   return (
@@ -95,8 +82,7 @@ const MenuPostComponent = () => {
               <Switch ml="auto" colorScheme="purple" />
             </MenuItem>
             <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>
-            <MenuItem onClick={() => id && handleDeletePost(id)}>Deletar</MenuItem>
-
+            <MenuItem onClick={() => setIsDeleteModalOpen(true)}>Deletar</MenuItem>
           </MenuList>
         </Menu>
       )}
@@ -108,6 +94,16 @@ const MenuPostComponent = () => {
           updatePost={updatePost}
           isOpen={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
+        />
+      )}
+
+      {id && (
+        <ConfirmDeletePost
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          postId={id}
+          removePost={removePost}
+          refreshPosts={handlePostDeleted}
         />
       )}
     </Box>

@@ -5,7 +5,6 @@ import {
   MenuItem,
   MenuList,
   IconButton,
-  useToast,
 } from "@chakra-ui/react";
 import { UUID } from "crypto";
 import { useState } from "react";
@@ -13,7 +12,8 @@ import { MdMoreVert } from "react-icons/md";
 import { useCommentStore } from "../../store/commentStore";
 import { useProfileStore } from "../../store/profileStore";
 import { useAuthStore } from "../../store/authStore";
-import  EditCommentModal  from "../EditCommentModal/EditCommentModal";
+import EditCommentModal from "../EditCommentModal/EditCommentModal";
+import ConfirmDeleteComment from "../ConfirmDeleteComment/ConfirmDeleteComment";
 
 interface MenuCommentComponentProps {
   comment: {
@@ -30,35 +30,10 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { removeComment } = useCommentStore();
   const currentUserId = useAuthStore((state) => state.id);
   const role = useProfileStore((state) => state.role);
-  const toast = useToast();
-
-  const handleDeleteComment = async (id: string | UUID) => {
-    if (!id) return;
-    try {
-      await removeComment(id);
-      toast({
-        title: "Comentário excluído com sucesso!",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-      refreshComments(); 
-    } catch (error) {
-      console.error("Erro ao excluir comentário:", error);
-      toast({
-        title: "Erro ao excluir o comentário.",
-        description: "Tente novamente mais tarde.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-    }
-  };
 
   const handleOpenEditModal = () => {
     setIsEditModalOpen(true);
@@ -66,7 +41,7 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
   };
 
   return (
-    <Box position="relative">
+    <Box position="relative" display="flex" justifyContent="flex-end">
       {isMenuOpen && (
         <Box
           position="fixed"
@@ -80,7 +55,7 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
           onClick={() => setIsMenuOpen(false)}
         />
       )}
-      {(currentUserId  || role === "ADMIN") && (
+      {(currentUserId || role === "ADMIN") && (
         <Menu
           onOpen={() => setIsMenuOpen(true)}
           onClose={() => setIsMenuOpen(false)}
@@ -102,12 +77,20 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
             borderRadius="12px"
           >
             <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>
-            <MenuItem onClick={() => handleDeleteComment(comment.id)}>
+            <MenuItem onClick={() => setIsDeleteDialogOpen(true)}>
               Deletar
             </MenuItem>
           </MenuList>
         </Menu>
       )}
+
+      <ConfirmDeleteComment
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        commentId={comment.id}
+        refreshComments={refreshComments}
+        removeComment={removeComment}
+      />
 
       {comment && (
         <EditCommentModal
