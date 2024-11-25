@@ -7,6 +7,7 @@ import {
   HStack,
   Tag,
   useBreakpointValue,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 
 import { Link } from 'react-router-dom';

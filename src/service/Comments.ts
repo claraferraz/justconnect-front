@@ -1,9 +1,19 @@
-import { Comment } from '../interface/CommentsInterface';
-import api from './api';
+import { CreateComment, UpdateComment} from "../interface/CommentsInterface";
+import api from "./api";
 import { UUID } from 'crypto';
 
-const CreateUserComment = async (id: UUID, data: Comment) => {
-  const response = await api.post(`/comments/post/${id}`, data);
-  return response;
+const createUserComment = async (id: string | UUID  ,data: CreateComment) => {
+    const response = await api.post(`/comments/post/${id}`, data);
+    return response;
+  };
+
+const updateUserComment = async(id: string | UUID, data: UpdateComment) =>{
+  const response = await api.put(`/comments/${id}`, data)
+  return response
+}
+const deleteUserComment = async (id:string | UUID) => {
+  await api.delete(`/comments/${id}`);
 };
-export { CreateUserComment };
+
+export{createUserComment, updateUserComment, deleteUserComment}
+  

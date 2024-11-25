@@ -1,6 +1,5 @@
 import {
   Box,
-  Text,
   Button,
   FormControl,
   FormLabel,
@@ -12,52 +11,68 @@ import {
   Tabs,
   Tab,
   useBreakpointValue,
+  FormErrorMessage,
+  Text,
+  Kbd,
 } from '@chakra-ui/react';
-import { FormEvent, useState } from 'react';
-import { CreatePost } from '../../service/Post';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { createPost } from '../../service/Post';
 import { usePostStore } from '../../store/postStore';
 import { useAuthStore } from '../../store/authStore';
+import { handleErrors } from '../../utils/error';
+import { useNavigate } from 'react-router-dom';
+
+type FormData = {
+  title: string;
+  description: string;
+  tags: string[];
+};
 
 export function CreatePostPage() {
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
+  const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<FormData>({
+    defaultValues: {
+      title: '',
+      description: '',
+      tags: [],
+    },
+  });
+  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const setPosts = usePostStore((state) => state.setPosts);
   const id = useAuthStore((state) => state.id);
+
   if (!id) {
     return;
   }
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: FormData) => {
     setLoading(true);
-    setError(null);
+   
 
     try {
-      await CreatePost({ title, description, tags });
+      await createPost({ title: data.title, description: data.description, tags });
       await setPosts(id);
+
       toast({
-        title: 'Post created.',
-        description: 'Your post has been successfully created!',
+        title: 'Post criado.',
+        description: 'Sua postagem foi criada com sucesso!',
         status: 'success',
         duration: 5000,
         isClosable: true,
       });
-      setTitle('');
-      setDescription('');
+
+      reset();
       setTags([]);
+      navigate('/my-profile')
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('An unexpected error occurred!');
-      }
+      handleErrors<FormData>(error, setError);
+
     } finally {
       setLoading(false);
     }
@@ -99,14 +114,9 @@ export function CreatePostPage() {
         alignItems="center"
         justifyContent="center"
       >
-        {error && (
-          <Box mb="4" color="red.500">
-            {error}
-          </Box>
-        )}
-
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl
+            isInvalid={!!errors.title}
             width={isDesktop ? '550px' : '350px'}
             mb={5}
             mt={isDesktop ? 113 : 50}
@@ -116,30 +126,34 @@ export function CreatePostPage() {
               placeholder="Escreva seu título"
               bg="gray.50"
               border="2px solid"
-              borderColor="#805AD5"
-              focusBorderColor="#805AD5"
+              borderColor={errors.title ? "red.500" : "#805AD5"} 
+              focusBorderColor={errors.title ? "red.500" : "#805AD5"}
               _hover={{ bg: 'gray.200' }}
               _focus={{ bg: 'white' }}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
               h="40px"
+              {...register('title', { required: 'O título é obrigatório.' })}
             />
+            <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
+          <FormControl
+            isInvalid={!!errors.description}
+            width={isDesktop ? '550px' : '350px'}
+            mb={5}
+          >
             <FormLabel fontWeight="600">Descrição</FormLabel>
             <Textarea
               placeholder="Descreva sua postagem"
               bg="gray.50"
               border="2px solid"
-              borderColor="#805AD5"
-              focusBorderColor="#805AD5"
+              borderColor={errors.description ? "red.500" : "#805AD5"} 
+              focusBorderColor={errors.description ? "red.500" : "#805AD5"}
               _hover={{ bg: 'gray.100' }}
               _focus={{ bg: 'white' }}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
               height="86px"
+              {...register('description', { required: 'A descrição é obrigatória.' })}
             />
+            <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
           </FormControl>
 
           <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
@@ -161,39 +175,37 @@ export function CreatePostPage() {
                 }
               }}
             />
-            <Box margin="10px 20px" color="gray.500" fontSize="14px">
-              <ul>
-                <li>
-                  <Text>Para criar uma tag pressione Enter</Text>
-                </li>
-                <li>
-                  <Text>
-                    Para tags com mais de uma palavra, separe-as com um hífen
-                  </Text>
-                  <Text>ex: back-end</Text>
-                </li>
-              </ul>
+          <Box margin="10px 20px" color="gray.500" fontSize="14px">
+                <ul>
+                  <li>
+                    <Text>
+                      Para criar uma tag pressione <Kbd>Enter</Kbd>
+                    </Text>
+                  </li>
+                  <li>
+                    <Text>Para tags com mais de uma palavra, separe-as com um hífen</Text>
+                    <Text>ex: back-end</Text>
+                  </li>
+                </ul>
             </Box>
           </FormControl>
 
-          <FormControl width={isDesktop ? '550px' : '350px'} mb={5}>
-            <Box display="flex" flexWrap="wrap" gap="2">
-              {tags.map((tag, index) => (
-                <Tag
-                  key={index}
-                  variant="solid"
-                  size="md"
-                  colorScheme="purple"
-                  display="inline-flex"
-                  h="24px"
-                  backgroundColor="purple.500"
-                >
-                  {tag}
-                  <TagCloseButton onClick={() => handleRemoveTag(tag)} />
-                </Tag>
-              ))}
-            </Box>
-          </FormControl>
+          <Box display="flex" flexWrap="wrap" gap="2" mb={5}>
+            {tags.map((tag, index) => (
+              <Tag
+                key={index}
+                variant="solid"
+                size="md"
+                colorScheme="purple"
+                display="inline-flex"
+                h="24px"
+                backgroundColor="purple.500"
+              >
+                {tag}
+                <TagCloseButton onClick={() => handleRemoveTag(tag)} />
+              </Tag>
+            ))}
+          </Box>
 
           <Button
             w="100%"
