@@ -90,7 +90,7 @@ const EditCommentModal: React.FC<EditCommentModalProps> = ({
           <Button variant="ghost" onClick={onClose}>
             Cancelar
           </Button>
-          <Button colorScheme="blue" onClick={handleSaveComment}>
+          <Button colorScheme="purple" onClick={handleSaveComment}>
             Salvar
           </Button>
         </ModalFooter>
