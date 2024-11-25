@@ -3,41 +3,36 @@ import {
   Tag,
   Box,
   Text,
-  Textarea,
-  Button,
   useBreakpointValue,
   Tabs,
+  Flex,
 } from '@chakra-ui/react';
 import { AiOutlineUnlock, AiOutlineLock } from 'react-icons/ai';
 import { MdArrowUpward } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchPostById } from '../../service/Post';
-import { UserPostById } from '../../interface/UserInterface';
+
 import { UUID } from 'crypto';
 import { DataText } from '../../components/DataText/DataText';
-import MenuComponent from '../../components/MenuButton/MenuComponent';
+import MenuPostComponent from '../../components/MenuPostComponent/MenuPostComponent';
+import { CommentList } from '../../components/CommentList/CommentList';
+
+import { usePostStore } from '../../store/postStore';
+import {CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
 
 export function PostPage() {
-  const { id } = useParams<{ id: string | UUID }>();
-  const [post, setPost] = useState<UserPostById | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { id } = useParams<{ id: string | UUID }>(); 
+  const { post, getPostById,incrementCommentCount } = usePostStore();
+ 
+  const [loading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
-
   
-
-  const getPost = async (id?: string | UUID) => {
-    if (!id) {
-      return;
-    }
-    setLoading(true);
+  const getPost = async (id: string | UUID) => {
+    if (!id) return;
     try {
-      const response = await fetchPostById(id);
-      setPost(response);
+      await getPostById(id);
     } catch (error) {
       console.error('Erro ao buscar post:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -48,7 +43,6 @@ export function PostPage() {
   }, [id]);
 
   if (loading) return <Text>Carregando...</Text>;
-
   if (!post) return <Text>Post não encontrado</Text>;
 
   return (
@@ -70,7 +64,7 @@ export function PostPage() {
         >
           <DataText created={post.created_at} updated={post.updated_at} sufix />
         </Text>
-        <MenuComponent />
+        <MenuPostComponent />
       </Box>
 
       <Text
@@ -117,101 +111,35 @@ export function PostPage() {
 
       <Box>
         <Divider mt="15px" background="#DEDEDE" height="1px" />
-        <Text
-          marginLeft="6px"
-          mt="5px"
-          color="#515151"
-          fontSize="12px"
-          fontWeight="500"
-        >
-          {post.comment.length} comentário{post.comment.length !== 1 ? 's' : ''}
-        </Text>
-      </Box>
-
-      {post.comment.map((comment) => (
-        <Box key={comment.id} mt="20px">
-          <MenuComponent />
-          <Box mt="8px" display="flex" alignItems="center">
-            <Box
-              marginLeft="30px"
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-            >
-              <MdArrowUpward style={{ width: '20px', height: '24px' }} />
-              <Text fontSize="16px" fontWeight="600" color="#000">
-                {comment.score}
-              </Text>
-            </Box>
-            <Text
-              marginLeft="26px"
-              mt="8px"
-              color="#111"
-              fontSize="14px"
-              fontWeight="400"
-            >
-              {comment.content}
-            </Text>
-          </Box>
+        <Flex gap="15px">
           <Text
-            mt="14px"
-            paddingLeft="278px"
+            mt="5px"
             color="#515151"
             fontSize="12px"
             fontWeight="500"
-            lineHeight="20px"
           >
-            <DataText
-              created={post.created_at}
-              updated={post.updated_at}
-              sufix
-            />
+            {post.score} curtida{post.score!== 1 ? 's' : ''}
           </Text>
           <Text
-            color="#805AD5"
-            paddingLeft="274px"
+            mt="5px"
+            color="#515151"
             fontSize="12px"
             fontWeight="500"
-            lineHeight="20px"
           >
-            @{comment.username}
+            {post.comment.length} comentário{post.comment.length !== 1 ? 's' : ''}
           </Text>
-          <Divider
-            mt="15px"
-            background="#DEDEDE"
-            height="1px"
-            mx="auto"
-            maxWidth="85%"
-          />
-        </Box>
-      ))}
+        </Flex>
 
-      <Box paddingLeft="13px" mt="30px">
-        <Text color="#281A45" fontSize="18px" fontWeight="500">
-          Responder
-        </Text>
-        <Textarea
-          borderRadius="6px"
-          border="2px solid #805AD5"
-          mt="21px"
-          placeholder="Descreva sua resposta"
-          width={isDesktop ? '550px' : '320px'}
-          height="84px"
-        />
-        <Button
-          marginLeft="7px"
-          justifyContent="center"
-          alignItems="center"
-          mt="33px"
-          size="lg"
-          variant="solid"
-          colorScheme="purple"
-          width={isDesktop ? '550px' : '320px'}
-          h="38px"
-        >
-          Responder
-        </Button>
       </Box>
+
+      <CommentList comments={post.comment} refreshComments={() => id && getPost(id)} /> 
+      
+      <CreateUserComment
+        postId={id as string}
+        incrementCommentCount={incrementCommentCount}
+        getPost={getPost}
+      />
+
       <Divider
         mt="40px"
         display="flex"
@@ -342,7 +270,7 @@ export function PostPage() {
           lineHeight="24px"
           display="flex"
         >
-          <Text paddingRight="26px">21 curtidas</Text>
+          <Text paddingRight="26px">21 curtida</Text>
           <Text paddingRight={isDesktop ? '450px' : '135px'}>
             12 comentários
           </Text>
