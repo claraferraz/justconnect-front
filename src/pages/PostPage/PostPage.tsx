@@ -43,7 +43,7 @@ export function PostPage() {
       setCommentText(''); 
       await getPost(id);
     } catch (error) {
-      console.error('Erro ao enviar comentário:', error);
+      console.error('Erro ao enviar:', error);
     }
   };
 
