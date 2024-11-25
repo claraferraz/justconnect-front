@@ -5,6 +5,7 @@ import {
   Text,
   useBreakpointValue,
   Tabs,
+  Flex,
 } from '@chakra-ui/react';
 import { AiOutlineUnlock, AiOutlineLock } from 'react-icons/ai';
 import { MdArrowUpward } from 'react-icons/md';
@@ -13,7 +14,7 @@ import { useParams } from 'react-router-dom';
 
 import { UUID } from 'crypto';
 import { DataText } from '../../components/DataText/DataText';
-import MenuComponent from '../../components/MenuComponent/MenuComponent';
+import MenuPostComponent from '../../components/MenuPostComponent/MenuPostComponent';
 import { CommentList } from '../../components/CommentList/CommentList';
 
 import { usePostStore } from '../../store/postStore';
@@ -63,7 +64,7 @@ export function PostPage() {
         >
           <DataText created={post.created_at} updated={post.updated_at} sufix />
         </Text>
-        <MenuComponent />
+        <MenuPostComponent />
       </Box>
 
       <Text
@@ -110,19 +111,29 @@ export function PostPage() {
 
       <Box>
         <Divider mt="15px" background="#DEDEDE" height="1px" />
-        <Text
-          marginLeft="6px"
-          mt="5px"
-          color="#515151"
-          fontSize="12px"
-          fontWeight="500"
-        >
-          {post.comment.length} comentário{post.comment.length !== 1 ? 's' : ''}
-        </Text>
+        <Flex gap="15px">
+          <Text
+            mt="5px"
+            color="#515151"
+            fontSize="12px"
+            fontWeight="500"
+          >
+            {post.score} curtida{post.score!== 1 ? 's' : ''}
+          </Text>
+          <Text
+            mt="5px"
+            color="#515151"
+            fontSize="12px"
+            fontWeight="500"
+          >
+            {post.comment.length} comentário{post.comment.length !== 1 ? 's' : ''}
+          </Text>
+        </Flex>
+
       </Box>
 
       <CommentList comments={post.comment} refreshComments={() => id && getPost(id)} /> 
-        
+      
       <CreateUserComment
         postId={id as string}
         incrementCommentCount={incrementCommentCount}
