@@ -32,8 +32,8 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { removeComment } = useCommentStore();
-  const currentUserId = useAuthStore((state) => state.id); // ID do usuário logado
-  const role = useProfileStore((state) => state.role); // Papel do usuário (ADMIN ou outro)
+  const currentUserId = useAuthStore((state) => state.id); 
+  const role = useProfileStore((state) => state.role);
 
   const handleOpenEditModal = () => {
     setIsEditModalOpen(true);
