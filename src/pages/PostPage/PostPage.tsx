@@ -7,21 +7,16 @@ import {
   Button,
   useBreakpointValue,
   Tabs,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  IconButton,
-  Switch,
 } from '@chakra-ui/react';
 import { AiOutlineUnlock, AiOutlineLock } from 'react-icons/ai';
-import { MdArrowUpward, MdMoreVert } from 'react-icons/md';
+import { MdArrowUpward } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchPostById } from '../../service/Post';
 import { UserPostById } from '../../interface/UserInterface';
 import { UUID } from 'crypto';
 import { DataText } from '../../components/DataText/DataText';
+import MenuComponent from '../../components/MenuButton/MenuComponent';
 
 export function PostPage() {
   const { id } = useParams<{ id: string | UUID }>();
@@ -29,59 +24,7 @@ export function PostPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
-  const MenuComponent = () => {
-    return (
-      <Menu>
-        <MenuButton
-          as={IconButton}
-          aria-label="Options"
-          icon={<MdMoreVert />}
-          variant="ghost"
-        />
-        <MenuList
-          display="flex"
-          width="261px"
-          padding="10px"
-          flexDirection="column"
-          alignItems="flex-start"
-          gap="10px"
-          borderRadius="12px"
-        >
-          <MenuItem>Editar</MenuItem>
-          <MenuItem>
-            Trancar
-            <Switch ml="auto" colorScheme="purple" />
-          </MenuItem>
-          <MenuItem>Deletar</MenuItem>
-        </MenuList>
-      </Menu>
-    );
-  };
-
-  const MenuComponent2 = () => {
-    return (
-      <Menu>
-        <MenuButton
-          as={IconButton}
-          aria-label="Options"
-          icon={<MdMoreVert />}
-          variant="ghost"
-        />
-        <MenuList
-          display="flex"
-          width="261px"
-          padding="10px"
-          flexDirection="column"
-          alignItems="flex-start"
-          gap="10px"
-          borderRadius="12px"
-        >
-          <MenuItem>Deletar</MenuItem>
-          <MenuItem>Denunciar</MenuItem>
-        </MenuList>
-      </Menu>
-    );
-  };
+  
 
   const getPost = async (id?: string | UUID) => {
     if (!id) {
@@ -187,7 +130,7 @@ export function PostPage() {
 
       {post.comment.map((comment) => (
         <Box key={comment.id} mt="20px">
-          <MenuComponent2 />
+          <MenuComponent />
           <Box mt="8px" display="flex" alignItems="center">
             <Box
               marginLeft="30px"
@@ -218,7 +161,11 @@ export function PostPage() {
             fontWeight="500"
             lineHeight="20px"
           >
-            <DataText created={post.created_at} updated={post.updated_at} sufix />
+            <DataText
+              created={post.created_at}
+              updated={post.updated_at}
+              sufix
+            />
           </Text>
           <Text
             color="#805AD5"
@@ -368,7 +315,11 @@ export function PostPage() {
               fontWeight="500"
               lineHeight="20px"
             >
-              <DataText created={post.created_at} updated={post.updated_at} sufix />
+              <DataText
+                created={post.created_at}
+                updated={post.updated_at}
+                sufix
+              />
             </Text>
             <Text
               color="#805AD5"
@@ -446,7 +397,11 @@ export function PostPage() {
               fontWeight="500"
               lineHeight="20px"
             >
-              <DataText created={post.created_at} updated={post.updated_at} sufix />
+              <DataText
+                created={post.created_at}
+                updated={post.updated_at}
+                sufix
+              />
             </Text>
             <Text
               color="#805AD5"
