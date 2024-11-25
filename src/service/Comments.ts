@@ -8,10 +8,10 @@ const createUserComment = async (id: string | UUID  ,data: CreateComment) => {
   };
 
 const updateUserComment = async(id: string | UUID, data: UpdateComment) =>{
-  const response = await api.patch(`/comments/${id}`, data)
+  const response = await api.put(`/comments/${id}`, data)
   return response
 }
-const deleteUserComment = async (id: UUID) => {
+const deleteUserComment = async (id:string | UUID) => {
   await api.delete(`/comments/${id}`);
 };
 
