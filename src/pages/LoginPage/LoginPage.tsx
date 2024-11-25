@@ -33,14 +33,12 @@ export function LoginPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setLoginError] = useState<string | null>(null);
 
-  // Usando o React Hook Form com tipagem
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<LoginFormData>();  // Atribuindo o tipo LoginFormData
+  } = useForm<LoginFormData>();
 
-  // Função onSubmit com a tipagem correta
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     setLoading(true);
     setLoginError(null);
