@@ -9,10 +9,10 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 
-import { FaUnlockAlt, FaLock } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { UserPostInfo } from '../../interface/UserInterface';
 import { DataText } from '../DataText/DataText';
+import { AiOutlineLock, AiOutlineUnlock } from 'react-icons/ai';
 
 interface Props {
   post: UserPostInfo;
@@ -75,9 +75,9 @@ export function PostCard({
                 <Text>{commentCount} comentários</Text>
               </Flex>
               {status_open ? (
-                <FaUnlockAlt color={'#515151'} />
+                <AiOutlineUnlock color={'#515151'} />
               ) : (
-                <FaLock color={'#515151'} />
+                <AiOutlineLock color={'#515151'} />
               )}
             </Flex>
           </CardHeader>
