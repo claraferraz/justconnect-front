@@ -32,12 +32,12 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { removeComment } = useCommentStore();
-  const currentUserId = useAuthStore((state) => state.id);
-  const role = useProfileStore((state) => state.role);
+  const currentUserId = useAuthStore((state) => state.id); // ID do usuário logado
+  const role = useProfileStore((state) => state.role); // Papel do usuário (ADMIN ou outro)
 
   const handleOpenEditModal = () => {
     setIsEditModalOpen(true);
-    setIsMenuOpen(false);
+    setIsMenuOpen(false); 
   };
 
   return (
@@ -55,7 +55,8 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
           onClick={() => setIsMenuOpen(false)}
         />
       )}
-      {(currentUserId || role === "ADMIN") && (
+      {/* eu tentei deixar currentUserId === comment.user_id, mas n estava aparecendo para quem de fato fez o comentário  */}
+      {(currentUserId  || role === "ADMIN") && (
         <Menu
           onOpen={() => setIsMenuOpen(true)}
           onClose={() => setIsMenuOpen(false)}
@@ -77,9 +78,7 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
             borderRadius="12px"
           >
             <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>
-            <MenuItem onClick={() => setIsDeleteDialogOpen(true)}>
-              Deletar
-            </MenuItem>
+            <MenuItem onClick={() => setIsDeleteDialogOpen(true)}>Deletar</MenuItem>
           </MenuList>
         </Menu>
       )}
@@ -91,6 +90,7 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
         refreshComments={refreshComments}
         removeComment={removeComment}
       />
+
 
       {comment && (
         <EditCommentModal
