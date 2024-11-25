@@ -270,7 +270,7 @@ export function PostPage() {
           lineHeight="24px"
           display="flex"
         >
-          <Text paddingRight="26px">21 curtidas</Text>
+          <Text paddingRight="26px">21 curtida</Text>
           <Text paddingRight={isDesktop ? '450px' : '135px'}>
             12 comentários
           </Text>
