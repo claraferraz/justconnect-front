@@ -37,7 +37,7 @@ export function PostCard({
   function truncateText(maxLength: number, text?: string) {
     if (text) {
       if (text.length > maxLength) {
-        return text.slice(0, maxLength) + '...';
+        return text.slice(0, maxLength) + ' [...]';
       }
       return text;
     }

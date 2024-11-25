@@ -9,7 +9,9 @@ export interface Comment {
 }
 
 export interface SearchComment {
-  id: UUID;
-  comment: string;
+  post_id: UUID;
+  username: string;
+  content: string;
   score: number;
+  created_at: string;
 }
