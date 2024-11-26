@@ -3,6 +3,7 @@ import { devtools, persist } from 'zustand/middleware';
 import { fetchPostById, fetchPostsByUserId, updateUserPost, deleteUserPost } from '../service/Post';
 import { UserPostInfo, UserPostById, Role } from '../interface/UserInterface';
 import { UUID } from 'crypto';
+import { handleErrors } from '../utils/error';
 
 export interface PostState {
   posts?: UserPostInfo[];
@@ -72,7 +73,8 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       const post = await fetchPostById(id); 
       set({ post });
     } catch (error) {
-      console.error('Erro ao editar post:', error);
+      const errorMessages = handleErrors(error);
+      throw new Error(errorMessages.join(', '))
     }
   },
 
