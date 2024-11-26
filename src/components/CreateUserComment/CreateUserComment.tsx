@@ -74,7 +74,12 @@ export function CreateUserComment({
       alignItems='center'  >
         <Textarea
           borderRadius="6px"
-          border="2px solid #805AD5"
+          bg="gray.50"
+          border="2px solid"
+          borderColor="#805AD5"
+          focusBorderColor="#805AD5"
+          _hover={{ bg: 'gray.200' }}
+          _focus={{ bg: 'white' }}
           mt="21px"
           placeholder="Descreva sua resposta"
           width="320px"
