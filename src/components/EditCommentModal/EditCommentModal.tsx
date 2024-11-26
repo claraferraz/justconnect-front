@@ -96,7 +96,6 @@ const EditCommentModal: React.FC<EditCommentModalProps> = ({
               value={editedCommentText}
               onChange={(e) => setEditedCommentText(e.target.value)}
               placeholder="Edite seu comentário"
-              size="sm"
               bg="gray.50"
               border="2px solid"
               borderColor={error ? "red.500" : "#805AD5"}
