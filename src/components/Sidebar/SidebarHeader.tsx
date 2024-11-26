@@ -14,8 +14,10 @@ import { SidebarHeaderProps } from '../../interface/SideBarInterface';
 import { NotificationsWrapper } from '../Notifications/NotificationsWrapper';
 import { useState } from 'react';
 import { SearchBar } from '../Search/SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 const SidebarHeader = ({ onOpen, user }: SidebarHeaderProps) => {
+  const navigate = useNavigate();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const [searchVisible, setSearchVisible] = useState(false);
   const [notificationsVisible, setNotificationsVisible] = useState(false);
@@ -73,7 +75,13 @@ const SidebarHeader = ({ onOpen, user }: SidebarHeaderProps) => {
               notificationsVisible={notificationsVisible}
               toggleNotifications={toggleNotifications}
             />
-            <Avatar name={user.name} color="#fff" marginRight="4">
+            <Avatar
+              cursor={'pointer'}
+              onClick={() => navigate('/my-profile')}
+              name={user.name}
+              color="#fff"
+              marginRight="4"
+            >
               <AvatarBadge bg="green.500" boxSize="1.25em" />
             </Avatar>
           </>
