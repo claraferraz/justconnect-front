@@ -3,7 +3,6 @@ import {
   Text,
   Flex,
   Card,
-  CardHeader,
   CardBody,
   HStack,
   useBreakpointValue,
@@ -13,9 +12,11 @@ import { SearchComment } from '../../interface/CommentsInterface';
 import { DataText } from '../DataText/DataText';
 
 export function CommentCard({
-  post_id,
-  content,
+  id,
+  comment,
   score,
+  post_id,
+  user_id,
   username,
   created_at,
 }: SearchComment) {
@@ -33,61 +34,62 @@ export function CommentCard({
 
   function handleOpenComment(id?: string): void {
     try {
-      navigate(`/posts/${id}`);
+      navigate(`/post/${id}`);
     } catch {
       throw new Error('Post não encontrado.');
     }
   }
 
+  console.log(user_id);
   return (
     <>
-      {content && (
+      {comment && (
         <Card
           padding="0 20px 20px 0"
           width={'100%'}
           shadow={'none'}
           bg="transparent"
         >
-          <CardHeader
-            justifyContent="space-between"
-            p={0}
-            sx={{
-              '& > button': {
-                minW: '136px',
-              },
-            }}
-          >
-            <Flex
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              marginTop={'10px'}
-            >
-              <Flex
-                gap={'15px'}
-                fontSize={'12px'}
-                marginLeft={'20px'}
-                color={'#515151'}
-              >
-                <Text>{score} curtidas</Text>
-              </Flex>
-            </Flex>
-          </CardHeader>
           <CardBody>
-            <Box onClick={() => handleOpenComment(post_id)}>
+            <Box cursor={'pointer'} _hover={{ color: '#805AD5' }}>
               {isDesktop ? (
-                <Text fontSize={'14px'} color={'#111111'} marginTop={'5px'}>
-                  {truncateText(140, content)}
+                <Text
+                  _hover={{ color: '#805AD5' }}
+                  onClick={() => handleOpenComment(post_id)}
+                  fontSize={'14px'}
+                  color={'#111111'}
+                  marginTop={'5px'}
+                >
+                  {truncateText(140, comment)}
                 </Text>
               ) : (
-                <Text fontSize={'14px'} color={'#111111'} marginTop={'5px'}>
-                  {truncateText(100, content)}
+                <Text
+                  _hover={{ color: '#805AD5' }}
+                  onClick={() => handleOpenComment(post_id)}
+                  fontSize={'14px'}
+                  color={'#111111'}
+                  marginTop={'5px'}
+                >
+                  {truncateText(100, comment)}
                 </Text>
               )}
             </Box>
           </CardBody>
-          <HStack spacing={4} width="100%" justifyContent="space-between">
+          <HStack
+            spacing={4}
+            width="100%"
+            justifyContent="space-between"
+            padding={'0 20px'}
+          >
+            <Text fontSize={'12px'} color={'#515151'}>
+              {score} curtidas
+            </Text>
             <Flex direction="column" alignItems="flex-end">
-              <DataText created={created_at} sufix={true} updated={''} />
+              <DataText
+                created={created_at}
+                sufix={true}
+                updated={created_at}
+              />
               <Link to={`/profile/${username}`}>
                 <Text
                   fontSize="12px"

@@ -67,7 +67,11 @@ export function ResultsBox({ loading, type, list, open }: ResultsBoxProps) {
             type === SearchTypes.comments &&
             list &&
             (list as SearchComment[]).map((l: SearchComment) => (
-              <Box marginBottom={'15px'}>
+              <Box
+                width={'100%'}
+                borderBottom="1px solid #DEDEDE"
+                marginBottom={'15px'}
+              >
                 <CommentCard {...l} />
               </Box>
             ))}

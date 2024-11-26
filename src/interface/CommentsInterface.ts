@@ -20,9 +20,11 @@ export interface UpdateComment {
   comment: string;
 }
 export interface SearchComment {
-  post_id: UUID;
-  username: string;
-  content: string;
+  id: UUID;
+  comment: string;
   score: number;
+  post_id: UUID;
+  user_id: UUID;
+  username: string;
   created_at: string;
 }
