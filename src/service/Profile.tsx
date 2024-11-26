@@ -8,7 +8,7 @@ const fetchMyProfile = async (): Promise<ProfileInfos> => {
 };
 
 const alterProfile = async (id: UUID, data: UpdateProfileInfos) => {
-  const response = await api.put(`/users/${id}`, data);
+  const response = await api.patch(`/users/${id}`, data);
 
   return response.data;
 };

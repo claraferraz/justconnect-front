@@ -1,6 +1,11 @@
 import { create, StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { fetchPostById, fetchPostsByUserId, updateUserPost, deleteUserPost } from '../service/Post';
+import {
+  fetchPostById,
+  fetchPostsByUserId,
+  updateUserPost,
+  deleteUserPost,
+} from '../service/Post';
 import { UserPostInfo, UserPostById, Role } from '../interface/UserInterface';
 import { UUID } from 'crypto';
 import { handleErrors } from '../utils/error';
@@ -28,9 +33,10 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
     try {
       const posts = await fetchPostsByUserId(id);
 
-  
       const sortedPosts = posts.sort((a, b) => {
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
       });
 
       set({ posts: sortedPosts });
@@ -47,9 +53,11 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
   getPostById: async (id: string | UUID) => {
     try {
       const post = await fetchPostById(id);
-      
+
       const sortedComments = post.comment.sort((a, b) => {
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
       });
 
       set({ post: { ...post, comment: sortedComments } });
@@ -70,7 +78,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
         }
         return state;
       });
-      const post = await fetchPostById(id); 
+      const post = await fetchPostById(id);
       set({ post });
     } catch (error) {
       const errorMessages = handleErrors(error);
@@ -83,7 +91,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       await deleteUserPost(id);
       set((state) => {
         if (state.posts) {
-          const filteredPosts = state.posts.filter(post => post.id !== id);
+          const filteredPosts = state.posts.filter((post) => post.id !== id);
           return { posts: filteredPosts };
         }
         return state;
@@ -110,7 +118,6 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
   resetPosts: () => {
     set({ posts: undefined, post: undefined });
   },
-
 });
 export const usePostStore = create<PostState>()(
   devtools(persist(storeApi, { name: 'post-storage' }))
