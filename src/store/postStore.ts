@@ -23,7 +23,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
   posts: undefined,
   post: undefined,
   role:undefined,
-
+  
   setPosts: async (id: string | UUID) => {
     try {
       const posts = await fetchPostsByUserId(id);
