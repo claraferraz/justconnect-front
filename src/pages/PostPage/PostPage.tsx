@@ -6,6 +6,7 @@ import {
   useBreakpointValue,
   Tabs,
   Flex,
+  IconButton, // Adicionando IconButton para o botão de incrementar o like
 } from '@chakra-ui/react';
 import { AiOutlineUnlock, AiOutlineLock } from 'react-icons/ai';
 import { MdArrowUpward } from 'react-icons/md';
@@ -18,13 +19,13 @@ import MenuPostComponent from '../../components/MenuPostComponent/MenuPostCompon
 import { CommentList } from '../../components/CommentList/CommentList';
 
 import { usePostStore } from '../../store/postStore';
-import {CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
+import { CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
 // import { useAuthStore } from '../../store/authStore';
 // import { createUserLike } from '../../service/Like';
 
 export function PostPage() {
   const { id } = useParams<{ id: string | UUID }>(); 
-  const { post, getPostById,incrementCommentCount } = usePostStore();
+  const { post, getPostById, incrementCommentCount, incrementScore } = usePostStore();
   // const currentUserId = useAuthStore((state) => state.id);
   const [loading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -44,29 +45,14 @@ export function PostPage() {
     }
   }, [id]);
 
-  // const handleLike = async (id: string | UUID) => {
-  //   if (!currentUserId) {
-  //     console.warn("Usuário não autenticado!");
-  //     return;
-  //   }
-  
-  //   try {
-  //     // Cria o objeto UserLike com o ID do usuário
-  //     const userLike = {
-  //       userId: currentUserId,
-  //     };
-  
-  //     // Faz a chamada para criar o like
-  //     await createUserLike(id, userLike);
-  
-  //     console.log("Like criado com sucesso!");
-  //   } catch (error) {
-  //     console.error("Erro ao dar like:", error);
-  //   }
-  // };
-  
-  
-
+  const handleLikeClick = async () => {
+    try {
+      // Função que atualiza o score do post (deve ser implementada no store ou no serviço)
+      await incrementScore(id as string); // A função `incrementScore` deve estar implementada na sua store ou serviço
+    } catch (error) {
+      console.error('Erro ao incrementar o score:', error);
+    }
+  };
 
   if (loading) return <Text>Carregando...</Text>;
   if (!post) return <Text>Post não encontrado</Text>;
@@ -104,7 +90,15 @@ export function PostPage() {
 
       <Box mt={isDesktop ? '24px' : '8px'} display="flex" alignItems="center">
         <Box display="flex" flexDirection="column" alignItems="center">
-          <MdArrowUpward style={{ width: '20px', height: '24px' }} />
+          <IconButton
+            aria-label="Curtir"
+            icon={<MdArrowUpward />}
+            onClick={handleLikeClick} // Aciona a função ao clicar
+            variant="ghost"
+            size="lg"
+            isRound
+            colorScheme="purple"
+          />
           <Text fontSize="16px" fontWeight="600" color="#000">
             {post.score}
           </Text>
@@ -144,7 +138,7 @@ export function PostPage() {
             fontSize="12px"
             fontWeight="500"
           >
-            {post.score} curtida{post.score!== 1 ? 's' : ''}
+            {post.score} curtida{post.score !== 1 ? 's' : ''}
           </Text>
           <Text
             mt="5px"
@@ -155,7 +149,6 @@ export function PostPage() {
             {post.comment.length} comentário{post.comment.length !== 1 ? 's' : ''}
           </Text>
         </Flex>
-
       </Box>
 
       <CommentList comments={post.comment} refreshComments={() => id && getPost(id)} /> 
@@ -247,20 +240,6 @@ export function PostPage() {
             >
               Tag name
             </Tag>
-            <Tag
-              size="md"
-              variant="solid"
-              colorScheme="purple"
-              display="inline-flex"
-              height="24px"
-              padding="0px 8px"
-              alignItems="center"
-              gap="8px"
-              borderRadius="6px"
-              background="#4B6820"
-            >
-              Tag number 2
-            </Tag>
           </Box>
           <Box alignItems="flex-end" flexDirection="column" display="flex">
             <Text
@@ -287,88 +266,6 @@ export function PostPage() {
         </Box>
       </Box>
       <Divider mt="19px"></Divider>
-      <Box>
-        <Box
-          mt="32px"
-          color="#515151"
-          fontSize="12px"
-          fontWeight="500"
-          lineHeight="24px"
-          display="flex"
-        >
-          <Text paddingRight="26px">21 curtida</Text>
-          <Text paddingRight={isDesktop ? '450px' : '135px'}>
-            12 comentários
-          </Text>
-          <AiOutlineLock style={{ width: '20px', height: '20px' }} />
-        </Box>
-        <Text
-          width="327px"
-          color="#000"
-          mt="9px"
-          fontSize="16px"
-          fontStyle="normal"
-          fontWeight="600"
-          lineHeight="24px"
-        >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </Text>
-        <Text
-          width="339px"
-          height="85px"
-          flexDirection="column"
-          justifyContent="center"
-          display="flex"
-          color="#111"
-          fontSize="14px"
-          fontWeight="500"
-          lineHeight="24px"
-        >
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-          nisi ut aliquip ex ea commodo consequat.
-        </Text>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Box flexDirection="column" display="flex" gap="8px">
-            <Tag
-              mt="6px"
-              size="md"
-              variant="solid"
-              colorScheme="purple"
-              display="inline-flex"
-              height="24px"
-              padding="0px 8px"
-              alignItems="center"
-              gap="8px"
-              borderRadius="6px"
-            >
-              Tag name
-            </Tag>
-          </Box>
-          <Box alignItems="flex-end" flexDirection="column" display="flex">
-            <Text
-              color="#515151"
-              fontSize="12px"
-              fontWeight="500"
-              lineHeight="20px"
-            >
-              <DataText
-                created={post.created_at}
-                updated={post.updated_at}
-                sufix
-              />
-            </Text>
-            <Text
-              color="#805AD5"
-              fontSize="12px"
-              fontWeight="500"
-              lineHeight="20px"
-            >
-              @usernam
-            </Text>
-          </Box>
-        </Box>
-      </Box>
-      <Divider mb="37px" mt="37px"></Divider>
     </Box>
   );
 }
