@@ -2,6 +2,7 @@ import {
   Box,
   Text,
   Divider,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { MdArrowUpward } from 'react-icons/md';
 import { DataText } from '../DataText/DataText';
@@ -14,6 +15,7 @@ interface CommentListProps {
 }
 
 export function CommentList({ comments, refreshComments }: CommentListProps) {
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <>
       {comments.map((comment) => (
@@ -40,7 +42,7 @@ export function CommentList({ comments, refreshComments }: CommentListProps) {
           
           <Text
             mt="14px"
-            paddingLeft="278px"
+            paddingLeft={isDesktop ? '550px' : '278px'}
             color="#515151"
             fontSize="12px"
             fontWeight="500"
@@ -50,7 +52,7 @@ export function CommentList({ comments, refreshComments }: CommentListProps) {
           </Text>
           <Text
             color="#805AD5"
-            paddingLeft="274px"
+            paddingLeft={isDesktop ? '550px' : '274px'}
             fontSize="12px"
             fontWeight="500"
             lineHeight="20px"
