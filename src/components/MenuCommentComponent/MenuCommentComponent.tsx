@@ -32,10 +32,12 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
   const currentUserId = useAuthStore((state) => state.id); 
   const role = useProfileStore((state) => state.role);
 
-  const handleOpenEditModal = () => {
-    setIsEditModalOpen(true);
-    setIsMenuOpen(false); 
-  };
+  const canEdit = currentUserId === comment.user_id; 
+  const canDelete = currentUserId === comment.user_id || role === "ADMIN"; 
+  
+
+  const handleOpenEditModal = () => setIsEditModalOpen(true);
+  const handleOpenDeleteDialog = () => setIsDeleteDialogOpen(true);
 
   return (
     <Box position="relative" display="flex" justifyContent="flex-end">
@@ -53,13 +55,8 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
         />
       )}
 
-      {(currentUserId=== comment.user_id || role === "ADMIN") && (
-        
-        <Menu
-          onOpen={() => setIsMenuOpen(true)}
-          onClose={() => setIsMenuOpen(false)}
-          placement="bottom-end"
-        >
+     {(canEdit || canDelete) && (
+        <Menu placement="bottom-end">
           <MenuButton
             as={IconButton}
             aria-label="Options"
@@ -67,16 +64,9 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
             variant="unstyled"
             borderRadius="12px"
           />
-          <MenuList
-            zIndex="popover"
-            display="flex"
-            flexDirection="column"
-            gap="10px"
-            padding="10px"
-            borderRadius="12px"
-          >
-            <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>
-            <MenuItem onClick={() => setIsDeleteDialogOpen(true)}>Deletar</MenuItem>
+          <MenuList>
+            {canEdit && <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>}
+            {canDelete && <MenuItem onClick={handleOpenDeleteDialog}>Deletar</MenuItem>}
           </MenuList>
         </Menu>
       )}
