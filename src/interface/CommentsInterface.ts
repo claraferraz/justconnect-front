@@ -10,6 +10,7 @@ export interface Comment {
   updated_at: string;
   postId: string | UUID;
   admin_comment_block: true
+
 }
 export interface CreateComment{
   id: string | UUID;

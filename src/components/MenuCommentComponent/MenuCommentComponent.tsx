@@ -6,7 +6,7 @@ import {
   MenuList,
   IconButton,
 } from "@chakra-ui/react";
-import { UUID } from "crypto";
+
 import { useState } from "react";
 import { MdMoreVert } from "react-icons/md";
 import { useCommentStore } from "../../store/commentStore";
@@ -14,13 +14,10 @@ import { useProfileStore } from "../../store/profileStore";
 import { useAuthStore } from "../../store/authStore";
 import EditCommentModal from "../EditCommentModal/EditCommentModal";
 import ConfirmDeleteComment from "../ConfirmDeleteComment/ConfirmDeleteComment";
+import { Comment } from "../../interface/CommentsInterface";
 
 interface MenuCommentComponentProps {
-  comment: {
-    id: string | UUID;
-    comment: string;
-    user_id: string;
-  };
+  comment: Comment
   refreshComments: () => void;
 }
 
@@ -40,6 +37,10 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
     setIsMenuOpen(false); 
   };
 
+  console.log("userId:", comment)
+
+
+
   return (
     <Box position="relative" display="flex" justifyContent="flex-end">
       {isMenuOpen && (
@@ -56,32 +57,33 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
         />
       )}
       {/* eu tentei deixar currentUserId === comment.user_id, mas n estava aparecendo para quem de fato fez o comentário  */}
-      {(currentUserId  || role === "ADMIN") && (
-        <Menu
-          onOpen={() => setIsMenuOpen(true)}
-          onClose={() => setIsMenuOpen(false)}
-          placement="bottom-end"
-        >
-          <MenuButton
-            as={IconButton}
-            aria-label="Options"
-            icon={<MdMoreVert />}
-            variant="unstyled"
-            borderRadius="12px"
-          />
-          <MenuList
-            zIndex="popover"
-            display="flex"
-            flexDirection="column"
-            gap="10px"
-            padding="10px"
-            borderRadius="12px"
-          >
-            <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>
-            <MenuItem onClick={() => setIsDeleteDialogOpen(true)}>Deletar</MenuItem>
-          </MenuList>
-        </Menu>
-      )}
+      {(currentUserId=== comment.user_id || role === "ADMIN") && (
+        
+  <Menu
+    onOpen={() => setIsMenuOpen(true)}
+    onClose={() => setIsMenuOpen(false)}
+    placement="bottom-end"
+  >
+    <MenuButton
+      as={IconButton}
+      aria-label="Options"
+      icon={<MdMoreVert />}
+      variant="unstyled"
+      borderRadius="12px"
+    />
+    <MenuList
+      zIndex="popover"
+      display="flex"
+      flexDirection="column"
+      gap="10px"
+      padding="10px"
+      borderRadius="12px"
+    >
+      <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>
+      <MenuItem onClick={() => setIsDeleteDialogOpen(true)}>Deletar</MenuItem>
+    </MenuList>
+  </Menu>
+)}
 
       <ConfirmDeleteComment
         isOpen={isDeleteDialogOpen}
