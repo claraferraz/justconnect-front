@@ -60,6 +60,8 @@ const SidebarHeader = ({ onOpen, user }: SidebarHeaderProps) => {
           mr={4}
         />
         <Image
+          cursor={'pointer'}
+          onClick={() => navigate('/')}
           src={logoBot}
           alt="Logo"
           zIndex={isDesktop ? 2 : 0}

@@ -106,7 +106,14 @@ const SidebarContent = ({
             justifyContent="center"
             mr={0}
           >
-            <Image src={logo} alt="Logo" mt={20} width="110px" />
+            <Image
+              cursor={'pointer'}
+              onClick={() => navigate('/')}
+              src={logo}
+              alt="Logo"
+              mt={20}
+              width="110px"
+            />
             <CloseButton pl={12} size="lg" onClick={onClose} />
           </Flex>
           <Flex
