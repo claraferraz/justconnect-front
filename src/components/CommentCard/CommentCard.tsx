@@ -40,11 +40,11 @@ export function CommentCard({
     }
   }
 
-  console.log(user_id);
   return (
     <>
       {comment && (
         <Card
+          id={id}
           padding="0 20px 20px 0"
           width={'100%'}
           shadow={'none'}
@@ -92,6 +92,7 @@ export function CommentCard({
               />
               <Link to={`/profile/${username}`}>
                 <Text
+                  id={user_id}
                   fontSize="12px"
                   fontFamily="montserrat"
                   color="#805AD5"
