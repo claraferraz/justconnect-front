@@ -93,7 +93,7 @@ export function CreateUserComment({
           width="320px"
           h="38px"
           isLoading={loading}
-          isDisabled={loading}
+          isDisabled={loading || !newCommentText.trim()} 
           onClick={handleCommentSubmit}
         >
           Responder

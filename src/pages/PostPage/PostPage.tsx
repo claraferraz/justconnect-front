@@ -19,11 +19,13 @@ import { CommentList } from '../../components/CommentList/CommentList';
 
 import { usePostStore } from '../../store/postStore';
 import {CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
+// import { useAuthStore } from '../../store/authStore';
+// import { createUserLike } from '../../service/Like';
 
 export function PostPage() {
   const { id } = useParams<{ id: string | UUID }>(); 
   const { post, getPostById,incrementCommentCount } = usePostStore();
- 
+  // const currentUserId = useAuthStore((state) => state.id);
   const [loading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   
@@ -41,6 +43,30 @@ export function PostPage() {
       getPost(id);
     }
   }, [id]);
+
+  // const handleLike = async (id: string | UUID) => {
+  //   if (!currentUserId) {
+  //     console.warn("Usuário não autenticado!");
+  //     return;
+  //   }
+  
+  //   try {
+  //     // Cria o objeto UserLike com o ID do usuário
+  //     const userLike = {
+  //       userId: currentUserId,
+  //     };
+  
+  //     // Faz a chamada para criar o like
+  //     await createUserLike(id, userLike);
+  
+  //     console.log("Like criado com sucesso!");
+  //   } catch (error) {
+  //     console.error("Erro ao dar like:", error);
+  //   }
+  // };
+  
+  
+
 
   if (loading) return <Text>Carregando...</Text>;
   if (!post) return <Text>Post não encontrado</Text>;

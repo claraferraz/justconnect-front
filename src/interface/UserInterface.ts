@@ -107,7 +107,10 @@ export interface UserPostById {
   tags: string[];
   username: string;
 }
-
+export interface UserLike{
+  id: string; 
+  user_id: string;
+}
 
 export interface UserNotifications {
   username: string;
@@ -116,3 +119,4 @@ export interface UserNotifications {
   post_id: UUID | string;
   isNew: boolean;
 }
+
