@@ -35,7 +35,6 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
   const canEdit = currentUserId === comment.user_id; 
   const canDelete = currentUserId === comment.user_id || role === "ADMIN"; 
   
-
   const handleOpenEditModal = () => setIsEditModalOpen(true);
   const handleOpenDeleteDialog = () => setIsDeleteDialogOpen(true);
 
