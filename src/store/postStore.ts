@@ -8,6 +8,7 @@ import {
 } from '../service/Post';
 import { UserPostInfo, UserPostById, Role } from '../interface/UserInterface';
 import { UUID } from 'crypto';
+import { handleErrors } from '../utils/error';
 
 export interface PostState {
   posts?: UserPostInfo[];
@@ -21,6 +22,7 @@ export interface PostState {
   updatePost: (id: string | UUID, updatedPost: UserPostInfo) => Promise<void>;
   removePost: (id: string | UUID) => Promise<void>;
   incrementCommentCount: (postId: string | UUID) => void;
+  updatePostScore: (postId: string | UUID, increment: number) => void;
 }
 
 const storeApi: StateCreator<PostState> = (set, get) => ({
@@ -80,7 +82,8 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       const post = await fetchPostById(id);
       set({ post });
     } catch (error) {
-      console.error('Erro ao editar post:', error);
+      const errorMessages = handleErrors(error);
+      throw new Error(errorMessages.join(', '));
     }
   },
 
@@ -113,10 +116,30 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
     });
   },
 
+  updatePostScore: (postId: string | UUID, increment: number) => {
+    set((state) => {
+      if (state.posts) {
+        const updatedPosts = state.posts.map((post) =>
+          post.id === postId
+            ? { ...post, score: (post.score || 0) + increment }
+            : post
+        );
+        return { posts: updatedPosts };
+      }
+      return state;
+    });
+    
+    const post = get().post;
+    if (post?.id === postId) {
+      set({ post: { ...post, score: (post.score || 0) + increment } });
+    }
+  },
+
   resetPosts: () => {
     set({ posts: undefined, post: undefined });
   },
 });
+
 export const usePostStore = create<PostState>()(
   devtools(persist(storeApi, { name: 'post-storage' }))
 );
