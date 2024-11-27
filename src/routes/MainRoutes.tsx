@@ -10,7 +10,6 @@ import {
   Post,
   Profile,
   Register,
-  ReportedPosts,
   Tags,
   Users,
 } from './index';
@@ -30,7 +29,6 @@ export function MainRoutes() {
       <Route path="/post/:id" element={<Post />} />
       <Route path="/create-post" element={<CreatePost />} />
       <Route path="/tags/:tag" element={<Tags />} />
-      <Route path="/reported-posts" element={<ReportedPosts />} />
     </Routes>
   );
 }
