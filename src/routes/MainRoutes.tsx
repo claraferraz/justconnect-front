@@ -12,6 +12,7 @@ import {
   Register,
   Tags,
   Users,
+  TagsList,
 } from './index';
 
 export function MainRoutes() {
@@ -29,6 +30,7 @@ export function MainRoutes() {
       <Route path="/post/:id" element={<Post />} />
       <Route path="/create-post" element={<CreatePost />} />
       <Route path="/tags/:tag" element={<Tags />} />
+      <Route path="/tags" element={<TagsList />} />
     </Routes>
   );
 }
