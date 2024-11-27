@@ -55,19 +55,33 @@ const MenuCommentComponent: React.FC<MenuCommentComponentProps> = ({
       )}
 
      {(canEdit || canDelete) && (
-        <Menu placement="bottom-end">
-          <MenuButton
-            as={IconButton}
-            aria-label="Options"
-            icon={<MdMoreVert />}
-            variant="unstyled"
-            borderRadius="12px"
-          />
-          <MenuList>
-            {canEdit && <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>}
-            {canDelete && <MenuItem onClick={handleOpenDeleteDialog}>Deletar</MenuItem>}
-          </MenuList>
-        </Menu>
+      <Menu
+        onOpen={() => setIsMenuOpen(true)}
+        onClose={() => setIsMenuOpen(false)}
+        placement="bottom-end"
+      >
+        <MenuButton
+          as={IconButton}
+          aria-label="Options"
+          icon={<MdMoreVert />}
+          variant="unstyled"
+          borderRadius="12px"
+        />
+        <MenuList
+         zIndex="popover"
+         display="flex"
+         width="261px"
+         padding="10px"
+         flexDirection="column"
+         alignItems="flex-start"
+         gap="10px"
+         borderRadius="12px"
+         left="-200px"
+         >
+          {canEdit && <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>}
+          {canDelete && <MenuItem onClick={handleOpenDeleteDialog}>Deletar</MenuItem>}
+        </MenuList>
+      </Menu>
       )}
 
       <ConfirmDeleteComment
