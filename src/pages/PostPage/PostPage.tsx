@@ -17,12 +17,12 @@ import { CommentList } from '../../components/CommentList/CommentList';
 import { usePostStore } from '../../store/postStore';
 import { CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
 import { createUserDislike, createUserLike } from '../../service/Like';
-import { useAuthStore } from '../../store/authStore';
+// import { useAuthStore } from '../../store/authStore';
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
-  const userId = useAuthStore((state) => state.id);
-  const token = useAuthStore((state) => state.token);
+  // const userId = useAuthStore((state) => state.id);
+  // const token = useAuthStore((state) => state.token);
 
   const { post, getPostById, incrementCommentCount, updatePostScore } = usePostStore();
   const [liked, setLiked] = useState<boolean | null>(null); 
