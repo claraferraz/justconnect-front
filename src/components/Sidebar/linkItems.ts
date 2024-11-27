@@ -7,5 +7,5 @@ export const LinkItems: Array<LinkItemProps> = [
   { name: 'Perfil', icon: FiUser, path: '/my-profile' },
   { name: 'Criar posts', icon: FiEdit, path: '/create-post' },
   { name: 'Usuários', icon: FiUsers, path: '/users' },
-  { name: 'Tags', icon: FiTag, path: '/tags/:id' },
+  { name: 'Tags', icon: FiTag, path: '/tags' },
 ];

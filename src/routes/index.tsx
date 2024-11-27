@@ -12,6 +12,7 @@ import { EditProfilePage } from '../pages/EditProfilePage/EditProfilePage';
 import { Section } from '../components/Section/Section';
 import { ProtectedRoute } from './ProtectedRoute';
 import { ResetPasswordPage } from '../pages/ResetPassword/ResetPasswordPage';
+import { TagsListPage } from '../pages/TagsListPage/TagsListPage';
 
 export function Home() {
   return (
@@ -107,6 +108,15 @@ export function CreatePost() {
           <CreatePostPage />
         </Section>
       </ProtectedRoute>
+    </>
+  );
+}
+export function TagsList() {
+  return (
+    <>
+      <Section>
+        <TagsListPage />
+      </Section>
     </>
   );
 }
