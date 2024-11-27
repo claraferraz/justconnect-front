@@ -1,85 +1,78 @@
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import {
   Button,
   Input,
   FormControl,
   FormLabel,
   Box,
-  Text,
   Link,
   Flex,
-  useToast, // Importa o hook useToast do Chakra UI
+  useToast,
   Image,
   useBreakpointValue,
+  FormErrorMessage,
 } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
 import { signUp } from '../../service/Auth';
 import logoAuth from '../../assets/logoAuth.svg';
 import { useAuthStore } from '../../store/authStore';
+import { handleErrors } from '../../utils/error';
+
+type FormData = {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 export function RegisterPage() {
-  const [name, setName] = useState<string>('');
-
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { register, handleSubmit, setError, formState: { errors }, watch } = useForm<FormData>();
   const navigate = useNavigate();
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const [loading, setLoading] = useState<boolean>(false);
+  
 
   const { loginUser, token } = useAuthStore();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+
+  const password = watch('password');
+  const confirmPassword = watch('confirmPassword');
+
+  const onSubmit = async (data: FormData) => {
     setLoading(true);
-    setError(null);
+  
 
     if (password !== confirmPassword) {
-      setError('As senhas não conferem!');
+      setError('confirmPassword', {
+        type: 'manual',
+        message: 'As senhas não coincidem.',
+      });
       setLoading(false);
       return;
     }
-
+  
     try {
-      await signUp({
-        name,
-        username,
-        password,
-        email,
-        confirmPassword,
-      });
-      handleLogin();
+      await signUp(data);
+      await loginUser(data.username, data.password);
+  
       toast({
-        title: 'Login realizado com sucesso!',
-        description: `Bem-vindo, ${username}!`,
+        title: 'Cadastro realizado com sucesso!',
+        description: `Bem-vindo, ${data.username}!`,
         status: 'success',
         duration: 5000,
         isClosable: true,
         position: 'bottom',
       });
+  
+      navigate('/my-profile');
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Ocorreu um erro inesperado!');
-      }
+      handleErrors<FormData>(error, setError);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleLogin = async () => {
-    try {
-      await loginUser(username, password);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Ocorreu um erro inesperado!');
-      }
     }
   };
 
@@ -105,111 +98,104 @@ export function RegisterPage() {
           width={isDesktop ? '170px' : '140px'}
           mt="60px"
         />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" alignItems="center">
-            <FormControl mt="4" mb="4">
+            <FormControl mt="4" mb="4" isInvalid={!!errors.name}>
               <FormLabel htmlFor="name">Nome</FormLabel>
               <Input
+                id="name"
+                placeholder="Digite seu nome completo"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.name ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.name ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
-                width="100%"
-                height="41px"
-                id="username"
-                placeholder="Digite seu nome completo"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                {...register('name', { required: 'O nome é obrigatório.' })}
                 isDisabled={loading}
               />
+              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
             </FormControl>
-            <FormControl mt="2" mb="4">
-              <FormLabel htmlFor="username">Nome do usuário</FormLabel>
+
+            <FormControl mt="4" mb="4" isInvalid={!!errors.username}>
+              <FormLabel htmlFor="username">Nome de usuário</FormLabel>
               <Input
-                bg="gray.50"
-                border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
-                _hover={{ bg: 'gray.200' }}
-                _focus={{ bg: 'white' }}
-                width="100%"
-                height="41px"
                 id="username"
                 placeholder="Digite seu nome de usuário"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                bg="gray.50"
+                border="2px solid"
+                borderColor={errors.username ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.username ? "red.500" : "#805AD5"}
+                _hover={{ bg: 'gray.200' }}
+                _focus={{ bg: 'white' }}
+                {...register('username', { required: 'O nome de usuário é obrigatório.' })}
                 isDisabled={loading}
               />
+              <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
             </FormControl>
-            <FormControl mt="2" mb="4">
+
+            <FormControl mt="4" mb="4" isInvalid={!!errors.email}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
-                display="flex"
+                id="email"
                 placeholder="Digite seu email"
+                type="email"
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.email ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.email ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
-                width="100%"
-                height="41px"
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register('email', {
+                  required: 'O email é obrigatório.',
+                  pattern: {
+                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: 'Digite um email válido.',
+                  },
+                })}
                 isDisabled={loading}
               />
+              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
-            <FormControl mt="2" mb="4">
+
+            <FormControl mt="4" mb="4" isInvalid={!!errors.password}>
               <FormLabel htmlFor="password">Senha</FormLabel>
               <Input
-                bg="gray.50"
-                border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
-                _hover={{ bg: 'gray.200' }}
-                _focus={{ bg: 'white' }}
-                width="100%"
-                height="41px"
                 id="password"
                 placeholder="Digite sua senha"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                isDisabled={loading}
-              />
-            </FormControl>
-
-            <FormControl mt="2" mb="4">
-              <FormLabel htmlFor="confirmPassword">Confirmar senha</FormLabel>
-              <Input
                 bg="gray.50"
                 border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
+                borderColor={errors.password ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.password ? "red.500" : "#805AD5"}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
-                width="100%"
-                height="41px"
+                {...register('password', {
+                  required: 'A senha é obrigatória.',
+                  minLength: { value: 8, message: 'A senha deve ter pelo menos 8 caracteres.' },
+                })}
+                isDisabled={loading}
+              />
+              <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl mt="4" mb="4" isInvalid={!!errors.confirmPassword}>
+              <FormLabel htmlFor="confirmPassword">Confirmar senha</FormLabel>
+              <Input
                 id="confirmPassword"
                 placeholder="Confirme sua senha"
                 type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                bg="gray.50"
+                border="2px solid"
+                borderColor={errors.confirmPassword ? "red.500" : "#805AD5"} 
+                focusBorderColor={errors.confirmPassword ? "red.500" : "#805AD5"}
+                _hover={{ bg: 'gray.200' }}
+                _focus={{ bg: 'white' }}
+                {...register('confirmPassword', { required: 'A confirmação de senha é obrigatória.' })}
                 isDisabled={loading}
               />
+              <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
             </FormControl>
-
-            {error && (
-              <Text color="red.500" mb="4">
-                {error}
-              </Text>
-            )}
 
             <Button
               w="100%"

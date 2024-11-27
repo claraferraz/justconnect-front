@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
@@ -6,37 +6,48 @@ import {
   FormControl,
   FormLabel,
   Box,
-  Text,
   Link,
   Flex,
   useToast,
   useBreakpointValue,
   Image,
+  Alert,
+  AlertIcon,
+  CloseButton,
 } from '@chakra-ui/react';
 import { useAuthStore } from '../../store/authStore';
 import logo from '../../assets/logoAuth.svg';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+
+// Definindo o tipo para os dados do formulário
+interface LoginFormData {
+  usernameOrEmail: string;
+  password: string;
+}
 
 export function LoginPage() {
-  const [usernameOrEmail, setUsernameOrEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { loginUser } = useAuthStore();
   const navigate = useNavigate();
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  const { loginUser } = useAuthStore();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setLoginError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<LoginFormData>();
+
+  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     setLoading(true);
-    setError(null);
+    setLoginError(null);
 
     try {
-      //tratar error após o tratamento de erro da API
-      await loginUser(usernameOrEmail, password);
+      await loginUser(data.usernameOrEmail, data.password);
       toast({
         title: 'Login realizado com sucesso!',
-        description: `Bem-vindo, ${usernameOrEmail}!`,
+        description: `Bem-vindo, ${data.usernameOrEmail}!`,
         status: 'success',
         duration: 5000,
         isClosable: true,
@@ -45,9 +56,9 @@ export function LoginPage() {
       navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setError(error.message);
+        setLoginError(error.message);
       } else {
-        setError('Ocorreu um erro inesperado!');
+        setLoginError('Ocorreu um erro inesperado!');
       }
     } finally {
       setLoading(false);
@@ -55,63 +66,90 @@ export function LoginPage() {
   };
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      height="100vh"
-      padding="16px"
-    >
+    <Box display="flex" justifyContent="center" alignItems="center" height="100vh" padding="16px">
       <Box width="476px">
-        <Image
-          src={logo}
-          margin={' 50px auto 0 auto'}
-          alt="Logo"
-          width={isDesktop ? '170px' : '140px'}
-          // width={isDesktop ? '150px' : '120px'}
-          mb="5"
-        />
-        <form onSubmit={handleSubmit}>
+        <Image src={logo} margin={'50px auto 0 auto'} alt="Logo" width={isDesktop ? '170px' : '140px'} mb="5" />
+        {error && (
+          <Alert status="error" mb="10px" borderRadius="md" position="relative">
+            <AlertIcon />
+            {error}
+            <CloseButton position="absolute" right="8px" top="8px" onClick={() => setLoginError(null)} />
+          </Alert>
+        )}
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" alignItems="center">
-            <FormControl mt="4" mb="4">
-              <FormLabel htmlFor="usernameOrEmail">
-                Nome do usuário ou Email
-              </FormLabel>
-              <Input
-                bg="gray.50"
-                border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
-                _hover={{ bg: 'gray.200' }}
-                _focus={{ bg: 'white' }}
-                width="100%"
-                height="41px"
-                id="usernameOrEmail"
-                placeholder="Digite seu nome de usuário ou email"
-                type="text"
-                value={usernameOrEmail}
-                onChange={(e) => setUsernameOrEmail(e.target.value)}
-                isDisabled={loading}
+            <FormControl mt="4" mb="4" isInvalid={!!errors.usernameOrEmail}>
+              <FormLabel htmlFor="usernameOrEmail">Nome do usuário ou Email</FormLabel>
+              <Controller
+                control={control}
+                name="usernameOrEmail"
+                rules={{
+                  required: 'Nome de usuário ou email é obrigatório',
+                  validate: (value) => {
+                    const isEmail = /\S+@\S+\.\S+/.test(value);
+                    if (isEmail) {
+                      return value.includes('@') ? true : 'Por favor, insira um email válido';
+                    } else {
+                      return value.length >= 3 ? true : 'O nome de usuário deve ter pelo menos 3 caracteres';
+                    }
+                  },
+                }}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    bg="gray.50"
+                    border="2px solid"
+                    borderColor={errors.usernameOrEmail ? "red.500" : "#805AD5"} 
+                    focusBorderColor={errors.usernameOrEmail ? "red.500" : "#805AD5"}
+                    _hover={{ bg: 'gray.200' }}
+                    _focus={{ bg: 'white' }}
+                    width="100%"
+                    height="41px"
+                    id="usernameOrEmail"
+                    placeholder="Digite seu nome de usuário ou email"
+                    type="text"
+                    isDisabled={loading}
+                  />
+                )}
               />
+              {errors.usernameOrEmail && <Box color="red.500">{errors.usernameOrEmail.message}</Box>}
             </FormControl>
-            <FormControl mt="2">
+
+            <FormControl mt="2" isInvalid={!!errors.password}>
               <FormLabel htmlFor="password">Senha</FormLabel>
-              <Input
-                bg="gray.50"
-                border="2px solid"
-                borderColor="#805AD5"
-                focusBorderColor="#805AD5"
-                _hover={{ bg: 'gray.200' }}
-                _focus={{ bg: 'white' }}
-                width="100%"
-                height="41px"
-                id="password"
-                placeholder="Digite sua senha"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                isDisabled={loading}
+              <Controller
+                control={control}
+                name="password"
+                rules={{
+                  required: 'Senha é obrigatória',
+                  minLength: {
+                    value: 8,
+                    message: 'A senha deve ter pelo menos 8 caracteres.',
+                  },
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                    message: 'A senha deve conter pelo menos uma letra e um número.',
+                  },
+                }}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    bg="gray.50"
+                    border="2px solid"
+                    borderColor={errors.password ? "red.500" : "#805AD5"} 
+                    focusBorderColor={errors.password ? "red.500" : "#805AD5"}
+                    _hover={{ bg: 'gray.200' }}
+                    _focus={{ bg: 'white' }}
+                    width="100%"
+                    height="41px"
+                    id="password"
+                    placeholder="Digite sua senha"
+                    type="password"
+                    isDisabled={loading}
+                  />
+                )}
               />
+              {errors.password && <Box color="red.500">{errors.password.message}</Box>}
             </FormControl>
 
             <Box width="100%" textAlign="start" mt="2" mb="4">
@@ -119,12 +157,6 @@ export function LoginPage() {
                 Esqueceu a senha?
               </Link>
             </Box>
-
-            {error && (
-              <Text color="red.500" mb="4">
-                {error}
-              </Text>
-            )}
 
             <Button
               w="100%"

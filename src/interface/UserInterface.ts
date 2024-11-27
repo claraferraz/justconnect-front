@@ -19,6 +19,7 @@ export interface UserForgotPassword {
 export interface UserResetPassword {
   token: string;
   newPassword: string;
+  confirmNewPassword: string;
 }
 export interface User {
   name: string;
@@ -74,9 +75,14 @@ export interface UserCreatePost {
   description: string;
   tags: string[];
 }
+export interface UserUpdatePost{
+  title: string;
+  description: string;
+  tags: string[];
+}
 
 export interface UserPostInfo {
-  id: string;
+  id: string | UUID;
   username: string;
   title: string;
   description: string;
@@ -85,7 +91,7 @@ export interface UserPostInfo {
   created_at: string | number;
   updated_at: string;
   tags: string[];
-  commentCount: number;
+  commentCount?: number;
 }
 export interface UserPostById {
   id: string | UUID;
@@ -101,6 +107,7 @@ export interface UserPostById {
   tags: string[];
   username: string;
 }
+
 
 export interface UserNotifications {
   username: string;

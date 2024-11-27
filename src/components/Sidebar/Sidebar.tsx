@@ -8,12 +8,14 @@ import SidebarContent from './SidebarContent';
 import SidebarHeader from './SidebarHeader';
 import { useProfileStore } from '../../store/profileStore';
 import { SidebarProps } from '../../interface/SideBarInterface';
+import { useAuthStore } from '../../store/authStore';
 
 export default function SimpleSidebar({ children }: SidebarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const user = useProfileStore((state) => state.user);
+  const token = useAuthStore((state) => state.token);
 
   return (
     <Box
@@ -23,7 +25,7 @@ export default function SimpleSidebar({ children }: SidebarProps) {
       position="relative"
     >
       <SidebarContent
-        isUserLoggedIn={!!user}
+        isUserLoggedIn={!!token}
         isOpen={isOpen}
         onClose={onClose}
       />
