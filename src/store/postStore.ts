@@ -22,13 +22,14 @@ export interface PostState {
   updatePost: (id: string | UUID, updatedPost: UserPostInfo) => Promise<void>;
   removePost: (id: string | UUID) => Promise<void>;
   incrementCommentCount: (postId: string | UUID) => void;
+  updatePostScore: (postId: string | UUID, increment: number) => void;
 }
 
 const storeApi: StateCreator<PostState> = (set, get) => ({
   posts: undefined,
   post: undefined,
-  role:undefined,
-  
+  role: undefined,
+
   setPosts: async (id: string | UUID) => {
     try {
       const posts = await fetchPostsByUserId(id);
@@ -82,7 +83,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       set({ post });
     } catch (error) {
       const errorMessages = handleErrors(error);
-      throw new Error(errorMessages.join(', '))
+      throw new Error(errorMessages.join(', '));
     }
   },
 
@@ -115,10 +116,30 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
     });
   },
 
+  updatePostScore: (postId: string | UUID, increment: number) => {
+    set((state) => {
+      if (state.posts) {
+        const updatedPosts = state.posts.map((post) =>
+          post.id === postId
+            ? { ...post, score: (post.score || 0) + increment }
+            : post
+        );
+        return { posts: updatedPosts };
+      }
+      return state;
+    });
+    
+    const post = get().post;
+    if (post?.id === postId) {
+      set({ post: { ...post, score: (post.score || 0) + increment } });
+    }
+  },
+
   resetPosts: () => {
     set({ posts: undefined, post: undefined });
   },
 });
+
 export const usePostStore = create<PostState>()(
   devtools(persist(storeApi, { name: 'post-storage' }))
 );

@@ -7,53 +7,73 @@ import {
   Tabs,
   Flex,
 } from '@chakra-ui/react';
-import { AiOutlineUnlock, AiOutlineLock } from 'react-icons/ai';
-import { MdArrowUpward } from 'react-icons/md';
+import { FiHeart } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { UUID } from 'crypto';
 import { DataText } from '../../components/DataText/DataText';
 import MenuPostComponent from '../../components/MenuPostComponent/MenuPostComponent';
 import { CommentList } from '../../components/CommentList/CommentList';
-
 import { usePostStore } from '../../store/postStore';
-import {CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
+import { CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
+import { createUserDislike, createUserLike } from '../../service/Like';
+import { useAuthStore } from '../../store/authStore';
 
 export function PostPage() {
-  const { id } = useParams<{ id: string | UUID }>(); 
-  const { post, getPostById,incrementCommentCount } = usePostStore();
-  const [loading] = useState<boolean>(false);
+  const { id } = useParams<{ id: string }>();
+  const userId = useAuthStore((state) => state.id);
+  const token = useAuthStore((state) => state.token);
+
+  const { post, getPostById, incrementCommentCount, updatePostScore } = usePostStore();
+  const [liked, setLiked] = useState<boolean | null>(null); 
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  
-  const getPost = async (id: string | UUID) => {
-    if (!id) return;
+
+  const getPost = async (postId: string) => {
+    if (!postId) return;
     try {
-      await getPostById(id);
+      await getPostById(postId);
     } catch (error) {
       console.error('Erro ao buscar post:', error);
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      getPost(id);
+  const handleLike = async () => {
+    if (!id) return;
+
+    try {
+      if (liked) {
+        
+        await createUserDislike(id);
+        setLiked(false);
+        updatePostScore(id, -1);  
+      } else {
+        
+        await createUserLike(id);
+        setLiked(true);
+        updatePostScore(id, 1);
+      }
+    } catch (error) {
+      console.error('Erro ao curtir/descurtir o post:', error);
     }
+  };
+
+  useEffect(() => {
+    if (id) getPost(id);
   }, [id]);
 
+  useEffect(() => {
+    
+    if (post) {
+      setLiked(post.score > 0); 
+    }
+  }, [post]);
 
-  if (loading) return <Text>Carregando...</Text>;
   if (!post) return <Text>Post não encontrado</Text>;
 
   return (
     <Box>
       <Box mt="39px" display="flex" gap="35px">
-        <Text
-          color="#805AD5"
-          fontSize="14px"
-          fontWeight="500"
-          lineHeight="20px"
-        >
+        <Text color="#805AD5" fontSize="14px" fontWeight="500" lineHeight="20px">
           @{post.username}
         </Text>
         <Text
@@ -67,18 +87,20 @@ export function PostPage() {
         <MenuPostComponent />
       </Box>
 
-      <Text
-        mt={isDesktop ? '24px' : '9px'}
-        color="#000"
-        fontSize="16px"
-        fontWeight="600"
-      >
+      <Text mt={isDesktop ? '24px' : '9px'} color="#000" fontSize="16px" fontWeight="600">
         {post.title}
       </Text>
-
       <Box mt={isDesktop ? '24px' : '8px'} display="flex" alignItems="center">
         <Box display="flex" flexDirection="column" alignItems="center">
-          <MdArrowUpward style={{ width: '20px', height: '24px' }} />
+          <FiHeart
+            onClick={handleLike}
+            style={{
+              width: '20px',
+              height: '24px',
+              cursor: 'pointer',
+              color: liked === null ? '#000' : liked ? '#805AD5' : '#000',
+            }}
+          />
           <Text fontSize="16px" fontWeight="600" color="#000">
             {post.score}
           </Text>
@@ -94,7 +116,6 @@ export function PostPage() {
           {post.description}
         </Text>
       </Box>
-
       <Box marginLeft={isDesktop ? '440px' : '126px'} mt="28px" display="flex">
         {post.tags.map((tag, index) => (
           <Tag
@@ -112,42 +133,27 @@ export function PostPage() {
       <Box>
         <Divider mt="15px" background="#DEDEDE" height="1px" />
         <Flex gap="15px">
-          <Text
-            mt="5px"
-            color="#515151"
-            fontSize="12px"
-            fontWeight="500"
-          >
-            {post.score} curtida{post.score!== 1 ? 's' : ''}
+          <Text mt="5px" color="#515151" fontSize="12px" fontWeight="500">
+            {post.score} curtida{post.score !== 1 ? 's' : ''}
           </Text>
-          <Text
-            mt="5px"
-            color="#515151"
-            fontSize="12px"
-            fontWeight="500"
-          >
+          <Text mt="5px" color="#515151" fontSize="12px" fontWeight="500">
             {post.comment.length} comentário{post.comment.length !== 1 ? 's' : ''}
           </Text>
         </Flex>
-
       </Box>
 
-      <CommentList comments={post.comment} refreshComments={() => id && getPost(id)} /> 
-      
+      <CommentList comments={post.comment} refreshComments={() => id && getPost(id)} />
+
       <CreateUserComment
         postId={id as string}
         incrementCommentCount={incrementCommentCount}
         getPost={getPost}
       />
 
-      <Divider
-        mt="40px"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      ></Divider>
+      <Divider mt="40px" />
+
       <Tabs
-        borderBottom="2px solid #281A45 "
+        borderBottom="2px solid #281A45"
         mt="16px"
         variant="line"
         display="flex"
@@ -156,193 +162,10 @@ export function PostPage() {
         justifyContent="center"
         alignItems="center"
       >
-        <Text
-          color="#281A45"
-          textAlign="center"
-          fontSize="18px"
-          fontWeight="500"
-        >
+        <Text color="#281A45" textAlign="center" fontSize="18px" fontWeight="500">
           Relacionados
         </Text>
       </Tabs>
-      <Box>
-        <Box
-          mt="62px"
-          color="#515151"
-          fontSize="12px"
-          fontWeight="500"
-          lineHeight="24px"
-          display="flex"
-        >
-          <Text paddingRight="26px">7 curtidas</Text>
-          <Text paddingRight={isDesktop ? '450px' : '135px'}>
-            4 comentários
-          </Text>
-          <AiOutlineUnlock style={{ width: '20px', height: '20px' }} />
-        </Box>
-        <Text
-          width="327px"
-          color="#000"
-          mt="9px"
-          fontSize="16px"
-          fontStyle="normal"
-          fontWeight="600"
-          lineHeight="24px"
-        >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </Text>
-        <Text
-          width="339px"
-          height="85px"
-          flexDirection="column"
-          justifyContent="center"
-          display="flex"
-          color="#111"
-          fontSize="14px"
-          fontWeight="500"
-          lineHeight="24px"
-        >
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-          nisi ut aliquip ex ea commodo consequat.
-        </Text>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Box flexDirection="column" display="flex" gap="8px">
-            <Tag
-              mt="6px"
-              size="md"
-              variant="solid"
-              colorScheme="purple"
-              display="inline-flex"
-              height="24px"
-              padding="0px 8px"
-              alignItems="center"
-              gap="8px"
-              borderRadius="6px"
-            >
-              Tag name
-            </Tag>
-            <Tag
-              size="md"
-              variant="solid"
-              colorScheme="purple"
-              display="inline-flex"
-              height="24px"
-              padding="0px 8px"
-              alignItems="center"
-              gap="8px"
-              borderRadius="6px"
-              background="#4B6820"
-            >
-              Tag number 2
-            </Tag>
-          </Box>
-          <Box alignItems="flex-end" flexDirection="column" display="flex">
-            <Text
-              color="#515151"
-              fontSize="12px"
-              fontWeight="500"
-              lineHeight="20px"
-            >
-              <DataText
-                created={post.created_at}
-                updated={post.updated_at}
-                sufix
-              />
-            </Text>
-            <Text
-              color="#805AD5"
-              fontSize="12px"
-              fontWeight="500"
-              lineHeight="20px"
-            >
-              @username
-            </Text>
-          </Box>
-        </Box>
-      </Box>
-      <Divider mt="19px"></Divider>
-      <Box>
-        <Box
-          mt="32px"
-          color="#515151"
-          fontSize="12px"
-          fontWeight="500"
-          lineHeight="24px"
-          display="flex"
-        >
-          <Text paddingRight="26px">21 curtida</Text>
-          <Text paddingRight={isDesktop ? '450px' : '135px'}>
-            12 comentários
-          </Text>
-          <AiOutlineLock style={{ width: '20px', height: '20px' }} />
-        </Box>
-        <Text
-          width="327px"
-          color="#000"
-          mt="9px"
-          fontSize="16px"
-          fontStyle="normal"
-          fontWeight="600"
-          lineHeight="24px"
-        >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </Text>
-        <Text
-          width="339px"
-          height="85px"
-          flexDirection="column"
-          justifyContent="center"
-          display="flex"
-          color="#111"
-          fontSize="14px"
-          fontWeight="500"
-          lineHeight="24px"
-        >
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-          nisi ut aliquip ex ea commodo consequat.
-        </Text>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Box flexDirection="column" display="flex" gap="8px">
-            <Tag
-              mt="6px"
-              size="md"
-              variant="solid"
-              colorScheme="purple"
-              display="inline-flex"
-              height="24px"
-              padding="0px 8px"
-              alignItems="center"
-              gap="8px"
-              borderRadius="6px"
-            >
-              Tag name
-            </Tag>
-          </Box>
-          <Box alignItems="flex-end" flexDirection="column" display="flex">
-            <Text
-              color="#515151"
-              fontSize="12px"
-              fontWeight="500"
-              lineHeight="20px"
-            >
-              <DataText
-                created={post.created_at}
-                updated={post.updated_at}
-                sufix
-              />
-            </Text>
-            <Text
-              color="#805AD5"
-              fontSize="12px"
-              fontWeight="500"
-              lineHeight="20px"
-            >
-              @usernam
-            </Text>
-          </Box>
-        </Box>
-      </Box>
-      <Divider mb="37px" mt="37px"></Divider>
     </Box>
   );
 }
