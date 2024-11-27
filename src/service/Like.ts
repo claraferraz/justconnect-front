@@ -12,3 +12,10 @@ const createUserDislike= async (id: string) => {
     return response;
   };
   export {createUserLike, createUserDislike};
+  // useEffect(() => {
+  //   if (post && userId) {
+  //     setLiked(post.likes.includes(userId)); // Verifica se o userId está na lista de likes
+  //   } else {
+  //     setLiked(null); // Reseta o estado se post ou userId não estiverem disponíveis
+  //   }
+  // }, [post, userId]);

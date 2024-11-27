@@ -11,6 +11,10 @@ const updateUserPost = async(id: string | UUID, data: UserUpdatePost) =>{
   const response = await api.put(`/posts/${id}`, data)
   return response
 }
+const updateUserPostStatus = async(id: string | UUID, status: boolean) =>{
+  const response = await api.put(`/posts/${id}/status`, {status_open: status})
+  return response
+}
 
 const deleteUserPost = async (id:string | UUID) => {
   await api.delete(`/posts/${id}`);
@@ -32,4 +36,4 @@ const fetchPostById = async (id: string | UUID): Promise<UserPostById> => {
 }
 
 
-export { createPost, fetchPosts, fetchPostsByUserId, fetchPostById, deleteUserPost,updateUserPost };
+export { createPost, fetchPosts, fetchPostsByUserId, fetchPostById, deleteUserPost,updateUserPost, updateUserPostStatus };

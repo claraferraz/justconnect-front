@@ -17,15 +17,15 @@ import { CommentList } from '../../components/CommentList/CommentList';
 import { usePostStore } from '../../store/postStore';
 import { CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
 import { createUserDislike, createUserLike } from '../../service/Like';
-// import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '../../store/authStore';
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
-  // const userId = useAuthStore((state) => state.id);
-  // const token = useAuthStore((state) => state.token);
-
+  const userId = useAuthStore((state) => state.id);
+  
   const { post, getPostById, incrementCommentCount, updatePostScore } = usePostStore();
   const [liked, setLiked] = useState<boolean | null>(null); 
+  const [canComment, setCanComment] = useState<boolean>(true); // Estado para controlar a visibilidade do comentário
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const getPost = async (postId: string) => {
@@ -42,12 +42,10 @@ export function PostPage() {
 
     try {
       if (liked) {
-        
         await createUserDislike(id);
         setLiked(false);
         updatePostScore(id, -1);  
       } else {
-        
         await createUserLike(id);
         setLiked(true);
         updatePostScore(id, 1);
@@ -58,15 +56,15 @@ export function PostPage() {
   };
 
   useEffect(() => {
-    if (id) getPost(id);
+    if (id) getPost(id); // Chama getPost apenas quando o id mudar
   }, [id]);
 
   useEffect(() => {
-    
     if (post) {
-      setLiked(post.score > 0); 
+      setLiked(post.score); 
+      setCanComment(post.status_open); // Atualiza o estado canComment com o status_open do post
     }
-  }, [post]);
+  }, [post]); // A dependência é o post, não getPost
 
   if (!post) return <Text>Post não encontrado</Text>;
 
@@ -84,7 +82,7 @@ export function PostPage() {
         >
           <DataText created={post.created_at} updated={post.updated_at} sufix />
         </Text>
-        <MenuPostComponent />
+        <MenuPostComponent setCanComment={setCanComment} canComment ={canComment}/>
       </Box>
 
       <Text mt={isDesktop ? '24px' : '9px'} color="#000" fontSize="16px" fontWeight="600">
@@ -144,11 +142,14 @@ export function PostPage() {
 
       <CommentList comments={post.comment} refreshComments={() => id && getPost(id)} />
 
-      <CreateUserComment
-        postId={id as string}
-        incrementCommentCount={incrementCommentCount}
-        getPost={getPost}
-      />
+      {/* Condicionalmente renderiza o CreateUserComment */}
+      {canComment && (
+        <CreateUserComment
+          postId={id as string}
+          incrementCommentCount={incrementCommentCount}
+          getPost={getPost}
+        />
+      )}
 
       <Divider mt="40px" />
 

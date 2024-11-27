@@ -25,6 +25,7 @@ export interface PostState {
   updatePostScore: (postId: string | UUID, increment: number) => void;
 }
 
+
 const storeApi: StateCreator<PostState> = (set, get) => ({
   posts: undefined,
   post: undefined,
@@ -86,6 +87,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       throw new Error(errorMessages.join(', '));
     }
   },
+  
 
   removePost: async (id: string | UUID) => {
     try {
