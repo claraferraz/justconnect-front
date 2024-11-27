@@ -9,11 +9,14 @@ import {
 import { UserPostInfo, UserPostById, Role } from '../interface/UserInterface';
 import { UUID } from 'crypto';
 import { handleErrors } from '../utils/error';
+import { createUserDilike, createUserLike } from '../service/Like';
 
 export interface PostState {
   posts?: UserPostInfo[];
   post?: UserPostById;
   role?: Role;
+  userLikes: Set<UUID>;
+  userDislikes: Set<UUID>; 
 
   setPosts: (id: string | UUID) => Promise<void>;
   getPosts: () => UserPostInfo[] | undefined;
@@ -22,13 +25,18 @@ export interface PostState {
   updatePost: (id: string | UUID, updatedPost: UserPostInfo) => Promise<void>;
   removePost: (id: string | UUID) => Promise<void>;
   incrementCommentCount: (postId: string | UUID) => void;
+  likePost: (postId: string | UUID) => Promise<void>;
+  dislikePost: (postId: string | UUID) => Promise<void>;
+  updatePostScore: (postId: string | UUID, score: number) => void;  // Adicionei esta linha
 }
 
 const storeApi: StateCreator<PostState> = (set, get) => ({
   posts: undefined,
   post: undefined,
-  role:undefined,
-  
+  role: undefined,
+  userLikes: new Set(),  
+  userDislikes: new Set(),
+
   setPosts: async (id: string | UUID) => {
     try {
       const posts = await fetchPostsByUserId(id);
@@ -82,7 +90,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       set({ post });
     } catch (error) {
       const errorMessages = handleErrors(error);
-      throw new Error(errorMessages.join(', '))
+      throw new Error(errorMessages.join(', '));
     }
   },
 
@@ -115,10 +123,95 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
     });
   },
 
+  likePost: async (postId: string | UUID) => {
+    try {
+      const data = { postId };
+      await createUserLike(postId, data); 
+  
+      set((state) => {
+        if (state.posts) {
+          const updatedPosts = state.posts.map((post) =>
+            post.id === postId ? { ...post, score: post.score + 1 } : post
+          );
+          return { posts: updatedPosts };
+        }
+        return state;
+      });
+  
+      const state = get();
+      if (state.post && state.post.id === postId) {
+        set({
+          post: {
+            ...state.post,
+            score: state.post.score + 1,
+          },
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao dar like no post:', error);
+    }
+  },
+  
+  dislikePost: async (postId: string | UUID) => {
+    try {
+      const data = { postId };
+      await createUserDilike(postId, data); 
+      set((state) => {
+        if (state.posts) {
+          const updatedPosts = state.posts.map((post) =>
+            post.id === postId ? { ...post, score: post.score - 1 } : post
+          );
+          return { posts: updatedPosts };
+        }
+        return state;
+      });
+  
+      const state = get();
+      if (state.post && state.post.id === postId) {
+        set({
+          post: {
+            ...state.post,
+            score: state.post.score - 1,
+          },
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao dar dislike no post:', error);
+    }
+  },
+
+  updatePostScore: (postId: string | UUID, score: number) => {
+    // Garante que o score nunca seja menor que 0
+    const validatedScore = Math.max(0, score);
+  
+    set((state) => {
+      if (state.posts) {
+        const updatedPosts = state.posts.map((post) =>
+          post.id === postId ? { ...post, score: validatedScore } : post
+        );
+        return { posts: updatedPosts };
+      }
+      return state;
+    });
+  
+    const state = get();
+    if (state.post && state.post.id === postId) {
+      set({
+        post: {
+          ...state.post,
+          score: validatedScore,
+        },
+      });
+    }
+  },
+  
+
   resetPosts: () => {
     set({ posts: undefined, post: undefined });
   },
 });
+
 export const usePostStore = create<PostState>()(
   devtools(persist(storeApi, { name: 'post-storage' }))
 );
+

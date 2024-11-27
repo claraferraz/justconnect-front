@@ -108,8 +108,15 @@ export interface UserPostById {
   username: string;
 }
 export interface UserLike{
-  postId : boolean;
+  postId : string;
+  
+
 }
+export interface UserDislike{
+  postId : string;
+
+}
+
 
 export interface UserNotifications {
   username: string;
