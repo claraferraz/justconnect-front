@@ -122,18 +122,11 @@ const SidebarContent = ({
             h={isUserLoggedIn ? '85%' : '70%'}
             fontSize="18px"
           >
-            {LinkItems.map((link) => {
-              if (link.name === 'Denúncias') {
-                if (!isAdmin) {
-                  return;
-                }
-              }
-              return (
-                <NavItem key={link.name} icon={link.icon} path={link.path}>
-                  {link.name}
-                </NavItem>
-              );
-            })}
+            {LinkItems.map((link) => (
+              <NavItem key={link.name} icon={link.icon} path={link.path}>
+                {link.name}
+              </NavItem>
+            ))}
             {isUserLoggedIn && (
               <Box mt={10}>
                 <NavItem
