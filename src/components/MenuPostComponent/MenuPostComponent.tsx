@@ -27,14 +27,12 @@ const MenuPostComponent = () => {
   const currentUserId = useAuthStore((state) => state.id);
   const role = useProfileStore((state) => state.role);
 
-  const handleOpenEditModal = () => {
-    setIsEditModalOpen(true);
-    setIsMenuOpen(false); 
-  };
+  
+  const canEdit = currentUserId === post?.user_id; 
+  const canDelete = currentUserId === post?.user_id || role === "ADMIN"; 
 
-  const handlePostDeleted = () => {
-    navigate("/my-profile"); 
-  };
+  const handleOpenEditModal = () => setIsEditModalOpen(true);
+  const handlePostDeleted = () => navigate("/my-profile");
 
   return (
     <Box position="relative">
@@ -51,7 +49,7 @@ const MenuPostComponent = () => {
           onClick={() => setIsMenuOpen(false)}
         />
       )}
-      {(currentUserId === post?.user_id || role === "ADMIN") && (
+      {(canEdit || canDelete) && (
         <Menu
           onOpen={() => setIsMenuOpen(true)}
           onClose={() => setIsMenuOpen(false)}
@@ -81,8 +79,10 @@ const MenuPostComponent = () => {
               Trancar
               <Switch ml="auto" colorScheme="purple" />
             </MenuItem>
-            <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>
-            <MenuItem onClick={() => setIsDeleteModalOpen(true)}>Deletar</MenuItem>
+            {canEdit && <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>}
+            {canDelete && (
+              <MenuItem onClick={() => setIsDeleteModalOpen(true)}>Deletar</MenuItem>
+            )}
           </MenuList>
         </Menu>
       )}

@@ -17,24 +17,25 @@ const deleteUserPost = async (id: string | UUID) => {
 };
 
 const fetchPosts = async (): Promise<UserPostInfo[]> => {
-  const response = await api.get<UserPostInfo[]>('/public/posts');
+  const response = await api.get<UserPostInfo[]>('/posts');
   return response.data;
 };
 
 const fetchPostsByUserId = async (id: string | UUID): Promise<UserPostInfo[]> => {
-  const response = await api.get<UserPostInfo[]>(`/public/posts/user/${id}`);
+  const response = await api.get<UserPostInfo[]>(`/posts/user/${id}`);
   return response.data;
 };
 
 const fetchPostById = async (id: string | UUID): Promise<UserPostById> => {
-  const response = await api.get<UserPostById>(`/public/posts/${id}`);
+  const response = await api.get<UserPostById>(`/posts/${id}`);
   return response.data;
 };
 
 const fetchPostsByTag = async (tag: string): Promise<UserPostInfo[]> => {
-  const response = await api.get<UserPostInfo[]>(`/public/posts/tagged-with/${tag}`);
+  const response = await api.get<UserPostInfo[]>(`/posts/tagged-with/${tag}`);
   return response.data;
 };
+
 
 export { 
   createPost, 

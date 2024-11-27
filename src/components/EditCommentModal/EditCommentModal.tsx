@@ -9,6 +9,8 @@ import {
   ModalFooter, 
   Textarea, 
   Button, 
+  FormControl, 
+  FormErrorMessage, 
   useToast 
 } from '@chakra-ui/react';
 import { UpdateComment } from '../../interface/CommentsInterface';
@@ -32,15 +34,26 @@ const EditCommentModal: React.FC<EditCommentModalProps> = ({
   const [editedCommentText, setEditedCommentText] = useState<string>(commentText);
   const { updateComment } = useCommentStore();
   const toast = useToast();
+  const [error, setError] = useState<string | null>(null);
+
+  // Função para limpar os erros ao fechar o modal
+  const handleClose = () => {
+    setError(null);  // Limpa o erro
+    onClose();       // Chama o onClose passado como prop
+  };
 
   useEffect(() => {
     if (isOpen) {
       setEditedCommentText(commentText || '');
+      setError(null); // Limpa o erro quando o modal é aberto
     }
   }, [isOpen, commentText]);
 
   const handleSaveComment = async () => {
-    if (!editedCommentText.trim()) return;
+    if (!editedCommentText.trim()) {
+      setError('Comentário não pode estar vazio.');
+      return;
+    }
 
     const updatedComment: UpdateComment = {
       id: commentId as string,
@@ -56,7 +69,7 @@ const EditCommentModal: React.FC<EditCommentModalProps> = ({
         isClosable: true,
         position: 'bottom',
       });
-      onClose();
+      handleClose();  // Fecha o modal e limpa os erros
       refreshComments();
     } catch (error) {
       console.error('Erro ao editar comentário:', error);
@@ -72,22 +85,29 @@ const EditCommentModal: React.FC<EditCommentModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={handleClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Editar Comentário</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Textarea
-            value={editedCommentText}
-            onChange={(e) => setEditedCommentText(e.target.value)}
-            placeholder="Edite seu comentário"
-            size="sm"
-            mb="10px"
-          />
+          <FormControl isInvalid={!!error}>
+            <Textarea
+              value={editedCommentText}
+              onChange={(e) => setEditedCommentText(e.target.value)}
+              placeholder="Edite seu comentário"
+              bg="gray.50"
+              border="2px solid"
+              borderColor={error ? "red.500" : "#805AD5"}
+              focusBorderColor={error ? "red.500" : "#805AD5"}
+              _hover={{ bg: 'gray.200' }}
+              _focus={{ bg: 'white' }}
+            />
+            {error && <FormErrorMessage>{error}</FormErrorMessage>}
+          </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button variant="ghost" onClick={onClose}>
+          <Button variant="ghost" onClick={handleClose}>
             Cancelar
           </Button>
           <Button colorScheme="purple" onClick={handleSaveComment}>
