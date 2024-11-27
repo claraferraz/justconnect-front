@@ -33,6 +33,7 @@ export function PostCard({
   },
 }: Props) {
   const isDesktop = useBreakpointValue({ base: false, md: true });
+
   function truncateText(maxLength: number, text?: string) {
     if (text) {
       if (text.length > maxLength) {

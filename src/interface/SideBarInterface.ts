@@ -27,3 +27,10 @@ export interface SidebarHeaderProps {
   onOpen: () => void;
   user?: ProfileInfos;
 }
+
+export enum SearchTypes {
+  posts = 'posts',
+  users = 'users',
+  comments = 'comments',
+  tags = 'tags',
+}

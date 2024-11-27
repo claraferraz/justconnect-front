@@ -9,13 +9,22 @@ export interface Comment {
   created_at: string;
   updated_at: string;
   postId: string | UUID;
-  admin_comment_block: true
+  admin_comment_block: true;
 }
-export interface CreateComment{
+export interface CreateComment {
   id: string | UUID;
   comment: string;
 }
-export interface UpdateComment{
+export interface UpdateComment {
   id: string | UUID;
   comment: string;
+}
+export interface SearchComment {
+  id: UUID;
+  comment: string;
+  score: number;
+  post_id: UUID;
+  user_id: UUID;
+  username: string;
+  created_at: string;
 }
