@@ -9,6 +9,7 @@ import ConfirmDeletePost from "../ConfirmDeletePost/ConfirmDeletePost";
 import EditPostModal from "../EditPostModal/EditPostModal";
 import { useProfileStore } from "../../store/profileStore";
 import { UUID } from "crypto";
+import { UserPostInfo } from "../../interface/UserInterface";
 
 type MenuPostComponentProps = {
   canComment: boolean; 
@@ -33,16 +34,22 @@ const MenuPostComponent = ({ canComment, setCanComment }: MenuPostComponentProps
 
   const handleStatusChange = async (isChecked: boolean) => {
     try {
-      if (id) {
-  
+      if (id && post?.id) {
         await updateUserPostStatus(id, isChecked);
         setIsStatusOpen(!isChecked);
-        setCanComment(!isChecked); 
+        setCanComment(!isChecked);
+        const updatedPost: UserPostInfo = { 
+          ...post, 
+          status_open: !isChecked, 
+          id: post.id 
+        };
+        updatePost(id, updatedPost); 
       }
     } catch (error) {
       console.error("Erro ao atualizar o status do post:", error);
     }
   };
+  
 
   useEffect(() => {
     if (post) {

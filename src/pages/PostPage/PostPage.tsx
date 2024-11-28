@@ -73,7 +73,7 @@ export function PostPage() {
 
   return (
     <Box>
-      <Box mt="39px" display="flex" >
+      <Box mt="39px" display="flex" gap="35px">
         <Text color="#805AD5" fontSize="14px" fontWeight="500" lineHeight="20px">
           @{post.username}
         </Text>
