@@ -1,20 +1,27 @@
-import { useState, useEffect } from 'react';
-import { Box, Flex, Input, InputGroup, InputLeftElement, Button, Stack, Text } from '@chakra-ui/react';
-import { PostCard } from '../../components/PostCard/PostCard';
-import { FiSearch } from 'react-icons/fi';
-import { fetchPostsByTag } from '../../service/Post';
-import { UserPostInfo } from '../../interface/UserInterface';
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Grid,
+  Text,
+  Icon,
+  Center,
+  Circle,
+  Divider,
+} from "@chakra-ui/react";
+import { PostCard } from "../../components/PostCard/PostCard";
+import { FiSearch, FiPlus } from "react-icons/fi";
+import { fetchPostsByTag } from "../../service/Post";
+import { UserPostInfo } from "../../interface/UserInterface";
 
 export function TagsPage() {
   const [posts, setPosts] = useState<UserPostInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredPosts, setFilteredPosts] = useState<UserPostInfo[]>([]);
-  const [selectedTag, setSelectedTag] = useState<string>('');
-  const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-
-  const postsPerPage = 5;
+  const [selectedTag, setSelectedTag] = useState<string>("");
 
   const getPostsByTag = async (tag: string) => {
     setLoading(true);
@@ -22,7 +29,6 @@ export function TagsPage() {
       const response = await fetchPostsByTag(tag);
       setPosts(response);
       setFilteredPosts(response);
-      setTotalPages(Math.ceil(response.length / postsPerPage));
     } catch (error) {
       console.error(error);
     } finally {
@@ -39,58 +45,75 @@ export function TagsPage() {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const term = event.target.value.toLowerCase();
     setSearchTerm(term);
-    setFilteredPosts(posts.filter(post => post.title.toLowerCase().includes(term)));
+    setFilteredPosts(posts.filter((post) => post.title.toLowerCase().includes(term)));
   };
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
-
-  const currentPosts = filteredPosts.slice((page - 1) * postsPerPage, page * postsPerPage);
 
   return (
-    <Box display="flex" justifyContent="center" height="100vh" p={5}>
-      <Box width="100%" padding="30px" backgroundColor="white" borderRadius="md" boxShadow="md">
-        <InputGroup background="gray.100" margin="30px auto" borderRadius={6} width="70%" borderColor="gray.400">
-          <InputLeftElement children={<FiSearch color="gray.300" />} />
-          <Input 
-            placeholder="Pesquisar tags" 
-            value={searchTerm} 
-            onChange={handleSearch} 
-            onKeyDown={(e) => { 
-              if (e.key === 'Enter') {
-                setSelectedTag(searchTerm);
-              }
-            }}
-          />
-        </InputGroup>
+    <Box width="100%" minHeight="100vh" bg="#F8F9FA" p={4}>
+      <Center position="relative" mb={6}>
+        <Text fontWeight="bold" fontSize="1.2rem" color="#281A45">
+          Tag name
+        </Text>
+        <Circle
+          size="40px"
+          bg="transparent"
+          border="1px solid #281A45"
+          color="#281A45"
+          position="absolute"
+          right="10%"
+          cursor="pointer"
+        >
+          <Icon as={FiPlus} fontSize="1.5rem" />
+        </Circle>
+      </Center>
+      <Divider borderColor="#281A45" mb={4} />
 
-        {loading && <Text>Carregando...</Text>}
+      <InputGroup
+        background="gray.100"
+        margin="30px auto"
+        borderRadius={6}
+        width="70%"
+        borderColor="gray.400"
+      >
+        <InputLeftElement children={<FiSearch color="gray.300" />} />
+        <Input
+          placeholder="Pesquisar tags"
+          value={searchTerm}
+          onChange={handleSearch}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setSelectedTag(searchTerm);
+            }
+          }}
+        />
+      </InputGroup>
 
-        <Flex direction="column" gap="15px">
-          {currentPosts.length > 0 && currentPosts.map((post) => (
-            <Box borderBottom="1px solid #B6B4BB" paddingBottom="10px" key={post.id}>
-              <PostCard post={post} />
-            </Box>
-          ))}
-        </Flex>
+      {loading && <Text textAlign="center">Carregando...</Text>}
 
-        {!loading && currentPosts.length === 0 && <Text>Nenhum post encontrado</Text>}
-
-        <Stack direction="row" spacing={4} align="center" justify="center" mt={4}>
-          <Button onClick={() => handlePageChange(page - 1)} isDisabled={page === 1}>Anterior</Button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <Button key={i + 1} onClick={() => handlePageChange(i + 1)} isActive={page === i + 1}>
-              {i + 1}
-            </Button>
-          ))}
-          <Button 
-            onClick={() => handlePageChange(page + 1)} 
-            isDisabled={page === totalPages || currentPosts.length < postsPerPage}>
-            Próxima
-          </Button>
-        </Stack>
-      </Box>
+      {!loading && (
+        <>
+          {filteredPosts.length > 0 ? (
+            <Grid
+              justifyItems="center"
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(1, 1fr)",
+                md: "repeat(2, 1fr)",
+              }}
+              gap="15px"
+              overflow="hidden"
+            >
+              {filteredPosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </Grid>
+          ) : (
+            <Text textAlign="center" color="gray.500" mt={6}>
+              Nenhum post encontrado
+            </Text>
+          )}
+        </>
+      )}
     </Box>
   );
 }
