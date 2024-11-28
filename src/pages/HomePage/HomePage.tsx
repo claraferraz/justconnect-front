@@ -22,13 +22,20 @@ export function HomePage() {
     setLoading(true);
     try {
       const postsList = await fetchPosts();
-      setPosts(postsList);
+  
+      const sortedPosts = postsList.sort(
+        (a: UserPostInfo, b: UserPostInfo) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+  
+      setPosts(sortedPosts);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     getPostsList();
