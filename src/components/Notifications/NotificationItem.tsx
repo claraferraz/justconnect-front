@@ -2,52 +2,74 @@ import { Center, Grid, GridItem, Link, Text } from '@chakra-ui/react';
 import { UUID } from 'crypto';
 
 import { DataText } from '../DataText/DataText';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { markAsRead } from '../../service/Notifications';
 
 interface Props {
+  id: string;
   username: string;
-  created_at: string | Date;
+  created_at: Date;
   content: string;
   post_id: UUID | string;
   isNew: boolean;
 }
 
 export function NotificationItem({
+  id,
   username,
   created_at,
   content,
   post_id,
-  isNew,
+  isNew: initialNew,
 }: Props) {
-  const [n, setN] = useState(isNew);
+  const [isNew, setIsNew] = useState(initialNew);
+
+  useEffect(() => {
+    if (isNew !== initialNew) {
+      setIsNew(initialNew);
+    }
+  }, [initialNew, isNew]);
+
+  const handleMouseOver = async () => {
+    setIsNew(false);
+
+    try {
+      await markAsRead(id);
+    } catch {
+      setIsNew(true);
+    }
+  };
+
   return (
     <>
       <Grid
-        onMouseOver={() => setN(false)}
+        onMouseOver={handleMouseOver}
         alignItems="center"
         minH="20px"
         gridTemplateColumns="1fr 13fr 2fr"
         overflow="scroll"
       >
         <GridItem>
-          {n && (
+          {isNew && (
             <Center
               background="#805AD5"
               height={'8px'}
               width={'8px'}
               rounded={'100px'}
-            ></Center>
+            />
           )}
         </GridItem>
         <GridItem>
           <Text fontSize="14px" fontWeight="500">
             <Link href={`/profile/${username}`} color="#805AD5">
-              @{username}
+              {username}
             </Link>
             <Link href={`/post/${post_id}`}> {content}</Link>
           </Text>
         </GridItem>
-        <DataText created={created_at} updated={created_at} sufix={false} />
+        {created_at && (
+          <DataText created={created_at} updated={created_at} sufix={false} />
+        )}
       </Grid>
     </>
   );
