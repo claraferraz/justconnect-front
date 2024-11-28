@@ -25,7 +25,6 @@ export interface PostState {
   updatePostScore: (postId: string | UUID, increment: number) => void;
 }
 
-
 const storeApi: StateCreator<PostState> = (set, get) => ({
   posts: undefined,
   post: undefined,
@@ -73,7 +72,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       if (!updatedPost.id) {
         updatedPost.id = id;
       }
-  
+
       await updateUserPost(id, updatedPost);
       
       set((state) => {
@@ -85,7 +84,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
         }
         return state;
       });
-  
+
       const post = await fetchPostById(id);
       set({ post });
     } catch (error) {
@@ -93,8 +92,6 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       throw new Error(errorMessages.join(', '));
     }
   },
-  
-  
 
   removePost: async (id: string | UUID) => {
     try {
@@ -137,54 +134,14 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       }
       return state;
     });
-    
+  
     const post = get().post;
     if (post?.id === postId) {
       set({ post: { ...post, score: (post.score || 0) + increment } });
     }
   },
-    // updatePostScore: (postId: string | UUID, increment: number, userId: string) => {
-  //   set((state) => {
-  //     if (state.posts) {
-  //       const updatedPosts = state.posts.map((post) => {
-  //         if (post.id === postId) {
-  //           const alreadyLiked = post.likedBy.includes(userId);
   
-  //           if (alreadyLiked && increment === 1) {
-  //             console.log('Você já curtiu esse post.');
-  //             return post;
-  //           }
-  
-  //           if (!alreadyLiked && increment === -1) {
-  //             console.log('Você não curtiu esse post.');
-  //             return post;
-  //           }
-  
-  //           if (!alreadyLiked) {
-  //             const updatedLikedBy = [...post.likedBy, userId];
-  //             return { 
-  //               ...post, 
-  //               score: (post.score || 0) + increment, 
-  //               likedBy: updatedLikedBy 
-  //             };
-  //           }
-  
-  //           const updatedLikedBy = post.likedBy.filter((id) => id !== userId);
-  //           return { 
-  //             ...post, 
-  //             score: (post.score || 0) - increment, 
-  //             likedBy: updatedLikedBy 
-  //           };
-  //         }
-  //         return post;
-  //       });
-  
-  //       return { posts: updatedPosts };
-  //     }
-  //     return state;
-  //   });
-  // },
-  
+
   resetPosts: () => {
     set({ posts: undefined, post: undefined });
   },

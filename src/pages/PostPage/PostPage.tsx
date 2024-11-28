@@ -16,7 +16,7 @@ import MenuPostComponent from '../../components/MenuPostComponent/MenuPostCompon
 import { CommentList } from '../../components/CommentList/CommentList';
 import { usePostStore } from '../../store/postStore';
 import { CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
-import { createUserDislike, createUserLike } from '../../service/Like';
+import { removeUserPostLike, createUserPostLike } from '../../service/Like';
 import { useAuthStore } from '../../store/authStore';
 
 export function PostPage() {
@@ -37,52 +37,45 @@ export function PostPage() {
   };
 
   const handleLike = async () => {
-    if (!id || !userId) return;  
-
+    if (!id || !userId) {
+      console.warn("Post ID ou User ID está ausente.");
+      return;
+    }
+  
     try {
       if (liked) {
-        await createUserDislike(id);
-        setLiked(false);
-        updatePostScore(id, -1);  
-         //adicionar userId
-        console.log('Descurtiu o post');
-
+        const response = await removeUserPostLike(id, userId);
+        if (response?.user_id === userId) {
+          setLiked(false);
+          updatePostScore(id, -1); 
+        }
       } else {
-        await createUserLike(id);
-        setLiked(true);
-        updatePostScore(id, 1);   
-        //adicionar userId
+        const response = await createUserPostLike(id, userId); 
+        if (response?.user_id === userId) {
+          setLiked(true);
+          updatePostScore(id, 1); 
+        }
       }
+  
+      await getPost(id);
     } catch (error) {
-      console.error('Erro ao curtir/descurtir o post:', error);
+      console.error("Erro ao curtir/descurtir o post:", error);
     }
   };
-
+  
   useEffect(() => {
-    if (id){
+    if (id) {
       getPost(id);
     }
   }, [id]);
   
   useEffect(() => {
     if (post) {
-      setLiked(post.score > 0); 
+      const userHasLiked = post.post_like.some((like) => like.user_id === userId);
+      setLiked(userHasLiked);
       setCanComment(post.status_open);
     }
-  }, [post]);
-  // useEffect(() => {
-  //   if (id) {
-  //     // Carrega o post assim que o ID estiver disponível
-  //     getPost(id);
-  //   }
-  
-  //   if (post && userId) {
-  //     // Atualiza o estado de "liked" e "canComment" assim que o post for carregado
-  //     setLiked(post.likedBy.includes(userId)); // Verifica se o usuário curtiu
-  //     setCanComment(post.status_open); // Atualiza se o usuário pode comentar
-  //   }
-  // }, [id, post, userId]); // Depende de id, post e userId
-  
+  }, [post, userId]);
 
   if (!post) return <Text>Post não encontrado</Text>;
 
@@ -114,7 +107,7 @@ export function PostPage() {
               width: '20px',
               height: '24px',
               cursor: 'pointer',
-              color: liked === null ? '#000' : liked ? '#805AD5' : '#000',
+              color: liked === null ? '#000' : liked ? '#805AD5' : '#000'
             }}
           />
           <Text fontSize="16px" fontWeight="600" color="#000">
