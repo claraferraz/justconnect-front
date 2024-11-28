@@ -70,7 +70,12 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
 
   updatePost: async (id: string | UUID, updatedPost: UserPostInfo) => {
     try {
+      if (!updatedPost.id) {
+        updatedPost.id = id;
+      }
+  
       await updateUserPost(id, updatedPost);
+      
       set((state) => {
         if (state.posts) {
           const updatedPosts = state.posts.map((post) =>
@@ -80,6 +85,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
         }
         return state;
       });
+  
       const post = await fetchPostById(id);
       set({ post });
     } catch (error) {
@@ -87,6 +93,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       throw new Error(errorMessages.join(', '));
     }
   },
+  
   
 
   removePost: async (id: string | UUID) => {
