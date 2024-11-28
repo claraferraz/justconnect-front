@@ -2,7 +2,7 @@ import {
   Box,
   Text,
   Divider,
-  useBreakpointValue,
+  useBreakpointValue
 } from '@chakra-ui/react';
 import { MdArrowUpward } from 'react-icons/md';
 import { DataText } from '../DataText/DataText';
@@ -34,7 +34,7 @@ export function CommentList({ comments, refreshComments }: CommentListProps) {
                 {comment.score}
               </Text>
             </Box>
-            <Text marginLeft="26px" mt="8px" color="#111" fontSize="14px" fontWeight="400">
+            <Text textAlign={"justify"} marginLeft="26px" mt="8px" color="#111" fontSize="14px" fontWeight="400">
               {comment.comment}
             </Text>
           </Box>
@@ -42,7 +42,7 @@ export function CommentList({ comments, refreshComments }: CommentListProps) {
           
           <Text
             mt="14px"
-            paddingLeft={isDesktop ? '550px' : '278px'}
+            paddingLeft={isDesktop ? '570px' : '270px'}            
             color="#515151"
             fontSize="12px"
             fontWeight="500"
@@ -52,7 +52,7 @@ export function CommentList({ comments, refreshComments }: CommentListProps) {
           </Text>
           <Text
             color="#805AD5"
-            paddingLeft={isDesktop ? '550px' : '274px'}
+            paddingLeft={isDesktop ? '570px' : '270px'}
             fontSize="12px"
             fontWeight="500"
             lineHeight="20px"
