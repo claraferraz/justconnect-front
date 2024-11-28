@@ -75,7 +75,7 @@ export interface UserCreatePost {
   description: string;
   tags: string[];
 }
-export interface UserUpdatePost{
+export interface UserUpdatePost {
   title: string;
   description: string;
   tags: string[];
@@ -108,12 +108,17 @@ export interface UserPostById {
   tags: string[];
   username: string;
 }
-
-export interface UserNotifications {
-  username: string;
-  created_at: string | Date;
-  content: string;
-  post_id: UUID | string;
-  isNew: boolean;
+export interface UserLike {
+  postId: boolean;
 }
 
+export interface UserNotification {
+  id: string;
+  user_id: string;
+  type: string;
+  username: string;
+  message: string;
+  is_read: boolean;
+  related_id: string | null;
+  created_at: Date;
+}

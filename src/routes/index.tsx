@@ -7,13 +7,12 @@ import { ProfilePage } from '../pages/ProfilePage/ProfilePage';
 import { PostPage } from '../pages/PostPage/PostPage';
 import { CreatePostPage } from '../pages/CreatePostPage/CreatePostPage';
 import { TagsPage } from '../pages/TagsPage/TagsPage';
-import { ReportedPostsPage } from '../pages/ReportedPostsPage/ReportedPostsPage';
 import { MyProfilePage } from '../pages/MyProfilePage/MyProfilePage';
 import { EditProfilePage } from '../pages/EditProfilePage/EditProfilePage';
 import { Section } from '../components/Section/Section';
 import { ProtectedRoute } from './ProtectedRoute';
-import { AdminRoute } from './AdminRoutes';
 import { ResetPasswordPage } from '../pages/ResetPassword/ResetPasswordPage';
+import { TagsListPage } from '../pages/TagsListPage/TagsListPage';
 
 export function Home() {
   return (
@@ -48,7 +47,7 @@ export function ForgotPassword() {
 export function ResetPassword() {
   return (
     <>
-      <ResetPasswordPage/>
+      <ResetPasswordPage />
     </>
   );
 }
@@ -112,23 +111,21 @@ export function CreatePost() {
     </>
   );
 }
+export function TagsList() {
+  return (
+    <>
+      <Section>
+        <TagsListPage />
+      </Section>
+    </>
+  );
+}
 export function Tags() {
   return (
     <>
       <Section>
         <TagsPage />
       </Section>
-    </>
-  );
-}
-export function ReportedPosts() {
-  return (
-    <>
-      <AdminRoute>
-        <Section>
-          <ReportedPostsPage />
-        </Section>
-      </AdminRoute>
     </>
   );
 }

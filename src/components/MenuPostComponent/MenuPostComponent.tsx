@@ -35,7 +35,7 @@ const MenuPostComponent = ({ canComment, setCanComment }: MenuPostComponentProps
     try {
       if (id) {
   
-        await updateUserPostStatus(id, isChecked);
+        await updateUserPostStatus(id, isChecked, "post");
         setIsStatusOpen(!isChecked);
         setCanComment(!isChecked); 
       }
