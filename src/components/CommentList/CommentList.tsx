@@ -28,7 +28,7 @@ export function CommentList({ comments, refreshComments }: CommentListProps) {
 
         
           <Box mt="8px" display="flex" alignItems="center">
-            <Box display="flex" flexDirection="column" alignItems="center">
+            <Box marginLeft="30px" display="flex" flexDirection="column" alignItems="center">
               <MdArrowUpward style={{ width: '20px', height: '24px' }} />
               <Text fontSize="16px" fontWeight="600" color="#000">
                 {comment.score}
