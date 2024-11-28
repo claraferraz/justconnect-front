@@ -1,13 +1,16 @@
 import { Box, Flex, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { NotificationsBox } from './NotificationsBox';
 import { LuBellDot, LuBell } from 'react-icons/lu';
-import { UserNotifications } from '../../interface/UserInterface';
-import { useEffect, useState } from 'react';
+import { UserNotification } from '../../interface/UserInterface';
+import { useEffect, useRef, useState } from 'react';
+import { fetchNotifications } from '../../service/Notifications';
 
 interface Props {
   notificationsVisible: boolean;
   toggleNotifications: () => void;
 }
+
+const INTERVAL = 5000;
 
 export function NotificationsWrapper({
   notificationsVisible,
@@ -15,62 +18,36 @@ export function NotificationsWrapper({
 }: Props) {
   const [hasNew, setHasNew] = useState(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
-  const [notificationsList, setNotificationsList] = useState<
-    UserNotifications[]
-  >([
-    {
-      username: 'teste',
-      created_at: '2024-11-13T15:09:16.607Z',
-      content: 'respondeu seu post',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: true,
-    },
-    {
-      username: 'claraadm',
-      created_at: '2024-11-13T17:27:51.745Z',
-      content: 'curtiu seu comentário',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: true,
-    },
-    {
-      username: 'juninhoplayboy',
-      created_at: '2024-11-13T17:27:51.745Z',
-      content: 'curtiu seu comentário',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: false,
-    },
-    {
-      username: 'juninhoplayboy',
-      created_at: '2024-11-13T17:27:51.745Z',
-      content: 'curtiu seu comentário',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: false,
-    },
-    {
-      username: 'juninhoplayboy',
-      created_at: '2024-11-13T17:27:51.745Z',
-      content: 'curtiu seu comentário',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: false,
-    },
-    {
-      username: 'juninhoplayboy',
-      created_at: '2024-11-13T17:27:51.745Z',
-      content: 'curtiu seu comentário',
-      post_id: '6832a721-3d62-41e7-b69-a843261c00cb',
-      isNew: false,
-    },
-  ]);
+  const [notifications, setNotifications] = useState<UserNotification[]>([]);
+  const timer = useRef<number | undefined>(undefined);
+
   const handleClose = () => {
     toggleNotifications();
-    setNotificationsList((prev: UserNotifications[]) =>
-      prev.map((notification) => ({ ...notification, isNew: false }))
-    );
   };
 
   useEffect(() => {
-    setHasNew(notificationsList.some((notification) => notification.isNew));
-  }, [notificationsList]);
+    setHasNew(notifications.some((notification) => !notification.is_read));
+  }, [notifications]);
+
+  useEffect(() => {
+    const updateNotifications = async () => {
+      const result = await fetchNotifications();
+      setNotifications(result);
+    };
+
+    if (!timer.current && window) {
+      timer.current = window.setInterval(async () => {
+        updateNotifications();
+      }, INTERVAL);
+    }
+
+    return () => {
+      if (timer.current && window) {
+        window.clearInterval(timer.current);
+        timer.current = undefined;
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -89,7 +66,7 @@ export function NotificationsWrapper({
         _hover={{ color: '#fff', bg: '#805AD5' }}
         marginRight="4"
         onClick={notificationsVisible ? handleClose : toggleNotifications}
-      ></IconButton>
+      />
       {notificationsVisible && (
         <>
           <Flex
@@ -103,7 +80,7 @@ export function NotificationsWrapper({
           >
             <NotificationsBox
               handleClose={handleClose}
-              notifications={notificationsList}
+              notifications={notifications}
             />
           </Flex>
           <Box
