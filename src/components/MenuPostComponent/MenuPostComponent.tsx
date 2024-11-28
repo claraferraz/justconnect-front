@@ -20,7 +20,7 @@ const MenuPostComponent = ({ canComment, setCanComment }: MenuPostComponentProps
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false); // Estado do Switch
+  const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
   const { post, removePost, updatePost } = usePostStore();
   const currentUserId = useAuthStore((state) => state.id);
   const role = useProfileStore((state) => state.role);
@@ -36,8 +36,8 @@ const MenuPostComponent = ({ canComment, setCanComment }: MenuPostComponentProps
       if (id) {
   
         await updateUserPostStatus(id, isChecked);
-        setIsStatusOpen(isChecked);
-        setCanComment(isChecked); 
+        setIsStatusOpen(!isChecked);
+        setCanComment(!isChecked); 
       }
     } catch (error) {
       console.error("Erro ao atualizar o status do post:", error);
@@ -97,7 +97,7 @@ const MenuPostComponent = ({ canComment, setCanComment }: MenuPostComponentProps
                 ml="auto"
                 colorScheme="purple"
                 onChange={(e) => handleStatusChange(e.target.checked)}
-                isChecked={isStatusOpen} 
+                isChecked={!isStatusOpen} 
               />
               {canComment ? "" : ""}
             </MenuItem>

@@ -17,15 +17,15 @@ import { CommentList } from '../../components/CommentList/CommentList';
 import { usePostStore } from '../../store/postStore';
 import { CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
 import { createUserDislike, createUserLike } from '../../service/Like';
-import { useAuthStore } from '../../store/authStore';
+// import { useAuthStore } from '../../store/authStore';
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
-  const userId = useAuthStore((state) => state.id);
+  // const userId = useAuthStore((state) => state.id);
   
   const { post, getPostById, incrementCommentCount, updatePostScore } = usePostStore();
   const [liked, setLiked] = useState<boolean | null>(null); 
-  const [canComment, setCanComment] = useState<boolean>(true); // Estado para controlar a visibilidade do comentário
+  const [canComment, setCanComment] = useState<boolean>(true); 
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const getPost = async (postId: string) => {
@@ -56,15 +56,18 @@ export function PostPage() {
   };
 
   useEffect(() => {
-    if (id) getPost(id); // Chama getPost apenas quando o id mudar
-  }, [id]);
+    if (id){
+      getPost(id);
+    }
+
+  }, []);
 
   useEffect(() => {
     if (post) {
-      setLiked(post.score); 
-      setCanComment(post.status_open); // Atualiza o estado canComment com o status_open do post
+      setLiked(post.score > 0 ); 
+      setCanComment(post.status_open);
     }
-  }, [post]); // A dependência é o post, não getPost
+  }, [post]); 
 
   if (!post) return <Text>Post não encontrado</Text>;
 
@@ -142,7 +145,6 @@ export function PostPage() {
 
       <CommentList comments={post.comment} refreshComments={() => id && getPost(id)} />
 
-      {/* Condicionalmente renderiza o CreateUserComment */}
       {canComment && (
         <CreateUserComment
           postId={id as string}
