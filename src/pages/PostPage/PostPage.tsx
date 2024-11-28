@@ -107,7 +107,8 @@ export function PostPage() {
           </Text>
         </Box>
         <Text
-          width="296px"
+          width={isDesktop ? '444px' : '296px'}
+          textAlign={'justify'}
           marginLeft="37px"
           mt="8px"
           color="#111"
