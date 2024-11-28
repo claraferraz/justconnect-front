@@ -143,7 +143,48 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       set({ post: { ...post, score: (post.score || 0) + increment } });
     }
   },
-
+    // updatePostScore: (postId: string | UUID, increment: number, userId: string) => {
+  //   set((state) => {
+  //     if (state.posts) {
+  //       const updatedPosts = state.posts.map((post) => {
+  //         if (post.id === postId) {
+  //           const alreadyLiked = post.likedBy.includes(userId);
+  
+  //           if (alreadyLiked && increment === 1) {
+  //             console.log('Você já curtiu esse post.');
+  //             return post;
+  //           }
+  
+  //           if (!alreadyLiked && increment === -1) {
+  //             console.log('Você não curtiu esse post.');
+  //             return post;
+  //           }
+  
+  //           if (!alreadyLiked) {
+  //             const updatedLikedBy = [...post.likedBy, userId];
+  //             return { 
+  //               ...post, 
+  //               score: (post.score || 0) + increment, 
+  //               likedBy: updatedLikedBy 
+  //             };
+  //           }
+  
+  //           const updatedLikedBy = post.likedBy.filter((id) => id !== userId);
+  //           return { 
+  //             ...post, 
+  //             score: (post.score || 0) - increment, 
+  //             likedBy: updatedLikedBy 
+  //           };
+  //         }
+  //         return post;
+  //       });
+  
+  //       return { posts: updatedPosts };
+  //     }
+  //     return state;
+  //   });
+  // },
+  
   resetPosts: () => {
     set({ posts: undefined, post: undefined });
   },

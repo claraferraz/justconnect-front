@@ -87,6 +87,7 @@ export interface UserPostInfo {
   title: string;
   description: string;
   score: number;
+  likedBy: string[];
   status_open: boolean;
   created_at: string | number;
   updated_at: string;

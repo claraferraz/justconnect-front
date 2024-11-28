@@ -17,12 +17,11 @@ import { CommentList } from '../../components/CommentList/CommentList';
 import { usePostStore } from '../../store/postStore';
 import { CreateUserComment } from '../../components/CreateUserComment/CreateUserComment';
 import { createUserDislike, createUserLike } from '../../service/Like';
-// import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '../../store/authStore';
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
-  // const userId = useAuthStore((state) => state.id);
-  
+  const userId = useAuthStore((state) => state.id); 
   const { post, getPostById, incrementCommentCount, updatePostScore } = usePostStore();
   const [liked, setLiked] = useState<boolean | null>(null); 
   const [canComment, setCanComment] = useState<boolean>(true); 
@@ -38,17 +37,21 @@ export function PostPage() {
   };
 
   const handleLike = async () => {
-    if (!id) return;
+    if (!id || !userId) return;  
 
     try {
       if (liked) {
         await createUserDislike(id);
         setLiked(false);
         updatePostScore(id, -1);  
+         //adicionar userId
+        console.log('Descurtiu o post');
+
       } else {
         await createUserLike(id);
         setLiked(true);
-        updatePostScore(id, 1);
+        updatePostScore(id, 1);   
+        //adicionar userId
       }
     } catch (error) {
       console.error('Erro ao curtir/descurtir o post:', error);
@@ -59,15 +62,27 @@ export function PostPage() {
     if (id){
       getPost(id);
     }
-
-  }, []);
-
+  }, [id]);
+  
   useEffect(() => {
     if (post) {
-      setLiked(post.score > 0 ); 
+      setLiked(post.score > 0); 
       setCanComment(post.status_open);
     }
-  }, [post]); 
+  }, [post]);
+  // useEffect(() => {
+  //   if (id) {
+  //     // Carrega o post assim que o ID estiver disponível
+  //     getPost(id);
+  //   }
+  
+  //   if (post && userId) {
+  //     // Atualiza o estado de "liked" e "canComment" assim que o post for carregado
+  //     setLiked(post.likedBy.includes(userId)); // Verifica se o usuário curtiu
+  //     setCanComment(post.status_open); // Atualiza se o usuário pode comentar
+  //   }
+  // }, [id, post, userId]); // Depende de id, post e userId
+  
 
   if (!post) return <Text>Post não encontrado</Text>;
 
@@ -85,7 +100,7 @@ export function PostPage() {
         >
           <DataText created={post.created_at} updated={post.updated_at} sufix />
         </Text>
-        <MenuPostComponent setCanComment={setCanComment} canComment ={canComment}/>
+        <MenuPostComponent setCanComment={setCanComment} canComment={canComment} />
       </Box>
 
       <Text mt={isDesktop ? '24px' : '9px'} color="#000" fontSize="16px" fontWeight="600">
@@ -118,6 +133,7 @@ export function PostPage() {
           {post.description}
         </Text>
       </Box>
+
       <Box marginLeft={isDesktop ? '440px' : '126px'} mt="28px" display="flex">
         {post.tags.map((tag, index) => (
           <Tag
