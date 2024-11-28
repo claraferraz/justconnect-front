@@ -22,10 +22,10 @@ import { createUserDislike, createUserLike } from '../../service/Like';
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
   // const userId = useAuthStore((state) => state.id);
-  // const token = useAuthStore((state) => state.token);
-
+  
   const { post, getPostById, incrementCommentCount, updatePostScore } = usePostStore();
   const [liked, setLiked] = useState<boolean | null>(null); 
+  const [canComment, setCanComment] = useState<boolean>(true); 
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const getPost = async (postId: string) => {
@@ -42,12 +42,10 @@ export function PostPage() {
 
     try {
       if (liked) {
-        
         await createUserDislike(id);
         setLiked(false);
         updatePostScore(id, -1);  
       } else {
-        
         await createUserLike(id);
         setLiked(true);
         updatePostScore(id, 1);
@@ -58,15 +56,18 @@ export function PostPage() {
   };
 
   useEffect(() => {
-    if (id) getPost(id);
-  }, [id]);
+    if (id){
+      getPost(id);
+    }
+
+  }, []);
 
   useEffect(() => {
-    
     if (post) {
-      setLiked(post.score > 0); 
+      setLiked(post.score > 0 ); 
+      setCanComment(post.status_open);
     }
-  }, [post]);
+  }, [post]); 
 
   if (!post) return <Text>Post não encontrado</Text>;
 
@@ -84,7 +85,7 @@ export function PostPage() {
         >
           <DataText created={post.created_at} updated={post.updated_at} sufix />
         </Text>
-        <MenuPostComponent />
+        <MenuPostComponent setCanComment={setCanComment} canComment ={canComment}/>
       </Box>
 
       <Text mt={isDesktop ? '24px' : '9px'} color="#000" fontSize="16px" fontWeight="600">
@@ -106,7 +107,8 @@ export function PostPage() {
           </Text>
         </Box>
         <Text
-          width="296px"
+          width={isDesktop ? '444px' : '296px'}
+          textAlign={'justify'}
           marginLeft="37px"
           mt="8px"
           color="#111"
@@ -144,11 +146,13 @@ export function PostPage() {
 
       <CommentList comments={post.comment} refreshComments={() => id && getPost(id)} />
 
-      <CreateUserComment
-        postId={id as string}
-        incrementCommentCount={incrementCommentCount}
-        getPost={getPost}
-      />
+      {canComment && (
+        <CreateUserComment
+          postId={id as string}
+          incrementCommentCount={incrementCommentCount}
+          getPost={getPost}
+        />
+      )}
 
       <Divider mt="40px" />
 

@@ -1,38 +1,54 @@
-import {
-  Box,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  IconButton,
-  Switch,
-} from "@chakra-ui/react";
-import { UUID } from "crypto";
-import { useState } from "react";
+import { Box, Menu, MenuButton, MenuItem, MenuList, IconButton, Switch } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { MdMoreVert } from "react-icons/md";
-import { usePostStore } from "../../store/postStore";
 import { useNavigate, useParams } from "react-router-dom";
-import { useProfileStore } from "../../store/profileStore";
+import { usePostStore } from "../../store/postStore";
 import { useAuthStore } from "../../store/authStore";
+import { updateUserPostStatus } from "../../service/Post"; 
+import ConfirmDeletePost from "../ConfirmDeletePost/ConfirmDeletePost";
 import EditPostModal from "../EditPostModal/EditPostModal";
-import ConfirmDeletePost from "../ConfirmDeletePost/ConfirmDeletePost"; 
+import { useProfileStore } from "../../store/profileStore";
+import { UUID } from "crypto";
 
-const MenuPostComponent = () => {
+type MenuPostComponentProps = {
+  canComment: boolean; 
+  setCanComment: (value: boolean) => void; 
+};
+
+const MenuPostComponent = ({ canComment, setCanComment }: MenuPostComponentProps) => {
   const { id } = useParams<{ id: string | UUID }>();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
   const { post, removePost, updatePost } = usePostStore();
-  const navigate = useNavigate();
   const currentUserId = useAuthStore((state) => state.id);
   const role = useProfileStore((state) => state.role);
-
-  
-  const canEdit = currentUserId === post?.user_id; 
-  const canDelete = currentUserId === post?.user_id || role === "ADMIN"; 
+  const navigate = useNavigate();
+  const canEdit = currentUserId === post?.user_id;
+  const canDelete = currentUserId === post?.user_id || role === "ADMIN";
 
   const handleOpenEditModal = () => setIsEditModalOpen(true);
   const handlePostDeleted = () => navigate("/my-profile");
+
+  const handleStatusChange = async (isChecked: boolean) => {
+    try {
+      if (id) {
+  
+        await updateUserPostStatus(id, isChecked, "post");
+        setIsStatusOpen(!isChecked);
+        setCanComment(!isChecked); 
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar o status do post:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (post) {
+      setIsStatusOpen(post.status_open || false); 
+    }
+  }, [post]);
 
   return (
     <Box position="relative">
@@ -77,7 +93,13 @@ const MenuPostComponent = () => {
           >
             <MenuItem closeOnSelect={false}>
               Trancar
-              <Switch ml="auto" colorScheme="purple" />
+              <Switch
+                ml="auto"
+                colorScheme="purple"
+                onChange={(e) => handleStatusChange(e.target.checked)}
+                isChecked={!isStatusOpen} 
+              />
+              {canComment ? "" : ""}
             </MenuItem>
             {canEdit && <MenuItem onClick={handleOpenEditModal}>Editar</MenuItem>}
             {canDelete && (

@@ -13,6 +13,9 @@ import {
   Image,
   useBreakpointValue,
   FormErrorMessage,
+  Alert,
+  AlertIcon,
+  CloseButton,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { signUp } from '../../service/Auth';
@@ -34,6 +37,8 @@ export function RegisterPage() {
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setRegisterError] = useState<string | null>(null);
+
   
 
   const { loginUser, token } = useAuthStore();
@@ -70,7 +75,7 @@ export function RegisterPage() {
   
       navigate('/my-profile');
     } catch (error: unknown) {
-      handleErrors<FormData>(error, setError);
+      handleErrors<FormData>(error, setError, setRegisterError);
     } finally {
       setLoading(false);
     }
@@ -98,6 +103,13 @@ export function RegisterPage() {
           width={isDesktop ? '170px' : '140px'}
           mt="60px"
         />
+        {error && (
+          <Alert status="error" mt="10px"  borderRadius="md" position="relative">
+            <AlertIcon />
+            {error}
+            <CloseButton position="absolute" right="8px" top="8px" onClick={() => setRegisterError(null)} />
+          </Alert>
+        )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" alignItems="center">
             <FormControl mt="4" mb="4" isInvalid={!!errors.name}>
