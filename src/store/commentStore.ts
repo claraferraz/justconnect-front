@@ -2,6 +2,7 @@ import { create, StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { Comment, UpdateComment, CreateComment } from '../interface/CommentsInterface';
 import { createUserComment, updateUserComment, deleteUserComment } from '../service/Comments'; 
+import { UUID } from 'crypto';
 
 export interface CommentState {
   comments: Comment[] | undefined;
@@ -12,10 +13,9 @@ export interface CommentState {
   updateComment: (updatedComment: UpdateComment) => void;
   removeComment: (id: string) => void;
   createComment: (newComment: CreateComment) => void; 
-  updateCommentScore: (commentId: string, increment: number) => void;
+  updateCommentScore: (commentId: string | UUID, increment: number) => void;
   setLikedComments: (likedComments: { [key: string]: boolean }) => void;  
   toggleLike: (commentId: string) => void;  
-
 }
 
 const commentStoreApi: StateCreator<CommentState> = (set, get) => ({
@@ -28,6 +28,7 @@ const commentStoreApi: StateCreator<CommentState> = (set, get) => ({
     const state = get();
     return state.comments;
   },
+
   updateCommentScore: (commentId: string, increment: number) => {
     set((state) => {
       if (state.comments) {
@@ -41,8 +42,8 @@ const commentStoreApi: StateCreator<CommentState> = (set, get) => ({
       return state;
     });
   },
-  
-  setLikedComments: (likedComments) => set({ likedComments }),  
+
+  setLikedComments: (likedComments) => set({ likedComments }),
 
   toggleLike: (commentId: string) => {
     const { likedComments } = get();
@@ -100,6 +101,7 @@ const commentStoreApi: StateCreator<CommentState> = (set, get) => ({
       console.error('Erro ao criar comentário:', error);
     }
   },
+
   resetComments: () => set({ comments: undefined }),
 });
 
