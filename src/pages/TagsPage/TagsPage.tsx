@@ -4,7 +4,7 @@ import { PostCard } from "../../components/PostCard/PostCard";
 import { FiSearch, FiPlus } from "react-icons/fi";
 import { fetchPostsByTag } from "../../service/Post";
 import { UserPostInfo } from "../../interface/UserInterface";
-import { useParams } from 'react-router-dom'; // This is a hook to t
+import { useParams } from 'react-router-dom';
 
 export function TagsPage() {
   const { tag } = useParams<{ tag: string }>();
@@ -26,8 +26,6 @@ export function TagsPage() {
   };
 
   useEffect(() => {
-    //console.log("selectedTag", selectedTag);
-    //console.log("selectedTag", tag);
     if (selectedTag.trim()) {
       getPostsByTag(selectedTag);
     }
