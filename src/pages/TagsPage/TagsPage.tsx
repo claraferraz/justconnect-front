@@ -4,12 +4,14 @@ import { PostCard } from "../../components/PostCard/PostCard";
 import { FiSearch, FiPlus } from "react-icons/fi";
 import { fetchPostsByTag } from "../../service/Post";
 import { UserPostInfo } from "../../interface/UserInterface";
+import { useParams } from 'react-router-dom'; // This is a hook to t
 
 export function TagsPage() {
+  const { tag } = useParams<{ tag: string }>();
   const [posts, setPosts] = useState<UserPostInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedTag, setSelectedTag] = useState<string>("");
+  const [selectedTag, setSelectedTag] = useState<string>(tag ||"");
 
   const getPostsByTag = async (tag: string) => {
     setLoading(true);
@@ -24,6 +26,8 @@ export function TagsPage() {
   };
 
   useEffect(() => {
+    //console.log("selectedTag", selectedTag);
+    //console.log("selectedTag", tag);
     if (selectedTag.trim()) {
       getPostsByTag(selectedTag);
     }
@@ -35,7 +39,10 @@ export function TagsPage() {
 
   const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && searchTerm.trim()) {
-      setSelectedTag(searchTerm.trim());
+      const filteredPosts = posts.filter(post =>
+        post.title.toLowerCase().includes(searchTerm.trim().toLowerCase())
+      );
+      setPosts(filteredPosts);
     }
   };
 
@@ -68,7 +75,7 @@ export function TagsPage() {
       >
         <InputLeftElement children={<FiSearch color="gray.300" />} />
         <Input
-          placeholder="Pesquisar tags"
+          placeholder="Pesquisar post"
           value={searchTerm}
           onChange={handleSearchChange}
           onKeyDown={handleSearchKeyDown}
