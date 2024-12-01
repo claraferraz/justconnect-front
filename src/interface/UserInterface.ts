@@ -103,13 +103,16 @@ export interface UserPostById {
   created_at: string;
   updated_at: string;
   admin_post_block: boolean;
-
+  post_like: Liked[];
   comment: Comment[];
   tags: string[];
   username: string;
 }
-export interface UserLike {
-  postId: boolean;
+export interface Liked {
+  id: string;
+  post_id: string;
+  user_id: string;
+  created_at: string;
 }
 
 export interface UserNotification {

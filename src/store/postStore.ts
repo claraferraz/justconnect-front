@@ -25,7 +25,6 @@ export interface PostState {
   updatePostScore: (postId: string | UUID, increment: number) => void;
 }
 
-
 const storeApi: StateCreator<PostState> = (set, get) => ({
   posts: undefined,
   post: undefined,
@@ -73,7 +72,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       if (!updatedPost.id) {
         updatedPost.id = id;
       }
-  
+
       await updateUserPost(id, updatedPost);
       
       set((state) => {
@@ -85,7 +84,7 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
         }
         return state;
       });
-  
+
       const post = await fetchPostById(id);
       set({ post });
     } catch (error) {
@@ -93,8 +92,6 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       throw new Error(errorMessages.join(', '));
     }
   },
-  
-  
 
   removePost: async (id: string | UUID) => {
     try {
@@ -137,12 +134,13 @@ const storeApi: StateCreator<PostState> = (set, get) => ({
       }
       return state;
     });
-    
+  
     const post = get().post;
     if (post?.id === postId) {
       set({ post: { ...post, score: (post.score || 0) + increment } });
     }
   },
+  
 
   resetPosts: () => {
     set({ posts: undefined, post: undefined });
