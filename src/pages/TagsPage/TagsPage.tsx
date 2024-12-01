@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 import { Box, Input, InputGroup, InputLeftElement, Grid, Text, Icon, Center, Circle, Divider } from "@chakra-ui/react";
 import { PostCard } from "../../components/PostCard/PostCard";
 import { FiSearch, FiPlus } from "react-icons/fi";
@@ -11,7 +11,6 @@ export function TagsPage() {
   const [posts, setPosts] = useState<UserPostInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedTag, setSelectedTag] = useState<string>(tag ||"");
 
   const getPostsByTag = async (tag: string) => {
     setLoading(true);
@@ -26,10 +25,10 @@ export function TagsPage() {
   };
 
   useEffect(() => {
-    if (selectedTag.trim()) {
-      getPostsByTag(selectedTag);
+    if (tag?.trim()) {
+      getPostsByTag(tag);
     }
-  }, [selectedTag]);
+  }, [tag]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
