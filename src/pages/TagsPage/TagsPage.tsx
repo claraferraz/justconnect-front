@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect } from "react";
 import { Box, Input, InputGroup, InputLeftElement, Grid, Text, Icon, Center, Circle, Divider } from "@chakra-ui/react";
 import { PostCard } from "../../components/PostCard/PostCard";
 import { FiSearch, FiPlus } from "react-icons/fi";
 import { fetchPostsByTag } from "../../service/Post";
 import { UserPostInfo } from "../../interface/UserInterface";
 import { useParams } from 'react-router-dom';
+import api from "../../service/api";
 
 export function TagsPage() {
   const { tag } = useParams<{ tag: string }>();
   const [posts, setPosts] = useState<UserPostInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   const getPostsByTag = async (tag: string) => {
     setLoading(true);
@@ -24,9 +26,32 @@ export function TagsPage() {
     }
   };
 
+  const checkFollowStatus = async (tag: string) => {
+    try {
+      const response = await api.get(`/tags/follow-status/${tag}`);
+      setIsFollowing(response.data.isFollowing);
+    } catch (error) {
+      console.error("Erro ao verificar status de follow:", error);
+    }
+  };
+
+  const toggleFollow = async () => {
+    try {
+      if (isFollowing) {
+        await api.delete(`/tags/unfollow/${tag}`);
+      } else {
+        await api.post(`/tags/follow/${tag}`);
+      }
+      setIsFollowing(!isFollowing);
+    } catch (error) {
+      console.error("Erro ao seguir/desseguir a tag:", error);
+    }
+  };
+
   useEffect(() => {
     if (tag?.trim()) {
       getPostsByTag(tag);
+      checkFollowStatus(tag);
     }
   }, [tag]);
 
@@ -51,12 +76,13 @@ export function TagsPage() {
         </Text>
         <Circle
           size="40px"
-          bg="transparent"
+          bg={isFollowing ? "#6B46C1" : "transparent"}
           border="1px solid #281A45"
-          color="#281A45"
+          color={isFollowing ? "white" : "#281A45"}
           position="absolute"
           right="10%"
           cursor="pointer"
+          onClick={toggleFollow}
         >
           <Icon as={FiPlus} fontSize="1.5rem" />
         </Circle>
