@@ -1,5 +1,10 @@
 import { UUID } from 'crypto';
-import { UserPostInfo, UserCreatePost, UserPostById, UserUpdatePost } from '../interface/UserInterface';
+import {
+  UserPostInfo,
+  UserCreatePost,
+  UserPostById,
+  UserUpdatePost,
+} from '../interface/UserInterface';
 import api from '../service/api';
 
 const createPost = async (data: UserCreatePost) => {
@@ -7,13 +12,15 @@ const createPost = async (data: UserCreatePost) => {
   return response;
 };
 
-const updateUserPost = async(id: string | UUID, data: UserUpdatePost) => {
+const updateUserPost = async (id: string | UUID, data: UserUpdatePost) => {
   const response = await api.put(`/posts/${id}`, data);
   return response;
 };
 
-const updateUserPostStatus = async(id: string | UUID, status: boolean) => {
-  const response = await api.put(`/posts/${id}/status`, { status_open: status });
+const updateUserPostStatus = async (id: string | UUID, status: boolean) => {
+  const response = await api.put(`/posts/${id}/status`, {
+    status_open: status,
+  });
   return response;
 };
 
@@ -26,7 +33,9 @@ const fetchPosts = async (): Promise<UserPostInfo[]> => {
   return response.data;
 };
 
-const fetchPostsByUserId = async (id: string | UUID): Promise<UserPostInfo[]> => {
+const fetchPostsByUserId = async (
+  id: string | UUID
+): Promise<UserPostInfo[]> => {
   const response = await api.get<UserPostInfo[]>(`/public/posts/user/${id}`);
   return response.data;
 };
@@ -37,8 +46,25 @@ const fetchPostById = async (id: string | UUID): Promise<UserPostById> => {
 };
 
 const fetchPostsByTag = async (tag: string): Promise<UserPostInfo[]> => {
-  const response = await api.get<UserPostInfo[]>(`/public/posts/tagged-with/${tag}`);
+  const response = await api.get<UserPostInfo[]>(
+    `/public/posts/tagged-with/${tag}`
+  );
   return response.data;
 };
 
-export { fetchPosts, fetchPostsByTag, fetchPostsByUserId, fetchPostById, deleteUserPost, createPost, updateUserPost, updateUserPostStatus };
+const fetchPostsByFollowedTags = async (): Promise<UserPostInfo[]> => {
+  const response = await api.get<UserPostInfo[]>(`tags/following`);
+  return response.data;
+};
+
+export {
+  fetchPosts,
+  fetchPostsByTag,
+  fetchPostsByUserId,
+  fetchPostById,
+  deleteUserPost,
+  createPost,
+  updateUserPost,
+  updateUserPostStatus,
+  fetchPostsByFollowedTags,
+};
