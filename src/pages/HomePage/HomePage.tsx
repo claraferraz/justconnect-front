@@ -75,7 +75,7 @@ export function HomePage() {
               Recentes
             </Tab>
             <Tab width="50%" fontSize="xl">
-              Tags Seguidas
+              Seguindo
             </Tab>
           </TabList>
 
