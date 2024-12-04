@@ -84,7 +84,7 @@ export function TagsPage() {
     <Box width="100%" minHeight="100vh" bg="#F8F9FA" p={4}>
       <Center position="relative" mb={6}>
         <Text fontWeight="bold" fontSize="1.2rem" color="#281A45">
-          Posts por Tag
+          {tag}
         </Text>
         <Circle
           size="40px"
