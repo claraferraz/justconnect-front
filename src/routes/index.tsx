@@ -13,6 +13,7 @@ import { Section } from '../components/Section/Section';
 import { ProtectedRoute } from './ProtectedRoute';
 import { ResetPasswordPage } from '../pages/ResetPassword/ResetPasswordPage';
 import { TagsListPage } from '../pages/TagsListPage/TagsListPage';
+import { ChangePasswordPage } from '../pages/ChangePasswordPage/ChangePasswordPage';
 
 export function Home() {
   return (
@@ -48,6 +49,13 @@ export function ResetPassword() {
   return (
     <>
       <ResetPasswordPage />
+    </>
+  );
+}
+export function ChangePassword() {
+  return (
+    <>
+      <ChangePasswordPage/>
     </>
   );
 }

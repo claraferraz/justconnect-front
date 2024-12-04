@@ -13,6 +13,7 @@ import {
   Tags,
   Users,
   TagsList,
+  ChangePassword,
 } from './index';
 
 export function MainRoutes() {
@@ -23,6 +24,7 @@ export function MainRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/change-password" element={<ChangePassword/>}/>
       <Route path="/my-profile" element={<MyProfile />} />
       <Route path="/my-profile/edit" element={<EditProfile />} />
       <Route path="/profile/:username" element={<Profile />} />

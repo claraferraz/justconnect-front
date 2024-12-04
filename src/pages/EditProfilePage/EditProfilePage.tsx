@@ -50,7 +50,7 @@ export function EditProfilePage() {
             fontWeight={800}
             size={isDesktop ? 'xl' : 'lg'}
           />
-          <Link _hover={{ color: '#805AD5' }}>Alterar Senha</Link>
+          <Link href='/change-password' _hover={{ color: '#805AD5' }}>Alterar Senha</Link>
         </Flex>
 
         <EditProfileForm user={user} />
