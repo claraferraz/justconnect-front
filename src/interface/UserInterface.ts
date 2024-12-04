@@ -21,6 +21,11 @@ export interface UserResetPassword {
   newPassword: string;
   confirmNewPassword: string;
 }
+export interface UserChangePassword {
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
 export interface User {
   name: string;
   username: string;
