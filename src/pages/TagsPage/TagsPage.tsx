@@ -29,7 +29,7 @@ export function TagsPage() {
   const checkFollowStatus = async (tag: string) => {
     try {
       const response = await api.get(`/tags/follow-status/${tag}`);
-      setIsFollowing(response.data.isFollowing);
+      setIsFollowing(response.data);
     } catch (error) {
       console.error("Erro ao verificar status de follow:", error);
     }
