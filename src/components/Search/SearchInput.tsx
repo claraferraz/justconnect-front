@@ -156,7 +156,7 @@ export function SearchInput() {
           />
         </Box>
       ) : (
-        <Box maxHeight={'70vh'} overflowY={'scroll'} overflowX={'hidden'}>
+        <Box maxHeight={'70vh'} overflowX={'hidden'}>
           <ResultsBox
             loading={loading}
             type={type}
