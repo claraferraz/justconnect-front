@@ -64,10 +64,12 @@ export function TagsListPage() {
               justifyItems="center"
               templateColumns={{
                 base: "repeat(1, 1fr)",
-                sm: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
+                sm: "repeat(1, 1fr)",
+                md: "repeat(2, 1fr)",
+                lg: "repeat(2, 1fr)",
               }}
-              gap="20px"
+              gap="15px"
+              overflow="hidden"
             >
               {filteredTags.map((tag) => (
                 <TagCard key={tag.tag} tag={tag.tag} postCount={tag.postCount} />
