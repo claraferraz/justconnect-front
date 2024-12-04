@@ -66,20 +66,40 @@ export function LoginPage() {
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" height="100vh" padding="16px">
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      h={'100%'}
+      padding="16px"
+    >
       <Box width="476px">
-        <Image src={logo} margin={'50px auto 0 auto'} alt="Logo" width={isDesktop ? '170px' : '140px'} mb="5" />
+        <Image
+          src={logo}
+          margin={'0 auto'}
+          alt="Logo"
+          width={isDesktop ? '170px' : '140px'}
+          mb="5"
+          mt="10px"
+        />
         {error && (
           <Alert status="error" mb="10px" borderRadius="md" position="relative">
             <AlertIcon />
             {error}
-            <CloseButton position="absolute" right="8px" top="8px" onClick={() => setLoginError(null)} />
+            <CloseButton
+              position="absolute"
+              right="8px"
+              top="8px"
+              onClick={() => setLoginError(null)}
+            />
           </Alert>
         )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" alignItems="center">
             <FormControl mt="4" mb="4" isInvalid={!!errors.usernameOrEmail}>
-              <FormLabel htmlFor="usernameOrEmail">Nome do usuário ou Email</FormLabel>
+              <FormLabel htmlFor="usernameOrEmail">
+                Nome do usuário ou Email
+              </FormLabel>
               <Controller
                 control={control}
                 name="usernameOrEmail"
@@ -88,9 +108,13 @@ export function LoginPage() {
                   validate: (value) => {
                     const isEmail = /\S+@\S+\.\S+/.test(value);
                     if (isEmail) {
-                      return value.includes('@') ? true : 'Por favor, insira um email válido';
+                      return value.includes('@')
+                        ? true
+                        : 'Por favor, insira um email válido';
                     } else {
-                      return value.length >= 3 ? true : 'O nome de usuário deve ter pelo menos 3 caracteres';
+                      return value.length >= 3
+                        ? true
+                        : 'O nome de usuário deve ter pelo menos 3 caracteres';
                     }
                   },
                 }}
@@ -99,8 +123,10 @@ export function LoginPage() {
                     {...field}
                     bg="gray.50"
                     border="2px solid"
-                    borderColor={errors.usernameOrEmail ? "red.500" : "#805AD5"} 
-                    focusBorderColor={errors.usernameOrEmail ? "red.500" : "#805AD5"}
+                    borderColor={errors.usernameOrEmail ? 'red.500' : '#805AD5'}
+                    focusBorderColor={
+                      errors.usernameOrEmail ? 'red.500' : '#805AD5'
+                    }
                     _hover={{ bg: 'gray.200' }}
                     _focus={{ bg: 'white' }}
                     width="100%"
@@ -112,7 +138,9 @@ export function LoginPage() {
                   />
                 )}
               />
-              {errors.usernameOrEmail && <Box color="red.500">{errors.usernameOrEmail.message}</Box>}
+              {errors.usernameOrEmail && (
+                <Box color="red.500">{errors.usernameOrEmail.message}</Box>
+              )}
             </FormControl>
 
             <FormControl mt="2" isInvalid={!!errors.password}>
@@ -128,7 +156,8 @@ export function LoginPage() {
                   },
                   pattern: {
                     value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                    message: 'A senha deve conter pelo menos uma letra e um número.',
+                    message:
+                      'A senha deve conter pelo menos uma letra e um número.',
                   },
                 }}
                 render={({ field }) => (
@@ -136,8 +165,8 @@ export function LoginPage() {
                     {...field}
                     bg="gray.50"
                     border="2px solid"
-                    borderColor={errors.password ? "red.500" : "#805AD5"} 
-                    focusBorderColor={errors.password ? "red.500" : "#805AD5"}
+                    borderColor={errors.password ? 'red.500' : '#805AD5'}
+                    focusBorderColor={errors.password ? 'red.500' : '#805AD5'}
                     _hover={{ bg: 'gray.200' }}
                     _focus={{ bg: 'white' }}
                     width="100%"
@@ -149,7 +178,9 @@ export function LoginPage() {
                   />
                 )}
               />
-              {errors.password && <Box color="red.500">{errors.password.message}</Box>}
+              {errors.password && (
+                <Box color="red.500">{errors.password.message}</Box>
+              )}
             </FormControl>
 
             <Box width="100%" textAlign="start" mt="2" mb="4">

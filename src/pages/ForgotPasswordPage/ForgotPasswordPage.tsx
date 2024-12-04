@@ -19,10 +19,13 @@ import logoAuth from '../../assets/logoAuth.svg';
 
 import { handleErrors } from '../../utils/error';
 
-
-
 export function ForgotPasswordPage() {
-  const { register, handleSubmit, setError, formState: { errors } } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<FormData>();
   const [loading, setLoading] = useState<boolean>(false);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const toast = useToast();
@@ -30,7 +33,7 @@ export function ForgotPasswordPage() {
   type FormData = {
     email: string;
   };
-  
+
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
@@ -45,7 +48,6 @@ export function ForgotPasswordPage() {
       });
     } catch (error: unknown) {
       handleErrors<FormData>(error, setError);
-
     } finally {
       setLoading(false);
     }
@@ -56,7 +58,6 @@ export function ForgotPasswordPage() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      height="100vh"
       padding="16px"
     >
       <Box position="absolute" top="100" left="3">
@@ -75,15 +76,15 @@ export function ForgotPasswordPage() {
         />
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" alignItems="center">
-          <FormControl mb="4" isInvalid={!!errors.email}>
+            <FormControl mb="4" isInvalid={!!errors.email}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
                 display="flex"
                 placeholder="Digite seu email"
                 bg="gray.50"
                 border="2px solid"
-                borderColor={errors.email ? "red.500" : "#805AD5"} 
-                focusBorderColor={errors.email ? "red.500" : "#805AD5"}
+                borderColor={errors.email ? 'red.500' : '#805AD5'}
+                focusBorderColor={errors.email ? 'red.500' : '#805AD5'}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 width="100%"
@@ -98,7 +99,6 @@ export function ForgotPasswordPage() {
                   },
                 })}
                 isDisabled={loading}
-
               />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
