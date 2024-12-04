@@ -63,11 +63,16 @@ export function ResetPasswordPage() {
     }
 
     try {
-      await resetPassword({ newPassword: data.newPassword, confirmNewPassword: data.confirmNewPassword, token });
+      await resetPassword({
+        newPassword: data.newPassword,
+        confirmNewPassword: data.confirmNewPassword,
+        token,
+      });
 
       toast({
         title: 'Senha alterada com sucesso',
-        description: 'Sua senha foi alterada com sucesso! Você já pode acessar sua conta.',
+        description:
+          'Sua senha foi alterada com sucesso! Você já pode acessar sua conta.',
         status: 'success',
         duration: 5000,
         isClosable: true,
@@ -87,7 +92,6 @@ export function ResetPasswordPage() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      height="100vh"
       padding="16px"
     >
       <Box width="476px">
@@ -106,8 +110,8 @@ export function ResetPasswordPage() {
                 placeholder="Digite sua nova senha"
                 bg="gray.50"
                 border="2px solid"
-                borderColor={errors.newPassword ? "red.500" : "#805AD5"} 
-                focusBorderColor={errors.newPassword ? "red.500" : "#805AD5"}
+                borderColor={errors.newPassword ? 'red.500' : '#805AD5'}
+                focusBorderColor={errors.newPassword ? 'red.500' : '#805AD5'}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 width="100%"
@@ -127,14 +131,18 @@ export function ResetPasswordPage() {
             </FormControl>
 
             <FormControl isInvalid={!!errors.confirmNewPassword} mb="4">
-              <FormLabel htmlFor="confirmPassword">Confirmar Nova Senha</FormLabel>
+              <FormLabel htmlFor="confirmPassword">
+                Confirmar Nova Senha
+              </FormLabel>
               <Input
                 display="flex"
                 placeholder="Confirme sua nova senha"
                 bg="gray.50"
                 border="2px solid"
-                borderColor={errors.confirmNewPassword ? "red.500" : "#805AD5"} 
-                focusBorderColor={errors.confirmNewPassword ? "red.500" : "#805AD5"}
+                borderColor={errors.confirmNewPassword ? 'red.500' : '#805AD5'}
+                focusBorderColor={
+                  errors.confirmNewPassword ? 'red.500' : '#805AD5'
+                }
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 width="100%"
@@ -146,7 +154,9 @@ export function ResetPasswordPage() {
                   required: 'A confirmação da senha é obrigatória.',
                 })}
               />
-              <FormErrorMessage>{errors.confirmNewPassword?.message}</FormErrorMessage>
+              <FormErrorMessage>
+                {errors.confirmNewPassword?.message}
+              </FormErrorMessage>
             </FormControl>
 
             <Button
