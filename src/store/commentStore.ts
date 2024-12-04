@@ -2,19 +2,25 @@ import { create, StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { Comment, UpdateComment, CreateComment } from '../interface/CommentsInterface';
 import { createUserComment, updateUserComment, deleteUserComment } from '../service/Comments'; 
+import { UUID } from 'crypto';
 
 export interface CommentState {
   comments: Comment[] | undefined;
+  likedComments: { [key: string]: boolean }; 
   setComments: (comments: Comment[]) => void;
   getComments: () => Comment[] | undefined;
   resetComments: () => void;
   updateComment: (updatedComment: UpdateComment) => void;
   removeComment: (id: string) => void;
   createComment: (newComment: CreateComment) => void; 
+  updateCommentScore: (commentId: string | UUID, increment: number) => void;
+  setLikedComments: (likedComments: { [key: string]: boolean }) => void;  
+  toggleLike: (commentId: string) => void;  
 }
 
 const commentStoreApi: StateCreator<CommentState> = (set, get) => ({
   comments: undefined,
+  likedComments: {},  
 
   setComments: (comments) => set({ comments }),
 
@@ -23,7 +29,28 @@ const commentStoreApi: StateCreator<CommentState> = (set, get) => ({
     return state.comments;
   },
 
-  resetComments: () => set({ comments: undefined }),
+  updateCommentScore: (commentId: string, increment: number) => {
+    set((state) => {
+      if (state.comments) {
+        const updatedComments = state.comments.map((comment) =>
+          comment.id === commentId
+            ? { ...comment, score: (comment.score || 0) + increment }
+            : comment
+        );
+        return { comments: updatedComments };
+      }
+      return state;
+    });
+  },
+
+  setLikedComments: (likedComments) => set({ likedComments }),
+
+  toggleLike: (commentId: string) => {
+    const { likedComments } = get();
+    const newLikedState = { ...likedComments, [commentId]: !likedComments[commentId] };
+    set({ likedComments: newLikedState });
+    return newLikedState;
+  },
 
   updateComment: async (updatedComment: UpdateComment) => {
     try {
@@ -74,6 +101,8 @@ const commentStoreApi: StateCreator<CommentState> = (set, get) => ({
       console.error('Erro ao criar comentário:', error);
     }
   },
+
+  resetComments: () => set({ comments: undefined }),
 });
 
 export const useCommentStore = create<CommentState>()(

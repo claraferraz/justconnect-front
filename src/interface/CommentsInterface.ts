@@ -1,4 +1,5 @@
 import { UUID } from 'crypto';
+import { Liked } from './UserInterface';
 
 export interface Comment {
   id: string | UUID;
@@ -9,6 +10,7 @@ export interface Comment {
   created_at: string;
   updated_at: string;
   postId: string | UUID;
+  comment_like: Liked[];
   admin_comment_block: true;
 }
 export interface CreateComment {

@@ -7,12 +7,17 @@ const createPost = async (data: UserCreatePost) => {
   return response;
 };
 
-const updateUserPost = async(id: string | UUID, data: UserUpdatePost) =>{
-  const response = await api.put(`/posts/${id}`, data)
-  return response
-}
+const updateUserPost = async(id: string | UUID, data: UserUpdatePost) => {
+  const response = await api.put(`/posts/${id}`, data);
+  return response;
+};
 
-const deleteUserPost = async (id:string | UUID) => {
+const updateUserPostStatus = async(id: string | UUID, status: boolean) => {
+  const response = await api.put(`/posts/${id}/status`, { status_open: status });
+  return response;
+};
+
+const deleteUserPost = async (id: string | UUID) => {
   await api.delete(`/posts/${id}`);
 };
 
@@ -21,7 +26,7 @@ const fetchPosts = async (): Promise<UserPostInfo[]> => {
   return response.data;
 };
 
-const fetchPostsByUserId = async (id: string|  UUID): Promise<UserPostInfo[]> => {
+const fetchPostsByUserId = async (id: string | UUID): Promise<UserPostInfo[]> => {
   const response = await api.get<UserPostInfo[]>(`/public/posts/user/${id}`);
   return response.data;
 };
@@ -29,7 +34,11 @@ const fetchPostsByUserId = async (id: string|  UUID): Promise<UserPostInfo[]> =>
 const fetchPostById = async (id: string | UUID): Promise<UserPostById> => {
   const response = await api.get<UserPostById>(`/public/posts/${id}`);
   return response.data;
-}
+};
 
+const fetchPostsByTag = async (tag: string): Promise<UserPostInfo[]> => {
+  const response = await api.get<UserPostInfo[]>(`/public/posts/tagged-with/${tag}`);
+  return response.data;
+};
 
-export { createPost, fetchPosts, fetchPostsByUserId, fetchPostById, deleteUserPost,updateUserPost };
+export { fetchPosts, fetchPostsByTag, fetchPostsByUserId, fetchPostById, deleteUserPost, createPost, updateUserPost, updateUserPostStatus };

@@ -36,16 +36,15 @@ const EditCommentModal: React.FC<EditCommentModalProps> = ({
   const toast = useToast();
   const [error, setError] = useState<string | null>(null);
 
-  // Função para limpar os erros ao fechar o modal
   const handleClose = () => {
-    setError(null);  // Limpa o erro
-    onClose();       // Chama o onClose passado como prop
+    setError(null); 
+    onClose();       
   };
 
   useEffect(() => {
     if (isOpen) {
       setEditedCommentText(commentText || '');
-      setError(null); // Limpa o erro quando o modal é aberto
+      setError(null); 
     }
   }, [isOpen, commentText]);
 
@@ -69,7 +68,7 @@ const EditCommentModal: React.FC<EditCommentModalProps> = ({
         isClosable: true,
         position: 'bottom',
       });
-      handleClose();  // Fecha o modal e limpa os erros
+      handleClose();  
       refreshComments();
     } catch (error) {
       console.error('Erro ao editar comentário:', error);
