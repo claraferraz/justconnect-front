@@ -63,7 +63,9 @@ export function ResetPassword() {
 export function ChangePassword() {
   return (
     <>
+    <Section>
       <ChangePasswordPage/>
+    </Section>
     </>
   );
 }
