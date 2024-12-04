@@ -142,7 +142,8 @@ export function PostPage() {
           </Text>
         </Box>
         <Text
-          width={isDesktop ? '444px' : '296px'}
+          width={isDesktop ? '85%' : '296px'}
+          wordBreak={'break-word'}
           textAlign={'justify'}
           marginLeft="37px"
           mt="8px"
@@ -154,7 +155,13 @@ export function PostPage() {
         </Text>
       </Box>
 
-      <Box marginLeft={isDesktop ? '440px' : '126px'} mt="28px" display="flex">
+      <Box
+        mt="28px"
+        display="flex"
+        width="100%"
+        justifyContent={'right'}
+        paddingRight={'15px'}
+      >
         {post.tags.map((tag, index) => (
           <Link to={`/tags/${tag}`}>
             <Tag

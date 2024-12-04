@@ -91,8 +91,10 @@ export function CommentList({ comments, refreshComments }: CommentListProps) {
             </Box>
             <Text
               textAlign={'justify'}
+              wordBreak={'break-word'}
               marginLeft="26px"
               mt="8px"
+              paddingRight={'30px'}
               color="#111"
               fontSize="14px"
               fontWeight="400"
@@ -133,7 +135,7 @@ export function CommentList({ comments, refreshComments }: CommentListProps) {
             background="#DEDEDE"
             height="1px"
             mx="auto"
-            maxWidth="85%"
+            maxWidth="100%"
           />
         </Box>
       ))}
