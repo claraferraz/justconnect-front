@@ -47,7 +47,6 @@ export function NotificationItem({
         alignItems="center"
         minH="20px"
         gridTemplateColumns="1fr 13fr 2fr"
-        overflow="scroll"
       >
         <GridItem>
           {isNew && (
@@ -64,12 +63,17 @@ export function NotificationItem({
             <Link href={`/profile/${username}`} color="#805AD5">
               {username}
             </Link>
-            <Link href={`/post/${post_id}`}> {content}</Link>
+            <Link href={`/post/${post_id}`} wordBreak={'break-word'}>
+              {' '}
+              {content}
+            </Link>
           </Text>
         </GridItem>
-        {created_at && (
-          <DataText created={created_at} updated={created_at} sufix={false} />
-        )}
+        <GridItem marginLeft={'10px'}>
+          {created_at && (
+            <DataText created={created_at} updated={created_at} sufix={false} />
+          )}
+        </GridItem>
       </Grid>
     </>
   );
