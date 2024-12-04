@@ -32,24 +32,26 @@ type FormData = {
 };
 
 export function RegisterPage() {
-  const { register, handleSubmit, setError, formState: { errors }, watch } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+    watch,
+  } = useForm<FormData>();
   const navigate = useNavigate();
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setRegisterError] = useState<string | null>(null);
 
-  
-
   const { loginUser, token } = useAuthStore();
-
 
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
-  
 
     if (password !== confirmPassword) {
       setError('confirmPassword', {
@@ -59,11 +61,11 @@ export function RegisterPage() {
       setLoading(false);
       return;
     }
-  
+
     try {
       await signUp(data);
       await loginUser(data.username, data.password);
-  
+
       toast({
         title: 'Cadastro realizado com sucesso!',
         description: `Bem-vindo, ${data.username}!`,
@@ -72,7 +74,7 @@ export function RegisterPage() {
         isClosable: true,
         position: 'bottom',
       });
-  
+
       navigate('/my-profile');
     } catch (error: unknown) {
       handleErrors<FormData>(error, setError, setRegisterError);
@@ -92,8 +94,8 @@ export function RegisterPage() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      height={isDesktop ? '135vh' : '110vh'}
       padding="16px"
+      mb="20px"
     >
       <Box width="476px">
         <Image
@@ -101,13 +103,18 @@ export function RegisterPage() {
           margin={'auto'}
           alt="Logo"
           width={isDesktop ? '170px' : '140px'}
-          mt="60px"
+          mt="10px"
         />
         {error && (
-          <Alert status="error" mt="10px"  borderRadius="md" position="relative">
+          <Alert status="error" mt="10px" borderRadius="md" position="relative">
             <AlertIcon />
             {error}
-            <CloseButton position="absolute" right="8px" top="8px" onClick={() => setRegisterError(null)} />
+            <CloseButton
+              position="absolute"
+              right="8px"
+              top="8px"
+              onClick={() => setRegisterError(null)}
+            />
           </Alert>
         )}
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -119,8 +126,8 @@ export function RegisterPage() {
                 placeholder="Digite seu nome completo"
                 bg="gray.50"
                 border="2px solid"
-                borderColor={errors.name ? "red.500" : "#805AD5"} 
-                focusBorderColor={errors.name ? "red.500" : "#805AD5"}
+                borderColor={errors.name ? 'red.500' : '#805AD5'}
+                focusBorderColor={errors.name ? 'red.500' : '#805AD5'}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 {...register('name', { required: 'O nome é obrigatório.' })}
@@ -136,11 +143,13 @@ export function RegisterPage() {
                 placeholder="Digite seu nome de usuário"
                 bg="gray.50"
                 border="2px solid"
-                borderColor={errors.username ? "red.500" : "#805AD5"} 
-                focusBorderColor={errors.username ? "red.500" : "#805AD5"}
+                borderColor={errors.username ? 'red.500' : '#805AD5'}
+                focusBorderColor={errors.username ? 'red.500' : '#805AD5'}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
-                {...register('username', { required: 'O nome de usuário é obrigatório.' })}
+                {...register('username', {
+                  required: 'O nome de usuário é obrigatório.',
+                })}
                 isDisabled={loading}
               />
               <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
@@ -154,8 +163,8 @@ export function RegisterPage() {
                 type="email"
                 bg="gray.50"
                 border="2px solid"
-                borderColor={errors.email ? "red.500" : "#805AD5"} 
-                focusBorderColor={errors.email ? "red.500" : "#805AD5"}
+                borderColor={errors.email ? 'red.500' : '#805AD5'}
+                focusBorderColor={errors.email ? 'red.500' : '#805AD5'}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 {...register('email', {
@@ -178,13 +187,16 @@ export function RegisterPage() {
                 type="password"
                 bg="gray.50"
                 border="2px solid"
-                borderColor={errors.password ? "red.500" : "#805AD5"} 
-                focusBorderColor={errors.password ? "red.500" : "#805AD5"}
+                borderColor={errors.password ? 'red.500' : '#805AD5'}
+                focusBorderColor={errors.password ? 'red.500' : '#805AD5'}
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
                 {...register('password', {
                   required: 'A senha é obrigatória.',
-                  minLength: { value: 8, message: 'A senha deve ter pelo menos 8 caracteres.' },
+                  minLength: {
+                    value: 8,
+                    message: 'A senha deve ter pelo menos 8 caracteres.',
+                  },
                 })}
                 isDisabled={loading}
               />
@@ -199,14 +211,20 @@ export function RegisterPage() {
                 type="password"
                 bg="gray.50"
                 border="2px solid"
-                borderColor={errors.confirmPassword ? "red.500" : "#805AD5"} 
-                focusBorderColor={errors.confirmPassword ? "red.500" : "#805AD5"}
+                borderColor={errors.confirmPassword ? 'red.500' : '#805AD5'}
+                focusBorderColor={
+                  errors.confirmPassword ? 'red.500' : '#805AD5'
+                }
                 _hover={{ bg: 'gray.200' }}
                 _focus={{ bg: 'white' }}
-                {...register('confirmPassword', { required: 'A confirmação de senha é obrigatória.' })}
+                {...register('confirmPassword', {
+                  required: 'A confirmação de senha é obrigatória.',
+                })}
                 isDisabled={loading}
               />
-              <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+              <FormErrorMessage>
+                {errors.confirmPassword?.message}
+              </FormErrorMessage>
             </FormControl>
 
             <Button
