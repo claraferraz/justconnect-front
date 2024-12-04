@@ -1,15 +1,8 @@
-import { useState } from "react";
-import {
-  Box,
-  Text,
-  Textarea,
-  Button,
-  useToast,
-  Flex,
-} from "@chakra-ui/react";
-import { CreateComment as CreateCommentType } from "../../interface/CommentsInterface";
-import { useCommentStore } from "../../store/commentStore";
-import { UUID } from "crypto";
+import { useState } from 'react';
+import { Box, Text, Textarea, Button, useToast, Flex } from '@chakra-ui/react';
+import { CreateComment as CreateCommentType } from '../../interface/CommentsInterface';
+import { useCommentStore } from '../../store/commentStore';
+import { UUID } from 'crypto';
 
 interface CreateCommentProps {
   postId: string | UUID;
@@ -22,15 +15,15 @@ export function CreateUserComment({
   incrementCommentCount,
   getPost,
 }: CreateCommentProps) {
-  const [newCommentText, setNewCommentText] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false); 
+  const [newCommentText, setNewCommentText] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const { createComment } = useCommentStore();
   const toast = useToast();
 
   const handleCommentSubmit = async () => {
     if (!newCommentText.trim() || !postId) return;
 
-    setLoading(true); 
+    setLoading(true);
 
     const newComment: CreateCommentType = {
       id: postId,
@@ -38,28 +31,28 @@ export function CreateUserComment({
     };
 
     try {
-      await createComment(newComment); 
-      setNewCommentText(""); 
-      await getPost(postId); 
-      incrementCommentCount(postId); 
+      await createComment(newComment);
+      setNewCommentText('');
+      await getPost(postId);
+      incrementCommentCount(postId);
       toast({
-        title: "Comentário enviado com sucesso!",
-        status: "success",
+        title: 'Comentário enviado com sucesso!',
+        status: 'success',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
     } catch (error) {
-      console.error("Erro ao enviar comentário:", error);
+      console.error('Erro ao enviar comentário:', error);
       toast({
-        title: "Erro ao adicionar comentário.",
-        status: "error",
+        title: 'Erro ao adicionar comentário.',
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -68,10 +61,7 @@ export function CreateUserComment({
       <Text color="#281A45" fontSize="18px" fontWeight="500">
         Responder
       </Text>
-      <Flex 
-      display='flex' 
-      flexDirection='column'
-      alignItems='center'  >
+      <Flex display="flex" flexDirection="column" alignItems="center">
         <Textarea
           borderRadius="6px"
           bg="gray.50"
@@ -82,7 +72,7 @@ export function CreateUserComment({
           _focus={{ bg: 'white' }}
           mt="21px"
           placeholder="Descreva sua resposta"
-          width="320px"
+          width="90%"
           height="84px"
           value={newCommentText}
           onChange={(e) => setNewCommentText(e.target.value)}
@@ -98,7 +88,7 @@ export function CreateUserComment({
           width="320px"
           h="38px"
           isLoading={loading}
-          isDisabled={loading || !newCommentText.trim()} 
+          isDisabled={loading || !newCommentText.trim()}
           onClick={handleCommentSubmit}
         >
           Responder
