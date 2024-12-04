@@ -39,7 +39,6 @@ export function ChangePasswordPage() {
     const onSubmit = async (data: FormData) => {
       setLoading(true);
   
-      // Validação das senhas
       if (data.newPassword !== data.confirmNewPassword) {
         setError('confirmNewPassword', {
           type: 'manual',
@@ -50,11 +49,10 @@ export function ChangePasswordPage() {
       }
   
       try {
-        // Enviando o payload correto
         await alterPassword({
-          password: data.password, // Senha atual
-          newPassword: data.newPassword, // Nova senha
-          confirmNewPassword: data.confirmNewPassword, // Confirmação da nova senha
+          password: data.password, 
+          newPassword: data.newPassword, 
+          confirmNewPassword: data.confirmNewPassword, 
         });
   
         toast({
@@ -91,7 +89,6 @@ export function ChangePasswordPage() {
           />
           <form onSubmit={handleSubmit(onSubmit)}>
             <Flex flexDirection="column" alignItems="center">
-              {/* Campo para a senha atual */}
               <FormControl isInvalid={!!errors.password} mb="4">
                 <FormLabel htmlFor="password">Senha Atual</FormLabel>
                 <Input
@@ -115,7 +112,6 @@ export function ChangePasswordPage() {
                 <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
               </FormControl>
   
-              {/* Campo para a nova senha */}
               <FormControl isInvalid={!!errors.newPassword} mb="4">
                 <FormLabel htmlFor="newPassword">Nova Senha</FormLabel>
                 <Input
@@ -142,8 +138,7 @@ export function ChangePasswordPage() {
                 />
                 <FormErrorMessage>{errors.newPassword?.message}</FormErrorMessage>
               </FormControl>
-  
-              {/* Campo para confirmar a nova senha */}
+
               <FormControl isInvalid={!!errors.confirmNewPassword} mb="4">
                 <FormLabel htmlFor="confirmNewPassword">Confirmar Nova Senha</FormLabel>
                 <Input
