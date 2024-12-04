@@ -27,6 +27,7 @@ export function PostPage() {
   const [canComment, setCanComment] = useState<boolean>(true);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const navigate = useNavigate();
+  const token = useAuthStore((state) => state.token);
 
   const getPost = async (postId: string) => {
     if (!postId) return;
@@ -195,7 +196,7 @@ export function PostPage() {
         comments={post.comment}
         refreshComments={() => id && getPost(id)}
       />
-      {canComment && (
+      {token && canComment && (
         <CreateUserComment
           postId={id as string}
           incrementCommentCount={incrementCommentCount}
