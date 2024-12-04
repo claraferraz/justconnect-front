@@ -1,17 +1,27 @@
-import { useState, useEffect } from "react";
-import { Box, Input, InputGroup, InputLeftElement, Grid, Text, Icon, Center, Circle, Divider } from "@chakra-ui/react";
-import { PostCard } from "../../components/PostCard/PostCard";
-import { FiSearch, FiPlus } from "react-icons/fi";
-import { fetchPostsByTag } from "../../service/Post";
-import { UserPostInfo } from "../../interface/UserInterface";
+import { useState, useEffect } from 'react';
+import {
+  Box,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Text,
+  Icon,
+  Center,
+  Circle,
+  Divider,
+} from '@chakra-ui/react';
+import { PostCard } from '../../components/PostCard/PostCard';
+import { FiSearch, FiPlus } from 'react-icons/fi';
+import { fetchPostsByTag } from '../../service/Post';
+import { UserPostInfo } from '../../interface/UserInterface';
 import { useParams } from 'react-router-dom';
-import api from "../../service/api";
+import api from '../../service/api';
 
 export function TagsPage() {
   const { tag } = useParams<{ tag: string }>();
   const [posts, setPosts] = useState<UserPostInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   const getPostsByTag = async (tag: string) => {
@@ -20,7 +30,7 @@ export function TagsPage() {
       const response = await fetchPostsByTag(tag);
       setPosts(response);
     } catch (error) {
-      console.error("Erro ao buscar posts por tag:", error);
+      console.error('Erro ao buscar posts por tag:', error);
     } finally {
       setLoading(false);
     }
@@ -31,7 +41,7 @@ export function TagsPage() {
       const response = await api.get(`/tags/follow-status/${tag}`);
       setIsFollowing(response.data);
     } catch (error) {
-      console.error("Erro ao verificar status de follow:", error);
+      console.error('Erro ao verificar status de follow:', error);
     }
   };
 
@@ -44,7 +54,7 @@ export function TagsPage() {
       }
       setIsFollowing(!isFollowing);
     } catch (error) {
-      console.error("Erro ao seguir/desseguir a tag:", error);
+      console.error('Erro ao seguir/desseguir a tag:', error);
     }
   };
 
@@ -59,9 +69,11 @@ export function TagsPage() {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && searchTerm.trim()) {
-      const filteredPosts = posts.filter(post =>
+  const handleSearchKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === 'Enter' && searchTerm.trim()) {
+      const filteredPosts = posts.filter((post) =>
         post.title.toLowerCase().includes(searchTerm.trim().toLowerCase())
       );
       setPosts(filteredPosts);
@@ -76,9 +88,9 @@ export function TagsPage() {
         </Text>
         <Circle
           size="40px"
-          bg={isFollowing ? "#6B46C1" : "transparent"}
+          bg={isFollowing ? '#6B46C1' : 'transparent'}
           border="1px solid #281A45"
-          color={isFollowing ? "white" : "#281A45"}
+          color={isFollowing ? 'white' : '#281A45'}
           position="absolute"
           right="10%"
           cursor="pointer"
@@ -110,20 +122,13 @@ export function TagsPage() {
       {!loading && (
         <>
           {posts.length > 0 ? (
-            <Grid
-              justifyItems="center"
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                sm: "repeat(1, 1fr)",
-                md: "repeat(2, 1fr)",
-              }}
-              gap="15px"
-              overflow="hidden"
-            >
+            <Box>
               {posts.map((post) => (
-                <PostCard key={post.id} post={post} />
+                <Box borderBottom="1px solid #B6B4BB" paddingBottom="10px">
+                  <PostCard key={post.id} post={post} />
+                </Box>
               ))}
-            </Grid>
+            </Box>
           ) : (
             <Text textAlign="center" color="gray.500" mt={6}>
               Nenhum post encontrado para a tag selecionada.
